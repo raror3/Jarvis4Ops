@@ -21,8 +21,7 @@ public class ScheduledTasks {
     @Autowired
 	private Configurations configObj; 
 
-    @Scheduled(fixedRate = 50000)
-    //43200000
+    @Scheduled(fixedRate = 43200000)
 	public void getPrevDayRockstarsJiraSch() {
 
 		RestTemplate restTemplate = new RestTemplate();
