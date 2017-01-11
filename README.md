@@ -3,26 +3,19 @@ Ops initiative for 4.0 - creating our own Jarvis
 
 
 
-Tech Stack:
+#### Tech Stack:
 
-1. Java 8
-
-2. SpringBoot
-
-3. Gradle for build
-
-4. Heroku for deploy
+* Java 8
+* SpringBoot
+* Gradle for build
+* Heroku for deploy
 
 
 
-Steps to set-up this project on you local dev-box:
+#### Steps to set-up this project on you local dev-box:
 
-1. Install SpringSource (STS)
-
-2. Take clone of this project.
-
-3. Update application.properties file with relevant values.
-
-4. Execute Gradle Refresh All to refresh all dependencies.
-
-5. Run the project as Spring Boot Application.
+* Install SpringSource (STS)
+* Take clone of this project.
+* Update application.properties file with relevant values.
+* Execute Gradle Refresh All to refresh all dependencies.
+* Run the project as Spring Boot Application.
