@@ -28,6 +28,21 @@ public class Configurations {
 	private String sampleJiraEndPoint;
 	private String slackApiKey;
 	private String slackService;
+	private String teamWork;
+
+	/**
+	 * @return the teamWork
+	 */
+	public String getTeamWork() {
+		return teamWork;
+	}
+
+	/**
+	 * @param teamWork the teamWork to set
+	 */
+	public void setTeamWork(String teamWork) {
+		this.teamWork = teamWork;
+	}
 
 	/**
 	 * @return the slackApiKey

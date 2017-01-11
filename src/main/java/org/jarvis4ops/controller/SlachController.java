@@ -48,7 +48,12 @@ public class SlachController {
 		String rockstars = getRockstarNames(map.keySet());
 		SlachBean slachBean = new SlachBean();
 		slachBean.setFallback(rockstars + " " + configObj.getGreatJobTitleMsg() + configObj.getIncidentsResolvedMsg());
-		slachBean.setFooter(configObj.getCfd());
+		
+		if (null != map.keySet() && map.keySet().size() == 1) {
+			slachBean.setFooter(configObj.getCfd());
+		} else if (null != map.keySet() && map.keySet().size() > 1) {
+			slachBean.setFooter(configObj.getCfd() + " " + configObj.getTeamWork());
+		}
 
 		slachBean.setImage_url(getImageUrl(map.keySet().size()));
 		slachBean.setText(configObj.getIncidentsResolvedMsg());
@@ -73,7 +78,8 @@ public class SlachController {
 		rockstarMap.put("pkumar1", "Prabhat");
 		rockstarMap.put("dkhandelwal", "Divyansh");
 		rockstarMap.put("rarora", "Raghav");
-		
+		rockstarMap.put("bkaur", "Bikran");
+
 		StringBuilder builder = new StringBuilder();
 		rockStarJiraIds.forEach(rockStar->{
 			if(builder.length()==0) {
@@ -87,9 +93,8 @@ public class SlachController {
 	}
 
 	private String getImageUrl(int rockstars) {
-		Random randomNumber = new Random();
-		int memeListKey = randomNumber.nextInt(9 - 0 + 1) + 0;
-		
+		// Random randomNumber = new Random();
+		// int memeListKey = randomNumber.nextInt(9 - 0 + 1) + 0;
 		return configObj.getIncidentRockstarMemeList().get(rockstars-1);
 	}
 
