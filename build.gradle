@@ -16,7 +16,7 @@ apply plugin: 'org.springframework.boot'
 
 
 jar {
-	baseName = 'jira-slack'
+	baseName = 'Jarvis4Ops'
 	version = '0.0.1-SNAPSHOT'
 }
 
