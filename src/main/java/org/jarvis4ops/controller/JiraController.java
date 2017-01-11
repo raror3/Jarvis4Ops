@@ -50,12 +50,15 @@ public class JiraController {
 	    headers.set("Content-Type", "application/json");
 	    
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
-		
+
 	    RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<ArrayIssueDetails> response = restTemplate.exchange(configObj.getJiraEndPoint()+configObj.getPrevDayIncidentRockstarJql(), HttpMethod.GET, entity, ArrayIssueDetails.class);
 
 		Map<String, Integer> rockstarsJiraIssueCountMap = jiraIssueResponseHelper.maxIssueCount(response.getBody().getIssues());
-		invokeSlackServiceToPost(rockstarsJiraIssueCountMap);
+
+		if (null != rockstarsJiraIssueCountMap && rockstarsJiraIssueCountMap.size()>0) {
+			invokeSlackServiceToPost(rockstarsJiraIssueCountMap);
+		}
 
 		return rockstarsJiraIssueCountMap.keySet().toString();
     }
