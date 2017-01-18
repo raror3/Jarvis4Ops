@@ -27,3 +27,4 @@ nbdist/
 ### Workspace ###
 bin/
 src/main/resources/application.properties
+*application.properties
