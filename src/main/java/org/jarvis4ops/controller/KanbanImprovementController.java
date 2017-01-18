@@ -64,9 +64,49 @@ public class KanbanImprovementController {
 
 		return Integer.toString(response.getBody().getTotal());
     }
+	
+	@RequestMapping(value="openIncidents", method= { RequestMethod.GET })
+	public String getOpenIncidents() {
+		String plainCreds = configObj.getJiraCreds();
+
+		byte[] plainCredsBytes = plainCreds.getBytes();
+		byte[] base64CredsBytes = Base64.getEncoder().encode(plainCredsBytes);
+		String base64Creds = new String(base64CredsBytes);
+
+		log.info("base64Creds - " + base64Creds);
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization", "Basic "+base64Creds);
+		headers.set("Accept", "application/json");
+	    headers.set("Content-Type", "application/json");
+	    
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+	    RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<ArrayIssueDetails> response = restTemplate.exchange(configObj.getJiraEndPoint()+configObj.getOpenIncidentsJql(), HttpMethod.GET, entity, ArrayIssueDetails.class);
+
+		if (response.getBody().getTotal() > 30) {
+			slackOpenIncidentNotification(response.getBody().getTotal());
+		}
+
+		return Integer.toString(response.getBody().getTotal());
+	}
+
+	private void slackOpenIncidentNotification(int total) {
+		RestTemplate restTemplate = new RestTemplate();
+        MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
+        headerMap.add("Content-Type", "application/json");
+
+        HttpEntity<String> entity = new HttpEntity<String>(headerMap);
+        String slashUrl = configObj.getHost()+configObj.getPort()+"/postScNotificationOnSlack";
+        URI targetUrl= UriComponentsBuilder.fromUriString(configObj.getHost()+configObj.getPort()).
+        		path("/postOpenIncidentNotificationOnSlack").queryParam("openIncidents", total).build().toUri();
+        String response = restTemplate.postForObject(targetUrl, entity, String.class);
+        //log.info("Response: ", response);
+        System.out.println("Response: " + response);
+	}
 
 	private void slackSCIssueNotification(Integer total) {
-		// TODO Auto-generated method stub
 		RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
         headerMap.add("Content-Type", "application/json");
