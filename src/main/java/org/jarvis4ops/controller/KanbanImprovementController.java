@@ -1,6 +1,8 @@
 package org.jarvis4ops.controller;
 
+import java.net.URI;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.jarvis4ops.bean.ArrayIssueDetails;
@@ -19,23 +21,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.gson.Gson;
 
 @RestController
-public class JiraController {
-	private static final Logger log = LoggerFactory.getLogger(JiraController.class);
+public class KanbanImprovementController {
+	private static final Logger log = LoggerFactory.getLogger(KanbanImprovementController.class);
 
 	@Autowired
 	private Configurations configObj;
 
 	@Autowired
 	private JiraIssueResponseHelper jiraIssueResponseHelper;
-	
-	@RequestMapping(path="/getPrevDayJiraRockstars")
-	public String getPrevDayJiraRockstars() {
+
+	@RequestMapping(value="/checkOpenScIssuesAndPost", method = { RequestMethod.GET })
+	public String getOpenSiteConfidenceIncidents() {
     	String plainCreds = configObj.getJiraCreds();
 
 		byte[] plainCredsBytes = plainCreds.getBytes();
@@ -52,16 +56,29 @@ public class JiraController {
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
 
 	    RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<ArrayIssueDetails> response = restTemplate.exchange(configObj.getJiraEndPoint()+configObj.getPrevDayIncidentRockstarJql(), HttpMethod.GET, entity, ArrayIssueDetails.class);
+		ResponseEntity<ArrayIssueDetails> response = restTemplate.exchange(configObj.getJiraEndPoint()+configObj.getOpenSiteConfidenceIncidentsJql(), HttpMethod.GET, entity, ArrayIssueDetails.class);
 
-		Map<String, Integer> rockstarsJiraIssueCountMap = jiraIssueResponseHelper.maxIssueCount(response.getBody().getIssues());
-
-		if (null != rockstarsJiraIssueCountMap && rockstarsJiraIssueCountMap.size()>0) {
-			invokeSlackServiceToPost(rockstarsJiraIssueCountMap);
+		if (response.getBody().getTotal() > 0) {
+			slackSCIssueNotification(response.getBody().getTotal());
 		}
 
-		return rockstarsJiraIssueCountMap.keySet().toString();
+		return Integer.toString(response.getBody().getTotal());
     }
+
+	private void slackSCIssueNotification(Integer total) {
+		// TODO Auto-generated method stub
+		RestTemplate restTemplate = new RestTemplate();
+        MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
+        headerMap.add("Content-Type", "application/json");
+
+        HttpEntity<String> entity = new HttpEntity<String>(headerMap);
+        String slashUrl = configObj.getHost()+configObj.getPort()+"/postScNotificationOnSlack";
+        URI targetUrl= UriComponentsBuilder.fromUriString(configObj.getHost()+configObj.getPort()).
+        		path("/postScNotificationOnSlack").queryParam("openIncidents", total).build().toUri();
+        String response = restTemplate.postForObject(targetUrl, entity, String.class);
+        //log.info("Response: ", response);
+        System.out.println("Response: " + response);
+	}
 
 	public void invokeSlackServiceToPost(Map<String, Integer> rockstarsJiraIssueCountMap) {
 
@@ -72,8 +89,9 @@ public class JiraController {
 		RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
         headerMap.add("Content-Type", "application/json");
+
         HttpEntity<String> entity = new HttpEntity<String>(rockstarsJiraIssueCountJson, headerMap);
-        String slashUrl = configObj.getHost()+configObj.getPort()+"/postRockstarsOnSlack";
+        String slashUrl = configObj.getHost()+configObj.getPort()+"/postOnSlack";
         String response = restTemplate.postForObject(slashUrl, entity, String.class);
         //log.info("Response: ", response);
         System.out.println("Response: " + response);
