@@ -100,6 +100,8 @@ public class SlachController {
 		rockstarMap.put("pkohli", "Prakash");
 		rockstarMap.put("jtripathy", "Jitendra");
 		rockstarMap.put("sgoel1", "Sonali");
+		rockstarMap.put("vkumar1", "VikasKumar");
+		
 
 		StringBuilder builder = new StringBuilder();
 		rockStarJiraIds.forEach(rockStar->{
@@ -134,6 +136,37 @@ public class SlachController {
 		return "200";
 	}
 
+	@RequestMapping(value = "/postOpenIncidentNotificationOnSlack", method = { RequestMethod.POST })
+	public String buildOpenIncidentNotificationMessageForSlack(@RequestParam(value = "openIncidents", required = false) Integer openIncidentCount) {
+		
+		Gson gson = new Gson();
+
+		SlachBean slachBean = new SlachBean();
+		slachBean.setFallback(openIncidentCount + configObj.getEmptySpace() + slackMessagingConstants.getOpenIncidentNotificationTitleMsg() + slackMessagingConstants.getOpenIncidentNotificationDetailMsg1() + configObj.getEmptySpace() + openIncidentCount + configObj.getEmptySpace() + slackMessagingConstants.getOpenIncidentNotificationDetailMsg2());
+		System.out.println("Open incident count: " + openIncidentCount);
+		slachBean.setImage_url(getOpenIncidentNotificationImageUrl(openIncidentCount));
+		slachBean.setText(slackMessagingConstants.getOpenIncidentNotificationDetailMsg1() + configObj.getEmptySpace() + openIncidentCount + configObj.getEmptySpace() + slackMessagingConstants.getOpenIncidentNotificationDetailMsg2());
+		slachBean.setTitle(openIncidentCount + configObj.getEmptySpace() + slackMessagingConstants.getOpenIncidentNotificationTitleMsg());
+		SlachAttachments slachAttachments = new SlachAttachments();
+		List<SlachBean> slachBeanList = new ArrayList<SlachBean>(1);
+		slachBeanList.add(slachBean);
+		slachAttachments.setAttachments(slachBeanList);
+		
+		System.out.println("Json Value: " + gson.toJson(slachAttachments));
+		postOnSlack(gson.toJson(slachAttachments));
+		return "200";
+	}
+
+	private String getOpenIncidentNotificationImageUrl(int openScIncidentCount) {
+		String imageUrl = null;
+		if (openScIncidentCount<40) {
+			imageUrl = slackMessagingConstants.getOpenIncidentNotificationMemeList().get(0);
+		} else {
+			imageUrl = slackMessagingConstants.getOpenIncidentNotificationMemeList().get(1);
+		}
+		return imageUrl;
+	}
+	
 	private String getScIssueNotificationImageUrl(int openScIncidentCount) {
 		String imageUrl = null;
 		if (openScIncidentCount<3) {
@@ -150,6 +183,7 @@ public class SlachController {
 		return configObj.getIncidentRockstarMemeList().get(rockstars-1);
 	}
 
+	
 	@RequestMapping("/directPostOnSlack")
 	public String buildAdhocSlachMessage(@RequestParam(value="name", defaultValue="team") String name) {
 		SlachBean slachBean = new SlachBean();
