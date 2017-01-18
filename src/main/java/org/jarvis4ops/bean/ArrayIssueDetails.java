@@ -7,14 +7,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArrayIssueDetails {
 	
-	private String total;
+	private int total;
 	private List<IssueDetails> issues;
 	
-	public String getTotal() {
+	/**
+	 * @return the total
+	 */
+	public int getTotal() {
 		return total;
 	}
 
-	public void setTotal(String total) {
+	/**
+	 * @param total the total to set
+	 */
+	public void setTotal(int total) {
 		this.total = total;
 	}
 
@@ -30,10 +36,4 @@ public class ArrayIssueDetails {
 		this.issues = issues;
 	}
 
-	@Override
-	public String toString() {
-		return "ArrayIssueDetails [issues="+"hello"+"]";
-	}
-
-	
 }

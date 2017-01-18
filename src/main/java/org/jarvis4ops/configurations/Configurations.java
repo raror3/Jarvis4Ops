@@ -29,6 +29,36 @@ public class Configurations {
 	private String slackApiKey;
 	private String slackService;
 	private String teamWork;
+	private String openSiteConfidenceIncidentsJql;
+	private String emptySpace = " ";
+
+	/**
+	 * @return the emptySpace
+	 */
+	public String getEmptySpace() {
+		return emptySpace;
+	}
+
+	/**
+	 * @param emptySpace the emptySpace to set
+	 */
+	public void setEmptySpace(String emptySpace) {
+		this.emptySpace = emptySpace;
+	}
+
+	/**
+	 * @return the openSiteConfidenceIncidentsJql
+	 */
+	public String getOpenSiteConfidenceIncidentsJql() {
+		return openSiteConfidenceIncidentsJql;
+	}
+
+	/**
+	 * @param openSiteConfidenceIncidentsJql the openSiteConfidenceIncidentsJql to set
+	 */
+	public void setOpenSiteConfidenceIncidentsJql(String openSiteConfidenceIncidentsJql) {
+		this.openSiteConfidenceIncidentsJql = openSiteConfidenceIncidentsJql;
+	}
 
 	/**
 	 * @return the teamWork
