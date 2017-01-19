@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import org.jarvis4ops.bean.TestAttachments;
+import org.jarvis4ops.bean.TestBean;
 import org.jarvis4ops.configurations.Configurations;
 import org.jarvis4ops.configurations.SlackMessagingConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -217,4 +219,30 @@ public class SlachController {
         //log.info("Response: ", response);
         System.out.println("Response: " + response);
     }
+	
+	
+	@RequestMapping(value = "/postDorStatus", method = { RequestMethod.POST })
+	public String buildSlackMessageForDor(@RequestBody String dorIssuesList) {
+		
+		Gson gson = new Gson();
+		Type newType = new TypeToken<HashMap<String, String>>(){}.getType();
+		HashMap<String,String> map = new Gson().fromJson(dorIssuesList, newType);
+		
+		String title = "Key, Tech Review Complete, Acceptance Criteria Defined, UX Design, 3rd Party Dependency, NFR Requirement considered, Overall Status";
+		
+		TestBean testBean = new TestBean();
+		
+		testBean.setTitle(title);
+		
+		TestAttachments testAttachments = new TestAttachments();
+		List<TestBean> testBeanList = new ArrayList<TestBean>(1);
+		testBeanList.add(testBean);
+		testAttachments.setAttachments(testBeanList);
+		
+		//log.info("Json Value: ", gson.toJson(attachments));
+		System.out.println("Json Value: " + gson.toJson(testAttachments));
+		postOnSlack(gson.toJson(testAttachments));
+		//postOnSlack(attachments);
+		return "200";
+	}
 }

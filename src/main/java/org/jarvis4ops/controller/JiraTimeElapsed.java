@@ -51,6 +51,8 @@ public class JiraTimeElapsed {
 		Map<String, Integer> jiraTimeElasedMap = jiraIssueResponseHelper.issuesTimeElapsed(response.getBody().getIssues());
 
 		log.info(jiraTimeElasedMap.entrySet().toString());
+		
+		
 		return "";
 	}
 
