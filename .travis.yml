@@ -1,0 +1,12 @@
+# DOING POC.
+language: java
+jdk:
+  - oraclejdk8
+
+  
+after_success:
+  - gradle distZip 
+# whitelist
+branches:
+  only:
+    - master
