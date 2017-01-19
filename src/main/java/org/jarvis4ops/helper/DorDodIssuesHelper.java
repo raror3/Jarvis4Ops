@@ -121,7 +121,7 @@ public class DorDodIssuesHelper {
 			}			
 		}
 		
-		sbfListNotCovered.append(countNonCovered);
+		sbfListNotCovered.append(countNonCovered + "/"+ issuesMap.keySet().size());
 		return sbfListNotCovered.toString();
 	}
 }

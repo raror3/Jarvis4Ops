@@ -136,10 +136,14 @@ public class JiraController {
 				"%-10s %-20s %-30s %-15s %-25s %-30s %-20s \n", issue, dorList.getTechReview(), dorList.getAcceptanceCriteria()
 				,dorList.getUxDesign(), dorList.getThirdParty(), dorList.getNfrRequirement(), dorList.getOverallStatus());
 		});
-		
 		if (null != dorIssuesMap && dorIssuesMap.size()>0) {
 			invokeSlackServiceDor(dorIssuesMap);
 		}
+		
+		
+//		if (null != dorIssuesMap && dorIssuesMap.size()>0) {
+//			invokeSlackServiceDor(dorIssuesMap);
+//		}
 
 
 	}
