@@ -1,7 +1,7 @@
 # Jarvis4Ops
 Ops initiative for 4.0 - creating our own Jarvis
 
-
+<a href='https://travis-ci.org/raror3/Jarvis4Ops'><img src='https://travis-ci.org/raror3/Jarvis4Ops.svg?branch=master'></a>
 
 #### Tech Stack:
 

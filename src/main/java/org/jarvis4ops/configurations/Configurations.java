@@ -31,7 +31,22 @@ public class Configurations {
 	private String teamWork;
 	private String openSiteConfidenceIncidentsJql;
 	private String emptySpace = " ";
+	private String openIncidentsJql;
 	private String DorDodJql;
+
+	/**
+	 * @return the openIncidentsJql
+	 */
+	public String getOpenIncidentsJql() {
+		return openIncidentsJql;
+	}
+
+	/**
+	 * @param openIncidentsJql the openIncidentsJql to set
+	 */
+	public void setOpenIncidentsJql(String openIncidentsJql) {
+		this.openIncidentsJql = openIncidentsJql;
+	}
 
 	/**
 	 * @return the emptySpace

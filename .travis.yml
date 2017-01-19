@@ -1,0 +1,15 @@
+# DOING POC.
+language: java
+jdk:
+  - oraclejdk8
+
+before_install:
+  - chmod +x gradlew  
+
+after_success:
+  - gradle distZip 
+
+# whitelist
+branches:
+  only:
+    - master
