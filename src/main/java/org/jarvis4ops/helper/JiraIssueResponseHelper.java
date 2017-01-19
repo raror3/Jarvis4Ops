@@ -1,15 +1,23 @@
 package org.jarvis4ops.helper;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.jarvis4ops.bean.IssueDetails;
+import org.jarvis4ops.controller.JiraController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JiraIssueResponseHelper {
+	private static final Logger log = LoggerFactory.getLogger(JiraController.class);
 	
 	public Map<String, Integer> maxIssueCount(List <IssueDetails> paramIssueList)
 	{
@@ -70,5 +78,45 @@ public class JiraIssueResponseHelper {
 				}
 		}
 	}
+	
+	public Map<String, Integer> issuesTimeElapsed(List <IssueDetails> paramIssueList)
+	{
+		Map <String, Integer> yesterdaysIssuesMap = new HashMap<String, Integer>();;
+		
+		for (IssueDetails issue : paramIssueList)
+		{
+			String jiraDatePattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+			
+			SimpleDateFormat sdf = new SimpleDateFormat(jiraDatePattern);
+			
+			String issueKey = issue.getKey();
+			String nameKey = issue.getFields().getAssignee().getName();
+			
+			Calendar issueCreated = Calendar.getInstance();
+			Calendar issueResolved = Calendar.getInstance();
+			try {
+				issueCreated.setTime(sdf.parse(issue.getFields().getCreated()));
+			
+			
+				
+				issueResolved.setTime(sdf.parse(issue.getFields().getResolutiondate()));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			long createTimeInMiliSeconds = issueCreated.getTimeInMillis();
+			long resolvedTimeInMiliSeconds = issueResolved.getTimeInMillis();
+				
+			long timeDiff = resolvedTimeInMiliSeconds - createTimeInMiliSeconds;
+				
+			log.info(issueKey+ " - " + nameKey +" - " + timeDiff/(1000*60));
+				
+			yesterdaysIssuesMap.put(issueKey, (int) timeDiff/(1000*60));
+		
+		}
+
+		return yesterdaysIssuesMap;
+	}
+
 
 }

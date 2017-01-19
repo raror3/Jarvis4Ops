@@ -31,6 +31,7 @@ public class Configurations {
 	private String teamWork;
 	private String openSiteConfidenceIncidentsJql;
 	private String emptySpace = " ";
+	private String DorDodJql;
 
 	/**
 	 * @return the emptySpace
@@ -241,5 +242,21 @@ public class Configurations {
 	public void setCfd(String cfd) {
 		this.cfd = cfd;
 	}
+
+	/**
+	 * @return the dorDodJql
+	 */
+	public String getDorDodJql() {
+		return DorDodJql;
+	}
+
+	/**
+	 * @param dorDodJql the dorDodJql to set
+	 */
+	public void setDorDodJql(String dorDodJql) {
+		DorDodJql = dorDodJql;
+	}
+	
+	
 
 }

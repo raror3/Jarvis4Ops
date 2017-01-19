@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Fields {
+	private String summary;
+	private String created;
 	private String resolutiondate;
 	private String duedate;
 	private String [] labels;
@@ -14,9 +16,41 @@ public class Fields {
 	private CustomFieldValue customfield_12735;	//For the field "Work Type"
 	private CustomFieldName issuetype; 			//For the field "Type"
 	private CustomFieldName priority;			//For the field "Priority"
+	
+	private CustomFieldValue customfield_13000;	//For the field "Tech Review Complete"
+	private CustomFieldValue customfield_13001; //For the field "Acceptance Criteria Defined"
+	private CustomFieldValue customfield_13002; //For the field "UX Design"
+	private CustomFieldValue customfield_13003; //For the field "3rd Party Dependency"
+	private CustomFieldValue customfield_13004; //For the field "NFR Requirement considered"
 
 	public Fields() {
 		super();
+	}
+	
+	
+	/**
+	 * @return the summary
+	 */
+	public String getSummary() {
+		return summary;
+	}
+
+
+	/**
+	 * @param summary the summary to set
+	 */
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+
+
+	public String getCreated() {
+		return created;
+	}
+
+	public void setCreated(String created) {
+		this.created = created;
 	}
 
 	public String getResolutiondate() {
@@ -83,11 +117,58 @@ public class Fields {
 		this.priority = priority;
 	}
 
+	public CustomFieldValue getCustomfield_13000() {
+		return customfield_13000;
+	}
+
+	public void setCustomfield_13000(CustomFieldValue customfield_13000) {
+		this.customfield_13000 = customfield_13000;
+	}
+
+	public CustomFieldValue getCustomfield_13001() {
+		return customfield_13001;
+	}
+
+	public void setCustomfield_13001(CustomFieldValue customfield_13001) {
+		this.customfield_13001 = customfield_13001;
+	}
+
+	public CustomFieldValue getCustomfield_13002() {
+		return customfield_13002;
+	}
+
+	public void setCustomfield_13002(CustomFieldValue customfield_13002) {
+		this.customfield_13002 = customfield_13002;
+	}
+
+	public CustomFieldValue getCustomfield_13003() {
+		return customfield_13003;
+	}
+
+	public void setCustomfield_13003(CustomFieldValue customfield_13003) {
+		this.customfield_13003 = customfield_13003;
+	}
+
+	public CustomFieldValue getCustomfield_13004() {
+		return customfield_13004;
+	}
+
+	public void setCustomfield_13004(CustomFieldValue customfield_13004) {
+		this.customfield_13004 = customfield_13004;
+	}
+
 	@Override
 	public String toString() {
-		return "Fields [resolutiondate=" + resolutiondate + ", duedate=" + duedate + ", labels="
+		return "Fields [created="+created+", resolutiondate=" + resolutiondate + ", duedate=" + duedate + ", labels="
 				+ Arrays.toString(labels) + ", customfield_11001=" + customfield_11001 + ", assignee=" + assignee
 				+ ", customfield_12735=" + customfield_12735 + ", issuetype=" + issuetype + ", priority=" + priority
 				+ "]";
-	}	
+	}
+	
+	public String txtDorDod()
+	{
+		return "Tech Review Complete=" + customfield_13000 + ", Acceptance Criteria Defined=" + customfield_13000
+				+", UX Design=" + customfield_13002 + ", NFR Requirement considered=" + customfield_13002
+				+", 3rd Party Dependency=" + customfield_13003;
+	}
 }

@@ -36,4 +36,14 @@ public class ArrayIssueDetails {
 		this.issues = issues;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "ArrayIssueDetails [total Jira incidents =" + total+ "]";
+	}
+	
+	
+
 }
