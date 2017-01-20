@@ -3,6 +3,7 @@
  */
 package org.jarvis4ops.controller;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,15 +13,14 @@ import java.util.Random;
 import java.util.Set;
 
 import org.jarvis4ops.bean.DorParameters;
-import org.jarvis4ops.bean.IssueDetails;
 import org.jarvis4ops.configurations.Configurations;
 import org.jarvis4ops.configurations.SlackMessagingConstants;
 import org.jarvis4ops.helper.DorDodIssuesHelper;
+import org.jarvis4ops.helper.ImageManipulation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.cloudinary.Cloudinary;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -47,6 +48,9 @@ public class SlachController {
 	
 	@Autowired
 	private DorDodIssuesHelper dorIssuesHelper;
+
+	@Autowired
+	private ImageManipulation imageManipulation;
 
 	@RequestMapping(value = "/postRockstarsOnSlack", method = { RequestMethod.POST })
 	public String buildSlackMessageForRockstars(@RequestBody String rockstarsWithCountFixed) {
@@ -226,64 +230,36 @@ public class SlachController {
 	
 	
 	@RequestMapping(value = "/postDorStatus", method = { RequestMethod.POST })
-	public String buildSlackMessageForDor(@RequestBody String dorIssuesList) {
+	public String buildSlackMessageForDor(@RequestBody String dorIssuesList) throws IOException {
 
 		Gson gson = new Gson();
-		
 		SlachBean slachBean = new SlachBean();
-		slachBean.setFallback("In the DOR status method");
-		
-		
+
 		Type mapType = new TypeToken<HashMap<String, DorParameters>>(){}.getType();
-		HashMap<String,DorParameters> dorIssuesMap = new Gson().fromJson(dorIssuesList, mapType);	
+		HashMap<String,DorParameters> dorIssuesMap = new Gson().fromJson(dorIssuesList, mapType);
 		
-//		String title = "Key, Tech Review Complete, Acceptance Criteria Defined, UX Design, 3rd Party Dependency, NFR Requirement considered, Overall Status";
-		
-		String title = "ID, TechReviewComplete, AcceptanceCriteria, UXDesign, 3rdParty, NFR, OverallStatus";
-		slachBean.setTitle(title);
-		slachBean.setText(dorIssuesHelper.formatDorIssues(dorIssuesMap));
-//		slachBean.setFooter(dorIssuesHelper.issuesNotCoveredList(dorIssuesMap));
-		
+		slachBean.setFallback(dorIssuesHelper.countOfissuesDorImcomplete(dorIssuesMap) + slackMessagingConstants.getDorStatusTitleMsg());
+		slachBean.setTitle(dorIssuesHelper.countOfissuesDorImcomplete(dorIssuesMap) + slackMessagingConstants.getDorStatusTitleMsg());
+		slachBean.setText(slackMessagingConstants.getDorPendingStoriesDetailMsg() + dorIssuesHelper.getIncompleteDorStoryList(dorIssuesMap));
+
+		Cloudinary cloudinary = new Cloudinary();
+		Map<String, String> options = new HashMap<String, String>(2);
+		options.put("api_key", configObj.getCloudinaryApiKey());
+		options.put("api_secret", configObj.getCloudinaryApiSecKey());
+		options.put("cloud_name", configObj.getCloudName());
+		Map<String, String> result = cloudinary.uploader().upload(imageManipulation.manipulateImage(dorIssuesHelper.populateDataforDorImage(dorIssuesMap)), options);
+
+		slachBean.setImage_url(result.get("url"));
+
 		SlachAttachments slachAttachments = new SlachAttachments();
 		List<SlachBean> slachBeanList = new ArrayList<SlachBean>(1);
 		slachBeanList.add(slachBean);
 		slachAttachments.setAttachments(slachBeanList);
-		
-		//log.info("Json Value: ", gson.toJson(attachments));
+
 		System.out.println("Json Value: " + gson.toJson(slachAttachments));
 		postOnSlack(gson.toJson(slachAttachments));
-		//postOnSlack(attachments);
+
 		return "200";
 	}
 	
-	@RequestMapping(value = "/postDorSummary", method = { RequestMethod.POST })
-	public String buildDorSummary(@RequestBody String dorIssuesList) {
-
-		Gson gson = new Gson();
-		
-		SlachBean slachBean = new SlachBean();
-		slachBean.setFallback("In the DOR status method");
-		
-		
-		Type mapType = new TypeToken<HashMap<String, DorParameters>>(){}.getType();
-		HashMap<String,DorParameters> dorIssuesMap = new Gson().fromJson(dorIssuesList, mapType);	
-		
-//		String title = "Key, Tech Review Complete, Acceptance Criteria Defined, UX Design, 3rd Party Dependency, NFR Requirement considered, Overall Status";
-		
-//		String title = "ID, TechReviewComplete, AcceptanceCriteria, UXDesign, 3rdParty, NFR, OverallStatus";
-		slachBean.setTitle(dorIssuesHelper.issuesNotCoveredList(dorIssuesMap));
-//		slachBean.setText(dorIssuesHelper.formatDorIssues(dorIssuesMap));
-//		slachBean.setFooter(dorIssuesHelper.issuesNotCoveredList(dorIssuesMap));
-		
-		SlachAttachments slachAttachments = new SlachAttachments();
-		List<SlachBean> slachBeanList = new ArrayList<SlachBean>(1);
-		slachBeanList.add(slachBean);
-		slachAttachments.setAttachments(slachBeanList);
-		
-		//log.info("Json Value: ", gson.toJson(attachments));
-		System.out.println("Json Value: " + gson.toJson(slachAttachments));
-		postOnSlack(gson.toJson(slachAttachments));
-		//postOnSlack(attachments);
-		return "200";
-	}
 }

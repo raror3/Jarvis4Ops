@@ -26,6 +26,34 @@ public class SlackMessagingConstants {
 	private String openIncidentNotificationTitleMsg;
 	private String openIncidentNotificationDetailMsg1;
 	private String openIncidentNotificationDetailMsg2;
+	
+	private String dorStatusTitleMsg;
+	private String dorPendingStoriesDetailMsg;
+	
+	/**
+	 * @return the dorStatusTitleMsg
+	 */
+	public String getDorStatusTitleMsg() {
+		return dorStatusTitleMsg;
+	}
+	/**
+	 * @param dorStatusTitleMsg the dorStatusTitleMsg to set
+	 */
+	public void setDorStatusTitleMsg(String dorStatusTitleMsg) {
+		this.dorStatusTitleMsg = dorStatusTitleMsg;
+	}
+	/**
+	 * @return the dorPendingStoriesDetailMsg
+	 */
+	public String getDorPendingStoriesDetailMsg() {
+		return dorPendingStoriesDetailMsg;
+	}
+	/**
+	 * @param dorPendingStoriesDetailMsg the dorPendingStoriesDetailMsg to set
+	 */
+	public void setDorPendingStoriesDetailMsg(String dorPendingStoriesDetailMsg) {
+		this.dorPendingStoriesDetailMsg = dorPendingStoriesDetailMsg;
+	}
 	/**
 	 * @return the openIncidentNotificationDetailMsg1
 	 */
