@@ -2,8 +2,10 @@ package org.jarvis4ops.controller;
 
 import java.util.Base64;
 import java.util.Map;
+import java.util.Set;
 
 import org.jarvis4ops.bean.ArrayIssueDetails;
+import org.jarvis4ops.bean.DorParameters;
 import org.jarvis4ops.bean.IssueDetails;
 import org.jarvis4ops.configurations.Configurations;
 import org.jarvis4ops.helper.DorDodIssuesHelper;
@@ -122,10 +124,42 @@ public class JiraController {
 		
 //		log.info("DOR/DOD issues: " + response.toString());
 		
-		Map<String, Integer> dorIssuesMap = dorIssuesHelper.issuesDorDodList(response.getBody().getIssues());
+		Map<String, DorParameters> dorIssuesMap = dorIssuesHelper.issuesDorDodList(response.getBody().getIssues());
+					
+		System.out.printf("%-10s %-20s %-30s %-15s %-25s %-30s %-20s \n", "Key", "Tech Review Complete"
+				, "Acceptance Criteria Defined", "UX Design", "3rd Party Dependency",
+				"NFR Requirement considered", "Overall Status");
 		
-		log.info("DOR/DOD issues: " + dorIssuesMap.entrySet().toString());
+		dorIssuesMap.forEach( (issue, dorList)->{System.out.printf(
+				"%-10s %-20s %-30s %-15s %-25s %-30s %-20s \n", issue, dorList.getTechReview(), dorList.getAcceptanceCriteria()
+				,dorList.getUxDesign(), dorList.getThirdParty(), dorList.getNfrRequirement(), dorList.getOverallStatus());
+		});
+		if (null != dorIssuesMap && dorIssuesMap.size()>0) {
+			invokeSlackServiceDor(dorIssuesMap);
+		}
+
 	}
+	
+	public void invokeSlackServiceDor(Map<String, DorParameters> dorJiraIssuesMap) {
+
+		Gson gson = new Gson();
+		log.info("Response JSON for DOR/DOD issues: " + gson.toJson(dorJiraIssuesMap));
+		String jiraIssuesJson = gson.toJson(dorJiraIssuesMap);
+		
+		RestTemplate restTemplate = new RestTemplate();
+        MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
+        headerMap.add("Content-Type", "application/json");
+        HttpEntity<String> entity = new HttpEntity<String>(jiraIssuesJson, headerMap);
+        String slashUrlSummary = configObj.getHost()+configObj.getPort()+"/postDorSummary";
+        String slashUrl = configObj.getHost()+configObj.getPort()+"/postDorStatus";
+        
+        String responseSummary = restTemplate.postForObject(slashUrlSummary, entity, String.class);
+        String response = restTemplate.postForObject(slashUrl, entity, String.class);
+        
+        //log.info("Response: ", response);
+        System.out.println("Response: " + response);
+        System.out.println("Response: " + responseSummary);
+    }
 
 	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {

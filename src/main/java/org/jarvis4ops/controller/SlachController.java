@@ -11,8 +11,11 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import org.jarvis4ops.bean.DorParameters;
+import org.jarvis4ops.bean.IssueDetails;
 import org.jarvis4ops.configurations.Configurations;
 import org.jarvis4ops.configurations.SlackMessagingConstants;
+import org.jarvis4ops.helper.DorDodIssuesHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -41,6 +44,9 @@ public class SlachController {
 	
 	@Autowired
 	private SlackMessagingConstants slackMessagingConstants;
+	
+	@Autowired
+	private DorDodIssuesHelper dorIssuesHelper;
 
 	@RequestMapping(value = "/postRockstarsOnSlack", method = { RequestMethod.POST })
 	public String buildSlackMessageForRockstars(@RequestBody String rockstarsWithCountFixed) {
@@ -217,4 +223,67 @@ public class SlachController {
         //log.info("Response: ", response);
         System.out.println("Response: " + response);
     }
+	
+	
+	@RequestMapping(value = "/postDorStatus", method = { RequestMethod.POST })
+	public String buildSlackMessageForDor(@RequestBody String dorIssuesList) {
+
+		Gson gson = new Gson();
+		
+		SlachBean slachBean = new SlachBean();
+		slachBean.setFallback("In the DOR status method");
+		
+		
+		Type mapType = new TypeToken<HashMap<String, DorParameters>>(){}.getType();
+		HashMap<String,DorParameters> dorIssuesMap = new Gson().fromJson(dorIssuesList, mapType);	
+		
+//		String title = "Key, Tech Review Complete, Acceptance Criteria Defined, UX Design, 3rd Party Dependency, NFR Requirement considered, Overall Status";
+		
+		String title = "ID, TechReviewComplete, AcceptanceCriteria, UXDesign, 3rdParty, NFR, OverallStatus";
+		slachBean.setTitle(title);
+		slachBean.setText(dorIssuesHelper.formatDorIssues(dorIssuesMap));
+//		slachBean.setFooter(dorIssuesHelper.issuesNotCoveredList(dorIssuesMap));
+		
+		SlachAttachments slachAttachments = new SlachAttachments();
+		List<SlachBean> slachBeanList = new ArrayList<SlachBean>(1);
+		slachBeanList.add(slachBean);
+		slachAttachments.setAttachments(slachBeanList);
+		
+		//log.info("Json Value: ", gson.toJson(attachments));
+		System.out.println("Json Value: " + gson.toJson(slachAttachments));
+		postOnSlack(gson.toJson(slachAttachments));
+		//postOnSlack(attachments);
+		return "200";
+	}
+	
+	@RequestMapping(value = "/postDorSummary", method = { RequestMethod.POST })
+	public String buildDorSummary(@RequestBody String dorIssuesList) {
+
+		Gson gson = new Gson();
+		
+		SlachBean slachBean = new SlachBean();
+		slachBean.setFallback("In the DOR status method");
+		
+		
+		Type mapType = new TypeToken<HashMap<String, DorParameters>>(){}.getType();
+		HashMap<String,DorParameters> dorIssuesMap = new Gson().fromJson(dorIssuesList, mapType);	
+		
+//		String title = "Key, Tech Review Complete, Acceptance Criteria Defined, UX Design, 3rd Party Dependency, NFR Requirement considered, Overall Status";
+		
+//		String title = "ID, TechReviewComplete, AcceptanceCriteria, UXDesign, 3rdParty, NFR, OverallStatus";
+		slachBean.setTitle(dorIssuesHelper.issuesNotCoveredList(dorIssuesMap));
+//		slachBean.setText(dorIssuesHelper.formatDorIssues(dorIssuesMap));
+//		slachBean.setFooter(dorIssuesHelper.issuesNotCoveredList(dorIssuesMap));
+		
+		SlachAttachments slachAttachments = new SlachAttachments();
+		List<SlachBean> slachBeanList = new ArrayList<SlachBean>(1);
+		slachBeanList.add(slachBean);
+		slachAttachments.setAttachments(slachBeanList);
+		
+		//log.info("Json Value: ", gson.toJson(attachments));
+		System.out.println("Json Value: " + gson.toJson(slachAttachments));
+		postOnSlack(gson.toJson(slachAttachments));
+		//postOnSlack(attachments);
+		return "200";
+	}
 }
