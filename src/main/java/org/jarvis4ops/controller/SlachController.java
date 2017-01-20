@@ -239,8 +239,8 @@ public class SlachController {
 		HashMap<String,DorParameters> dorIssuesMap = new Gson().fromJson(dorIssuesList, mapType);
 		
 		slachBean.setFallback(dorIssuesHelper.countOfissuesDorImcomplete(dorIssuesMap) + slackMessagingConstants.getDorStatusTitleMsg());
-		slachBean.setTitle(dorIssuesHelper.countOfissuesDorImcomplete(dorIssuesMap) + slackMessagingConstants.getDorStatusTitleMsg());
-		slachBean.setText(slackMessagingConstants.getDorPendingStoriesDetailMsg() + dorIssuesHelper.getIncompleteDorStoryList(dorIssuesMap));
+		slachBean.setTitle(dorIssuesHelper.countOfissuesDorImcomplete(dorIssuesMap) + configObj.getEmptySpace() + slackMessagingConstants.getDorStatusTitleMsg());
+		slachBean.setText(slackMessagingConstants.getDorPendingStoriesDetailMsg() + configObj.getEmptySpace() + dorIssuesHelper.getIncompleteDorStoryList(dorIssuesMap));
 
 		Cloudinary cloudinary = new Cloudinary();
 		Map<String, String> options = new HashMap<String, String>(2);
