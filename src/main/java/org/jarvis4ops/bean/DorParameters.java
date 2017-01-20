@@ -82,5 +82,11 @@ public class DorParameters {
 	public void setOverallStatus(String overallStatus) {
 		this.overallStatus = overallStatus;
 	}
-	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return techReview + ", " + acceptanceCriteria.trim() + ", "+ uxDesign.trim() + ", " + thirdParty.trim() + ", " + nfrRequirement.trim() + ", "+ overallStatus.trim();
+	}	
 }

@@ -152,18 +152,16 @@ public class JiraController {
 
 		Gson gson = new Gson();
 		log.info("Response JSON for DOR/DOD issues: " + gson.toJson(dorJiraIssuesMap));
-		String rockstarsJiraIssueCountJson = gson.toJson(dorJiraIssuesMap);
+		String jiraIssuesJson = gson.toJson(dorJiraIssuesMap);
 		
 		RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
         headerMap.add("Content-Type", "application/json");
-        HttpEntity<String> entity = new HttpEntity<String>(rockstarsJiraIssueCountJson, headerMap);
+        HttpEntity<String> entity = new HttpEntity<String>(jiraIssuesJson, headerMap);
         String slashUrl = configObj.getHost()+configObj.getPort()+"/postDorStatus";
         String response = restTemplate.postForObject(slashUrl, entity, String.class);
         //log.info("Response: ", response);
         System.out.println("Response: " + response);
-        
-//        postOnSlack(gson.toJson(dorJiraIssuesMap));
     }
 
 	@Bean

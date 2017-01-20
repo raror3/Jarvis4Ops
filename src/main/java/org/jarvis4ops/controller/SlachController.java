@@ -12,6 +12,7 @@ import java.util.Random;
 import java.util.Set;
 
 import org.jarvis4ops.bean.DorParameters;
+import org.jarvis4ops.bean.IssueDetails;
 import org.jarvis4ops.bean.TestAttachments;
 import org.jarvis4ops.bean.TestBean;
 import org.jarvis4ops.configurations.Configurations;
@@ -233,15 +234,22 @@ public class SlachController {
 		
 		SlachBean slachBean = new SlachBean();
 		slachBean.setFallback("In the DOR status method");
-		slachBean.setFooter("Trying to print the DOR incidents status");
 		
-		Type newType = new TypeToken<HashMap<String, DorParameters>>(){}.getType();
-		HashMap<String,DorParameters> dorIssuesMap = new Gson().fromJson(dorIssuesList, newType);
 		
-		slachBean.setText(dorIssuesHelper.issuesNotCoveredList(dorIssuesMap));
+		Type mapType = new TypeToken<HashMap<String, DorParameters>>(){}.getType();
+		HashMap<String,DorParameters> dorIssuesMap = new Gson().fromJson(dorIssuesList, mapType);
 		
-		String title = "Key, Tech Review Complete, Acceptance Criteria Defined, UX Design, 3rd Party Dependency, NFR Requirement considered, Overall Status";
+//		Type setType = new TypeToken<List<IssueDetails>>(){}.getType();
+//		List<IssueDetails> issuesList = new Gson().fromJson(dorIssuesList, setType);
+		
+		
+//		String title = "Key, Tech Review Complete, Acceptance Criteria Defined, UX Design, 3rd Party Dependency, NFR Requirement considered, Overall Status";
+		
+		String title = "ID, TechReviewComplete, AcceptanceCriteria, UXDesign, 3rdParty, NFR, OverallStatus";
 		slachBean.setTitle(title);
+		slachBean.setText(dorIssuesHelper.formatDorIssues(dorIssuesMap));
+		slachBean.setFooter(dorIssuesHelper.issuesNotCoveredList(dorIssuesMap));
+		
 		SlachAttachments slachAttachments = new SlachAttachments();
 		List<SlachBean> slachBeanList = new ArrayList<SlachBean>(1);
 		slachBeanList.add(slachBean);

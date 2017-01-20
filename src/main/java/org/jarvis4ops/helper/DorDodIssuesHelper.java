@@ -121,7 +121,24 @@ public class DorDodIssuesHelper {
 			}			
 		}
 		
-		sbfListNotCovered.append(countNonCovered + "/"+ issuesMap.keySet().size());
+		sbfListNotCovered.insert(0, "For " + countNonCovered + "/"+ issuesMap.keySet().size() + " issues, DOR is not covered \n");
+
+		sbfListNotCovered.toString().substring(0, sbfListNotCovered.length() - 2);
 		return sbfListNotCovered.toString();
 	}
+	
+	public String formatDorIssues(Map <String, DorParameters> issuesMap)
+	{
+		StringBuffer sbfListNotCovered = new StringBuffer();
+		
+		for (String element : issuesMap.keySet()) {
+			
+				sbfListNotCovered.append(element + ", " + issuesMap.get(element).toString() + "\n");
+			
+			}
+		
+		return sbfListNotCovered.toString();
+	
+	}
+	
 }
