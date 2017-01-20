@@ -105,8 +105,6 @@ public class JiraController {
 	public void issuesDorDod()
 	{
 		String plainCreds = configObj.getJiraCreds();
-		StringBuffer sbfListNotCovered = new StringBuffer();
-		int countNonCovered = 0;
 		
 		byte[] plainCredsBytes = plainCreds.getBytes();
 		byte[] base64CredsBytes = Base64.getEncoder().encode(plainCredsBytes);
@@ -139,12 +137,6 @@ public class JiraController {
 		if (null != dorIssuesMap && dorIssuesMap.size()>0) {
 			invokeSlackServiceDor(dorIssuesMap);
 		}
-		
-		
-//		if (null != dorIssuesMap && dorIssuesMap.size()>0) {
-//			invokeSlackServiceDor(dorIssuesMap);
-//		}
-
 
 	}
 	
@@ -158,10 +150,15 @@ public class JiraController {
         MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
         headerMap.add("Content-Type", "application/json");
         HttpEntity<String> entity = new HttpEntity<String>(jiraIssuesJson, headerMap);
+        String slashUrlSummary = configObj.getHost()+configObj.getPort()+"/postDorSummary";
         String slashUrl = configObj.getHost()+configObj.getPort()+"/postDorStatus";
+        
+        String responseSummary = restTemplate.postForObject(slashUrlSummary, entity, String.class);
         String response = restTemplate.postForObject(slashUrl, entity, String.class);
+        
         //log.info("Response: ", response);
         System.out.println("Response: " + response);
+        System.out.println("Response: " + responseSummary);
     }
 
 	@Bean

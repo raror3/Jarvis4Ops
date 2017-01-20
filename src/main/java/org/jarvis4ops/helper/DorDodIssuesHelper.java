@@ -63,7 +63,7 @@ public class DorDodIssuesHelper {
 			if(issue.getFields().getCustomfield_13003() != null)
 			{  
 				dorCounter++;
-				dorParameters.setThirdParty(issue.getFields().getCustomfield_13002().getValue());
+				dorParameters.setThirdParty(issue.getFields().getCustomfield_13003().getValue());
 			}
 			else
 			{
@@ -73,7 +73,7 @@ public class DorDodIssuesHelper {
 			if(issue.getFields().getCustomfield_13004() != null)
 			{  
 				dorCounter++;
-				dorParameters.setNfrRequirement(issue.getFields().getCustomfield_13002().getValue());
+				dorParameters.setNfrRequirement(issue.getFields().getCustomfield_13004().getValue());
 			}
 			else
 			{
