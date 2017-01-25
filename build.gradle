@@ -20,6 +20,10 @@ jar {
 	version = '0.0.1-SNAPSHOT'
 }
 
+task stage {
+  dependsOn build
+}
+
 jar {
     baseName = 'gs-scheduling-tasks'
     version =  '0.1.0'
