@@ -33,6 +33,51 @@ public class Configurations {
 	private String emptySpace = " ";
 	private String openIncidentsJql;
 	private String DorDodJql;
+	private String cloudinaryApiKey;
+	private String cloudinaryApiSecKey;
+	private String cloudName;
+
+	/**
+	 * @return the cloudName
+	 */
+	public String getCloudName() {
+		return cloudName;
+	}
+
+	/**
+	 * @param cloudName the cloudName to set
+	 */
+	public void setCloudName(String cloudName) {
+		this.cloudName = cloudName;
+	}
+
+	/**
+	 * @return the cloudinaryApiKey
+	 */
+	public String getCloudinaryApiKey() {
+		return cloudinaryApiKey;
+	}
+
+	/**
+	 * @param cloudinaryApiKey the cloudinaryApiKey to set
+	 */
+	public void setCloudinaryApiKey(String cloudinaryApiKey) {
+		this.cloudinaryApiKey = cloudinaryApiKey;
+	}
+
+	/**
+	 * @return the cloudinaryApiSecKey
+	 */
+	public String getCloudinaryApiSecKey() {
+		return cloudinaryApiSecKey;
+	}
+
+	/**
+	 * @param cloudinaryApiSecKey the cloudinaryApiSecKey to set
+	 */
+	public void setCloudinaryApiSecKey(String cloudinaryApiSecKey) {
+		this.cloudinaryApiSecKey = cloudinaryApiSecKey;
+	}
 
 	/**
 	 * @return the openIncidentsJql

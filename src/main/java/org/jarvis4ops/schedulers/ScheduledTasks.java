@@ -5,7 +5,6 @@ package org.jarvis4ops.schedulers;
 
 import org.jarvis4ops.configurations.Configurations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -19,9 +18,9 @@ import org.springframework.web.client.RestTemplate;
 public class ScheduledTasks {
 
     @Autowired
-	private Configurations configObj; 
+	private Configurations configObj;
 
-    @Scheduled(fixedRate = 43200000)
+    //@Scheduled(fixedRate = 43200000)
 	public void getPrevDayRockstarsJiraSch() {
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -32,4 +31,5 @@ public class ScheduledTasks {
         //log.info("Response: ", response);
         System.out.println("Response: " + response);
     }
+
 }

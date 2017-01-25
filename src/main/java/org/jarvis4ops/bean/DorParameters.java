@@ -7,9 +7,8 @@ public class DorParameters {
 	private String uxDesign; //For the field "UX Design"
 	private String thirdParty; //For the field "3rd Party Dependency"
 	private String nfrRequirement; //For the field "NFR Requirement considered"
-	
 	private String overallStatus;
-	
+
 	/**
 	 * @return the techReview
 	 */

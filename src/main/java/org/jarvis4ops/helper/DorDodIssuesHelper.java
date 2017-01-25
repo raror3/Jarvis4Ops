@@ -6,9 +6,6 @@ import java.util.Map;
 
 import org.jarvis4ops.bean.DorParameters;
 import org.jarvis4ops.bean.IssueDetails;
-import org.jarvis4ops.controller.JiraController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,41 +19,31 @@ public class DorDodIssuesHelper {
 		
 		for (IssueDetails issue : paramIssueList)
 		{
-			String issueKey = issue.getKey() ;
+			String issueKey = issue.getKey();
 			sbDor.delete(0, sbDor.toString().length());
 			
 			DorParameters dorParameters = new DorParameters();
 			
 			int dorCounter = 0;
 	
-			if(issue.getFields().getCustomfield_13000() != null)
-			{  
+			if(issue.getFields().getCustomfield_13000() != null) {  
 				dorCounter++;
 				dorParameters.setTechReview(issue.getFields().getCustomfield_13000().getValue() );
-			}
-			else
-			{
+			} else {
 				dorParameters.setTechReview("No");
 			}
 			
-			if(issue.getFields().getCustomfield_13001() != null)
-			{  
+			if(issue.getFields().getCustomfield_13001() != null) {  
 				dorCounter++;
 				dorParameters.setAcceptanceCriteria(issue.getFields().getCustomfield_13001().getValue() );
-			}
-			else
-			{
+			} else {
 				dorParameters.setAcceptanceCriteria("No");
 			}
 			
-			if(issue.getFields().getCustomfield_13002() != null)
-			{  
+			if(issue.getFields().getCustomfield_13002() != null) {  
 				dorCounter++;
 				dorParameters.setUxDesign(issue.getFields().getCustomfield_13002().getValue());
-				
-			}
-			else
-			{
+			} else {
 				dorParameters.setUxDesign("No");
 			}
 			
@@ -64,81 +51,102 @@ public class DorDodIssuesHelper {
 			{  
 				dorCounter++;
 				dorParameters.setThirdParty(issue.getFields().getCustomfield_13003().getValue());
-			}
-			else
-			{
+			} else {
 				dorParameters.setThirdParty("No");
 			}
 			
-			if(issue.getFields().getCustomfield_13004() != null)
-			{  
+			if(issue.getFields().getCustomfield_13004() != null) {
 				dorCounter++;
 				dorParameters.setNfrRequirement(issue.getFields().getCustomfield_13004().getValue());
-			}
-			else
-			{
+			} else {
 				dorParameters.setNfrRequirement("No");
 			}
 			
 			//Appending the overall status
-			
-			if (dorCounter<5)
-			{
+			if (dorCounter<5) {
 				dorParameters.setOverallStatus("N");
-			}
-			else
-			{
+			} else {
 				dorParameters.setOverallStatus("Y");
 			}
-						
+
 			issuesMap.put(issueKey, dorParameters);
-			
+
 		}
 
 		return issuesMap;
 	}
 	
-	public String issuesNotCoveredList(Map <String, DorParameters> issuesMap)
-	{
-		StringBuffer sbfListNotCovered = new StringBuffer();
-		int countNonCovered = 0;
-
-//		issuesMap.forEach( (issue, dorList)-> {
-//			if (dorList.getOverallStatus().equals("N"))
-//			{
-//				sbfListNotCovered.append(issue + ":");
-//				
-//			}
-//			countNonCovered++;
-//		});
+	public String populateDataforDorImage(Map <String, DorParameters> issuesMap) {
 		
-		for (String element : issuesMap.keySet()) {
+		StringBuilder dataStringBuilder = new StringBuilder("\n");
+		dataStringBuilder.append(String.format("%-25s", "JIRA ID"));
+		dataStringBuilder.append(String.format("%-25s", "TechReviewComplete"));
+		dataStringBuilder.append(String.format("%-25s", "AcceptanceCriteria"));
+		dataStringBuilder.append(String.format("%-25s", "UXDesign"));
+		dataStringBuilder.append(String.format("%-25s", "3rdParty"));
+		dataStringBuilder.append(String.format("%-25s", "NFR"));
+		dataStringBuilder.append("\n");
+		
+		for (Map.Entry<String, DorParameters> mapKey : issuesMap.entrySet()) {
+
+			dataStringBuilder.append("\n");
+			dataStringBuilder.append(String.format("%-20s", mapKey.getKey()));
+			DorParameters storyDorParameters = mapKey.getValue();
+			if("Yes".equalsIgnoreCase(storyDorParameters.getTechReview())) {  
+				dataStringBuilder.append(String.format("%-37s", storyDorParameters.getTechReview()));
+			} else {
+				dataStringBuilder.append(String.format("%-38s", "No"));
+			}
 			
+			if("Yes".equalsIgnoreCase(storyDorParameters.getAcceptanceCriteria())) {  
+				dataStringBuilder.append(String.format("%-40s", storyDorParameters.getAcceptanceCriteria()));
+			} else {
+				dataStringBuilder.append(String.format("%-41s", "No"));
+			}
+			
+			if("Yes".equalsIgnoreCase(storyDorParameters.getUxDesign())) {  
+				dataStringBuilder.append(String.format("%-30s", storyDorParameters.getUxDesign()));
+			} else {
+				dataStringBuilder.append(String.format("%-30s", "No"));
+			}
+			
+			if("Yes".equalsIgnoreCase(storyDorParameters.getThirdParty()))
+			{  
+				dataStringBuilder.append(String.format("%-23s", storyDorParameters.getThirdParty()));
+			} else {
+				dataStringBuilder.append(String.format("%-24s", "No"));
+			}
+			
+			if("Yes".equalsIgnoreCase(storyDorParameters.getNfrRequirement())) {
+				dataStringBuilder.append(String.format("%-24s", storyDorParameters.getNfrRequirement()));
+			} else {
+				dataStringBuilder.append(String.format("%-25s", "No"));
+			}
+		}
+		return dataStringBuilder.toString();
+	}
+	
+	public String countOfissuesDorImcomplete(Map <String, DorParameters> issuesMap)
+	{
+		int countNonCovered = 0;
+		for (String element : issuesMap.keySet()) {
 			if(issuesMap.get(element).getOverallStatus().equals("N")){
-				
-				sbfListNotCovered.append(element + ":");
 				countNonCovered++;
 			}			
 		}
-		
-		sbfListNotCovered.insert(0, "For " + countNonCovered + "/"+ issuesMap.keySet().size() + " issues, DOR is not covered \n");
+		return (Integer.toString(countNonCovered) + "/" + Integer.toString(issuesMap.size()));
+	}
 
+	public String getIncompleteDorStoryList(Map <String, DorParameters> issuesMap)
+	{
+		StringBuilder sbfListNotCovered = new StringBuilder();
+		for (String element : issuesMap.keySet()) {
+			if(issuesMap.get(element).getOverallStatus().equals("N")){
+				sbfListNotCovered.append(element + ":");
+			}
+		}
 		sbfListNotCovered.toString().substring(0, sbfListNotCovered.length() - 2);
 		return sbfListNotCovered.toString();
 	}
-	
-	public String formatDorIssues(Map <String, DorParameters> issuesMap)
-	{
-		StringBuffer sbfListNotCovered = new StringBuffer();
-		
-		for (String element : issuesMap.keySet()) {
-			
-				sbfListNotCovered.append(element + ", " + issuesMap.get(element).toString() + "\n");
-			
-			}
-		
-		return sbfListNotCovered.toString();
-	
-	}
-	
+
 }

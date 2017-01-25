@@ -2,23 +2,48 @@ package org.jarvis4ops.helper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.jarvis4ops.bean.IssueDetails;
+import org.jarvis4ops.configurations.Configurations;
 import org.jarvis4ops.controller.JiraController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JiraIssueResponseHelper {
 	private static final Logger log = LoggerFactory.getLogger(JiraController.class);
-	
+
+	@Autowired
+	private Configurations configObj;
+	/**
+	 * @return
+	 */
+	public HttpEntity<String> setJiraCredDetails() {
+
+		String plainCreds = configObj.getJiraCreds();
+		byte[] plainCredsBytes = plainCreds.getBytes();
+		byte[] base64CredsBytes = Base64.getEncoder().encode(plainCredsBytes);
+		String base64Creds = new String(base64CredsBytes);
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization", "Basic "+base64Creds);
+		headers.set("Accept", "application/json");
+	    headers.set("Content-Type", "application/json");
+	    
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+		return entity;
+	}
+
 	public Map<String, Integer> maxIssueCount(List <IssueDetails> paramIssueList)
 	{
 		Map <String, Integer> issuesMap = new HashMap<String, Integer>();;
