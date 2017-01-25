@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -36,6 +37,9 @@ public class KanbanImprovementController {
 
 	@Autowired
 	private JiraIssueResponseHelper jiraIssueResponseHelper;
+	
+	@Autowired
+	private Environment environment;
 
 	@RequestMapping(value="/checkOpenScIssuesAndPost", method = { RequestMethod.GET })
 	public String getOpenSiteConfidenceIncidents() {
@@ -85,12 +89,12 @@ public class KanbanImprovementController {
         headerMap.add("Content-Type", "application/json");
 
         HttpEntity<String> entity = new HttpEntity<String>(headerMap);
-        String slashUrl = configObj.getHost()+configObj.getPort()+"/postScNotificationOnSlack";
-        URI targetUrl= UriComponentsBuilder.fromUriString(configObj.getHost()+configObj.getPort()).
+        String slashUrl = configObj.getHost()+environment.getProperty("server.port")+"/postScNotificationOnSlack";
+        URI targetUrl= UriComponentsBuilder.fromUriString(configObj.getHost()+environment.getProperty("server.port")).
         		path("/postOpenIncidentNotificationOnSlack").queryParam("openIncidents", total).build().toUri();
         String response = restTemplate.postForObject(targetUrl, entity, String.class);
         //log.info("Response: ", response);
-        System.out.println("Response: " + response);
+        log.info("Response: " + response);
 	}
 
 	private void slackSCIssueNotification(Integer total) {
@@ -99,12 +103,12 @@ public class KanbanImprovementController {
         headerMap.add("Content-Type", "application/json");
 
         HttpEntity<String> entity = new HttpEntity<String>(headerMap);
-        String slashUrl = configObj.getHost()+configObj.getPort()+"/postScNotificationOnSlack";
-        URI targetUrl= UriComponentsBuilder.fromUriString(configObj.getHost()+configObj.getPort()).
+        String slashUrl = configObj.getHost()+environment.getProperty("server.port")+"/postScNotificationOnSlack";
+        URI targetUrl= UriComponentsBuilder.fromUriString(configObj.getHost()+environment.getProperty("server.port")).
         		path("/postScNotificationOnSlack").queryParam("openIncidents", total).build().toUri();
         String response = restTemplate.postForObject(targetUrl, entity, String.class);
         //log.info("Response: ", response);
-        System.out.println("Response: " + response);
+        log.info("Response: " + response);
 	}
 
 	public void invokeSlackServiceToPost(Map<String, Integer> rockstarsJiraIssueCountMap) {
@@ -118,10 +122,10 @@ public class KanbanImprovementController {
         headerMap.add("Content-Type", "application/json");
 
         HttpEntity<String> entity = new HttpEntity<String>(rockstarsJiraIssueCountJson, headerMap);
-        String slashUrl = configObj.getHost()+configObj.getPort()+"/postOnSlack";
+        String slashUrl = configObj.getHost()+environment.getProperty("server.port")+"/postOnSlack";
         String response = restTemplate.postForObject(slashUrl, entity, String.class);
         //log.info("Response: ", response);
-        System.out.println("Response: " + response);
+        log.info("Response: " + response);
     }
 
 	public IssueDetails index(RestTemplate restTemplate) {
