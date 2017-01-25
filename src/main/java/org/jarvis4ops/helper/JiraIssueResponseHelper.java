@@ -88,7 +88,7 @@ public class JiraIssueResponseHelper {
 		
 		for (String assignee : assigneeSet)
 		{
-			System.out.println(assignee + " has fixed: " + jiraIssuesResponseMap.get(assignee));
+			log.info(assignee + " has fixed: " + jiraIssuesResponseMap.get(assignee));
 			if(jiraIssuesResponseMap.get(assignee) > 2)
 				{
 					if (rockStar.length() == 0)

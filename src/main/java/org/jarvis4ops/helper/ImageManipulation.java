@@ -55,7 +55,7 @@ public class ImageManipulation {
 		        g.drawString(outputs[i], 50,(int) (20+(i*layout.getBounds().getHeight()*1.1)+1));
 		        counter++;
 		    }
-		    System.out.println("counter" + counter);
+		    log.info("counter" + counter);
 
 		    g.dispose();
 

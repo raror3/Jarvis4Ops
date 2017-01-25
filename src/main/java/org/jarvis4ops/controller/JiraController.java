@@ -67,7 +67,7 @@ public class JiraController {
         String slashUrl = configObj.getHost()+configObj.getPort()+"/postRockstarsOnSlack";
         String response = restTemplate.postForObject(slashUrl, entity, String.class);
         //log.info("Response: ", response);
-        System.out.println("Response: " + response);
+        log.info("Response: " + response);
     }
 
 	public IssueDetails index(RestTemplate restTemplate) {
@@ -116,7 +116,7 @@ public class JiraController {
         String slashUrl = configObj.getHost()+configObj.getPort()+"/postDorStatus";
         String response = restTemplate.postForObject(slashUrl, entity, String.class);
         
-        System.out.println("Response: " + response);
+        log.info("Response: " + response);
     }
 
 	@Bean

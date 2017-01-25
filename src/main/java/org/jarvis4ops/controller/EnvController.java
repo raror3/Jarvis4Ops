@@ -2,6 +2,8 @@ package org.jarvis4ops.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,11 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class EnvController {
 	private static final Logger log = LoggerFactory.getLogger(EnvController.class);
 
+	@Autowired
+	private Environment environment;
+	
 	@RequestMapping(path="/getValuesFromEnv")
 	public String getValuesFromEnv() {
-		log.info("Slack Service from System: " + System.getenv("slackService"));
-		System.out.println("Slack service identified: " + System.getenv("slackService"));
 
+		log.info("Slack Service from System: " + System.getenv("slackService"));
+		log.info("Slack Service from Environment: " + environment.getProperty("slackService"));
+		log.info("Jira Endpoint from Environment: " + environment.getProperty("org.ops4_0.constants.jiraEndPoint"));
 		return "200";
     }
 
