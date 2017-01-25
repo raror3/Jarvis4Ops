@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -37,6 +38,9 @@ public class JiraController {
 	
 	@Autowired
 	private DorDodIssuesHelper dorIssuesHelper;
+
+	@Autowired
+	private Environment environment;
 
 	@RequestMapping(path="/getPrevDayJiraRockstars")
 	public String getPrevDayJiraRockstars() {
@@ -64,7 +68,7 @@ public class JiraController {
         MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
         headerMap.add("Content-Type", "application/json");
         HttpEntity<String> entity = new HttpEntity<String>(rockstarsJiraIssueCountJson, headerMap);
-        String slashUrl = configObj.getHost()+configObj.getPort()+"/postRockstarsOnSlack";
+        String slashUrl = configObj.getHost()+environment.getProperty("server.port")+"/postRockstarsOnSlack";
         String response = restTemplate.postForObject(slashUrl, entity, String.class);
         //log.info("Response: ", response);
         log.info("Response: " + response);
@@ -113,7 +117,7 @@ public class JiraController {
         headerMap.add("Content-Type", "application/json");
         HttpEntity<String> entity = new HttpEntity<String>(jiraIssuesJson, headerMap);
 
-        String slashUrl = configObj.getHost()+configObj.getPort()+"/postDorStatus";
+        String slashUrl = configObj.getHost()+environment.getProperty("server.port")+"/postDorStatus";
         String response = restTemplate.postForObject(slashUrl, entity, String.class);
         
         log.info("Response: " + response);

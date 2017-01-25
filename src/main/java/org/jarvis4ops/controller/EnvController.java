@@ -19,7 +19,7 @@ public class EnvController {
 
 		log.info("Slack Service from System: " + System.getenv("slackService"));
 		log.info("Slack Service from Environment: " + environment.getProperty("slackService"));
-		log.info("Jira Endpoint from Environment: " + environment.getProperty("org.ops4_0.constants.jiraEndPoint"));
+		log.info("Server port from Environment: " + environment.getProperty("server.port"));
 		return "200";
     }
 
