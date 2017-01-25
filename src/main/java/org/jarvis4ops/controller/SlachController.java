@@ -17,6 +17,8 @@ import org.jarvis4ops.configurations.Configurations;
 import org.jarvis4ops.configurations.SlackMessagingConstants;
 import org.jarvis4ops.helper.DorDodIssuesHelper;
 import org.jarvis4ops.helper.ImageManipulation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -38,7 +40,7 @@ import com.google.gson.reflect.TypeToken;
  */
 @RestController
 public class SlachController {
-	//private static final Logger log = LoggerFactory.getLogger(SlachController.class);
+	private static final Logger log = LoggerFactory.getLogger(SlachController.class);
 
 	@Autowired
 	private Configurations configObj;
@@ -78,7 +80,7 @@ public class SlachController {
 		slachAttachments.setAttachments(slachBeanList);
 		
 		//log.info("Json Value: ", gson.toJson(attachments));
-		System.out.println("Json Value: " + gson.toJson(slachAttachments));
+		log.info("Json Value: " + gson.toJson(slachAttachments));
 		postOnSlack(gson.toJson(slachAttachments));
 		//postOnSlack(attachments);
 		return "200";
@@ -132,7 +134,7 @@ public class SlachController {
 		
 		SlachBean slachBean = new SlachBean();
 		slachBean.setFallback(openIncidentCount + configObj.getEmptySpace() + slackMessagingConstants.getScIssueNotificationTitleMsg() + slackMessagingConstants.getScIssueNotificationDetailMsg());
-		System.out.println("Open incident count: " + openIncidentCount);
+		log.info("Open incident count: " + openIncidentCount);
 		slachBean.setImage_url(getScIssueNotificationImageUrl(openIncidentCount));
 		slachBean.setText(slackMessagingConstants.getScIssueNotificationDetailMsg());
 		slachBean.setTitle(openIncidentCount + configObj.getEmptySpace() + slackMessagingConstants.getScIssueNotificationTitleMsg());
@@ -141,7 +143,7 @@ public class SlachController {
 		slachBeanList.add(slachBean);
 		slachAttachments.setAttachments(slachBeanList);
 		
-		System.out.println("Json Value: " + gson.toJson(slachAttachments));
+		log.info("Json Value: " + gson.toJson(slachAttachments));
 		postOnSlack(gson.toJson(slachAttachments));
 		return "200";
 	}
@@ -153,7 +155,7 @@ public class SlachController {
 
 		SlachBean slachBean = new SlachBean();
 		slachBean.setFallback(openIncidentCount + configObj.getEmptySpace() + slackMessagingConstants.getOpenIncidentNotificationTitleMsg() + slackMessagingConstants.getOpenIncidentNotificationDetailMsg1() + configObj.getEmptySpace() + openIncidentCount + configObj.getEmptySpace() + slackMessagingConstants.getOpenIncidentNotificationDetailMsg2());
-		System.out.println("Open incident count: " + openIncidentCount);
+		log.info("Open incident count: " + openIncidentCount);
 		slachBean.setImage_url(getOpenIncidentNotificationImageUrl(openIncidentCount));
 		slachBean.setText(slackMessagingConstants.getOpenIncidentNotificationDetailMsg1() + configObj.getEmptySpace() + openIncidentCount + configObj.getEmptySpace() + slackMessagingConstants.getOpenIncidentNotificationDetailMsg2());
 		slachBean.setTitle(openIncidentCount + configObj.getEmptySpace() + slackMessagingConstants.getOpenIncidentNotificationTitleMsg());
@@ -162,7 +164,7 @@ public class SlachController {
 		slachBeanList.add(slachBean);
 		slachAttachments.setAttachments(slachBeanList);
 		
-		System.out.println("Json Value: " + gson.toJson(slachAttachments));
+		log.info("Json Value: " + gson.toJson(slachAttachments));
 		postOnSlack(gson.toJson(slachAttachments));
 		return "200";
 	}
@@ -211,7 +213,7 @@ public class SlachController {
 		slachAttachments.setAttachments(slachBeanList);
 		Gson gson = new Gson();
 		//log.info("Json Value: ", gson.toJson(attachments));
-		System.out.println("Json Value: " + gson.toJson(slachAttachments));
+		log.info("Json Value: " + gson.toJson(slachAttachments));
 		postOnSlack(gson.toJson(slachAttachments));
 		//postOnSlack(attachments);
 		return "200";
@@ -225,7 +227,7 @@ public class SlachController {
         String slashUrl = configObj.getSlackService()+configObj.getSlackApiKey();
         String response = restTemplate.postForObject(slashUrl, entity, String.class);
         //log.info("Response: ", response);
-        System.out.println("Response: " + response);
+        log.info("Response: " + response);
     }
 	
 	
@@ -256,7 +258,7 @@ public class SlachController {
 		slachBeanList.add(slachBean);
 		slachAttachments.setAttachments(slachBeanList);
 
-		System.out.println("Json Value: " + gson.toJson(slachAttachments));
+		log.info("Json Value: " + gson.toJson(slachAttachments));
 		postOnSlack(gson.toJson(slachAttachments));
 
 		return "200";
