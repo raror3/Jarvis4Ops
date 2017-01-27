@@ -113,7 +113,8 @@ public class SlachController {
 		rockstarMap.put("jtripathy", "Jitendra");
 		rockstarMap.put("sgoel1", "Sonali");
 		rockstarMap.put("vkumar1", "VikasKumar");
-		
+		rockstarMap.put("dgupta", "Deepak");
+		rockstarMap.put("ibanerjee", "Ishika");
 
 		StringBuilder builder = new StringBuilder();
 		rockStarJiraIds.forEach(rockStar->{
