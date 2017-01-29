@@ -4,11 +4,9 @@
 package org.jarvis4ops.schedulers;
 
 import org.jarvis4ops.configurations.Configurations;
-import org.jarvis4ops.controller.JiraController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -21,13 +19,10 @@ import org.springframework.web.client.RestTemplate;
  */
 @Component
 public class ScheduledTasks {
-	private static final Logger log = LoggerFactory.getLogger(JiraController.class);
+	private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
     @Autowired
 	private Configurations configObj;
-    
-    @Autowired
-	private Environment environment;
 
     @Scheduled(fixedRate = 86400000)
 	public void getPrevDayRockstarsJiraSch() {
@@ -35,9 +30,9 @@ public class ScheduledTasks {
 		RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
         headerMap.add("Content-Type", "application/json");
-        String apiUrl = configObj.getHost()+environment.getProperty("server.port")+"/getPrevDayJiraRockstars";
+        String apiUrl = configObj.getSchedulerHostUrl()+"/getPrevDayJiraRockstars";
         String response = restTemplate.getForObject(apiUrl, String.class);
-        log.info("Response: ", response);
+        log.info("Response for Scheduled Task to check for Previous Day Rockstars: ", response);
     }
 
     @Scheduled(fixedRate = 7200000)
@@ -46,9 +41,9 @@ public class ScheduledTasks {
 		RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
         headerMap.add("Content-Type", "application/json");
-        String apiUrl = configObj.getHost()+environment.getProperty("server.port")+"/checkOpenScIssuesAndPost";
+        String apiUrl = configObj.getSchedulerHostUrl()+"/checkOpenScIssuesAndPost";
         String response = restTemplate.getForObject(apiUrl, String.class);
-        log.info("Response: ", response);
+        log.info("Response for Scheduled Task to check for Open SC issues: ", response);
     }
 
     @Scheduled(fixedRate = 7200000)
@@ -57,9 +52,9 @@ public class ScheduledTasks {
 		RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
         headerMap.add("Content-Type", "application/json");
-        String apiUrl = configObj.getHost()+environment.getProperty("server.port")+"/openIncidents";
+        String apiUrl = configObj.getSchedulerHostUrl()+"/openIncidents";
         String response = restTemplate.getForObject(apiUrl, String.class);
-        log.info("Response: ", response);
+        log.info("Response for Scheduled Task for DOR status SHOPC: ", response);
     }
 
     @Scheduled(fixedRate = 86400000)
@@ -68,9 +63,20 @@ public class ScheduledTasks {
 		RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
         headerMap.add("Content-Type", "application/json");
-        String apiUrl = configObj.getHost()+environment.getProperty("server.port")+"/getDorDodJira";
+        String apiUrl = configObj.getSchedulerHostUrl()+"/getDorDodJira";
         String response = restTemplate.getForObject(apiUrl, String.class);
-        log.info("Response: ", response);
+        log.info("Response for DOR status for Scheduled Task for SHOPC: ", response);
+    }
+
+    @Scheduled(fixedRate = 86400000)
+	public void validateJiraWipLimitAndAlert() {
+
+		RestTemplate restTemplate = new RestTemplate();
+        MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
+        headerMap.add("Content-Type", "application/json");
+        String apiUrl = configObj.getSchedulerHostUrl()+"/validateWipLimitsAndAlert";
+        String response = restTemplate.getForObject(apiUrl, String.class);
+        log.info("Response for Scheduled Task for WIP Limit: ", response);
     }
 
 }
