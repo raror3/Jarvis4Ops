@@ -11,20 +11,29 @@ import java.util.Set;
 
 import org.jarvis4ops.bean.IssueDetails;
 import org.jarvis4ops.configurations.Configurations;
-import org.jarvis4ops.controller.JiraController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
+import com.google.gson.Gson;
 
 @Component
 public class JiraIssueResponseHelper {
-	private static final Logger log = LoggerFactory.getLogger(JiraController.class);
+	private static final Logger log = LoggerFactory.getLogger(JiraIssueResponseHelper.class);
 
 	@Autowired
 	private Configurations configObj;
+	
+	@Autowired
+	private Environment environment;
+
 	/**
 	 * @return
 	 */
@@ -143,5 +152,34 @@ public class JiraIssueResponseHelper {
 		return yesterdaysIssuesMap;
 	}
 
+	/**
+	 * @param jiraMaxwipCounts
+	 */
+	public boolean isJiraMaxWipLimitBreached(Map<String, Integer> jiraMaxWipCoints) {
+		boolean maxWipLimitBreached = false;
+		if (jiraMaxWipCoints.get("InDev") > configObj.getJiraInDevWipMaxLimit()) {
+			maxWipLimitBreached = true;
+		} else if (jiraMaxWipCoints.get("InTest") > configObj.getJiraInDevWipMaxLimit()) {
+			maxWipLimitBreached = true;
+		} else if (jiraMaxWipCoints.get("ToDo") > configObj.getJiraInDevWipMaxLimit()) {
+			maxWipLimitBreached = true;
+		}
+		return maxWipLimitBreached;
+	}
+
+	public void invokeSlackPostWipBreachedInfo(Map<String, Integer> jiraMaxWipCountMap) {
+
+		Gson gson = new Gson();
+		log.info("Response JSON for WIP limits from JIRA: " + gson.toJson(jiraMaxWipCountMap));
+		String jiraMaxWipCountJson = gson.toJson(jiraMaxWipCountMap);
+		
+		RestTemplate restTemplate = new RestTemplate();
+        MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
+        headerMap.add("Content-Type", "application/json");
+        HttpEntity<String> entity = new HttpEntity<String>(jiraMaxWipCountJson, headerMap);
+        String slackUrl = configObj.getHost() + environment.getProperty("server.port") + "/postMaxWipBreachedSlack";
+        String response = restTemplate.postForObject(slackUrl, entity, String.class);
+        log.info("Response: " + response);
+    }
 
 }

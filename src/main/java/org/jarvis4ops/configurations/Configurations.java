@@ -21,21 +21,190 @@ public class Configurations {
 	private String greatJobTitleMsg;
 	private String incidentsResolvedMsg;
 	private String cfd;
-	private String jiraCreds;
 	private List<String> incidentRockstarMemeList;
+	private String teamWork;
+	private String emptySpace = " ";
+
+	private String jiraCreds;
+
 	private String jiraEndPoint;
 	private String prevDayIncidentRockstarJql;
 	private String sampleJiraEndPoint;
-	private String slackApiKey;
-	private String slackService;
-	private String teamWork;
 	private String openSiteConfidenceIncidentsJql;
-	private String emptySpace = " ";
 	private String openIncidentsJql;
 	private String DorDodJql;
+	private String totalInDevItemsJql;
+	private String totalToDoItemsJql;
+	private String totalInTestItemsJql;
+
+	private String slackService;
+	private String slackApiKeyJiraBots;
+	private String slackApiKeyOperations;
+	private String slackApiKeyOpsLeads;
+	private String jiraSupportKanbanBoardUrl;
+	
 	private String cloudinaryApiKey;
 	private String cloudinaryApiSecKey;
 	private String cloudName;
+	
+	private Integer jiraInDevWipMaxLimit;
+	private Integer jiraInTestWipMaxLimit;
+	private Integer jiraToDoWipMaxLimit;
+	private Integer jiraIndividualAppreciationPrevDayIncCount;
+
+	/**
+	 * @return the jiraSupportKanbanBoardUrl
+	 */
+	public String getJiraSupportKanbanBoardUrl() {
+		return jiraSupportKanbanBoardUrl;
+	}
+
+	/**
+	 * @param jiraSupportKanbanBoardUrl the jiraSupportKanbanBoardUrl to set
+	 */
+	public void setJiraSupportKanbanBoardUrl(String jiraSupportKanbanBoardUrl) {
+		this.jiraSupportKanbanBoardUrl = jiraSupportKanbanBoardUrl;
+	}
+
+	/**
+	 * @return the slackApiKeyJiraBots
+	 */
+	public String getSlackApiKeyJiraBots() {
+		return slackApiKeyJiraBots;
+	}
+
+	/**
+	 * @param slackApiKeyJiraBots the slackApiKeyJiraBots to set
+	 */
+	public void setSlackApiKeyJiraBots(String slackApiKeyJiraBots) {
+		this.slackApiKeyJiraBots = slackApiKeyJiraBots;
+	}
+
+	/**
+	 * @return the slackApiKeyOperations
+	 */
+	public String getSlackApiKeyOperations() {
+		return slackApiKeyOperations;
+	}
+
+	/**
+	 * @param slackApiKeyOperations the slackApiKeyOperations to set
+	 */
+	public void setSlackApiKeyOperations(String slackApiKeyOperations) {
+		this.slackApiKeyOperations = slackApiKeyOperations;
+	}
+
+	/**
+	 * @return the slackApiKeyOpsLeads
+	 */
+	public String getSlackApiKeyOpsLeads() {
+		return slackApiKeyOpsLeads;
+	}
+
+	/**
+	 * @param slackApiKeyOpsLeads the slackApiKeyOpsLeads to set
+	 */
+	public void setSlackApiKeyOpsLeads(String slackApiKeyOpsLeads) {
+		this.slackApiKeyOpsLeads = slackApiKeyOpsLeads;
+	}
+
+	/**
+	 * @return the jiraInDevWipMaxLimit
+	 */
+	public Integer getJiraInDevWipMaxLimit() {
+		return jiraInDevWipMaxLimit;
+	}
+
+	/**
+	 * @param jiraInDevWipMaxLimit the jiraInDevWipMaxLimit to set
+	 */
+	public void setJiraInDevWipMaxLimit(Integer jiraInDevWipMaxLimit) {
+		this.jiraInDevWipMaxLimit = jiraInDevWipMaxLimit;
+	}
+
+	/**
+	 * @return the jiraInTestWipMaxLimit
+	 */
+	public Integer getJiraInTestWipMaxLimit() {
+		return jiraInTestWipMaxLimit;
+	}
+
+	/**
+	 * @param jiraInTestWipMaxLimit the jiraInTestWipMaxLimit to set
+	 */
+	public void setJiraInTestWipMaxLimit(Integer jiraInTestWipMaxLimit) {
+		this.jiraInTestWipMaxLimit = jiraInTestWipMaxLimit;
+	}
+
+	/**
+	 * @return the jiraToDoWipMaxLimit
+	 */
+	public Integer getJiraToDoWipMaxLimit() {
+		return jiraToDoWipMaxLimit;
+	}
+
+	/**
+	 * @param jiraToDoWipMaxLimit the jiraToDoWipMaxLimit to set
+	 */
+	public void setJiraToDoWipMaxLimit(Integer jiraToDoWipMaxLimit) {
+		this.jiraToDoWipMaxLimit = jiraToDoWipMaxLimit;
+	}
+
+	/**
+	 * @return the jiraIndividualAppreciationPrevDayIncCount
+	 */
+	public Integer getJiraIndividualAppreciationPrevDayIncCount() {
+		return jiraIndividualAppreciationPrevDayIncCount;
+	}
+
+	/**
+	 * @param jiraIndividualAppreciationPrevDayIncCount the jiraIndividualAppreciationPrevDayIncCount to set
+	 */
+	public void setJiraIndividualAppreciationPrevDayIncCount(Integer jiraIndividualAppreciationPrevDayIncCount) {
+		this.jiraIndividualAppreciationPrevDayIncCount = jiraIndividualAppreciationPrevDayIncCount;
+	}
+
+	/**
+	 * @return the totalInDevItemsJql
+	 */
+	public String getTotalInDevItemsJql() {
+		return totalInDevItemsJql;
+	}
+
+	/**
+	 * @param totalInDevItemsJql the totalInDevItemsJql to set
+	 */
+	public void setTotalInDevItemsJql(String totalInDevItemsJql) {
+		this.totalInDevItemsJql = totalInDevItemsJql;
+	}
+
+	/**
+	 * @return the totalToDoItemsJql
+	 */
+	public String getTotalToDoItemsJql() {
+		return totalToDoItemsJql;
+	}
+
+	/**
+	 * @param totalToDoItemsJql the totalToDoItemsJql to set
+	 */
+	public void setTotalToDoItemsJql(String totalToDoItemsJql) {
+		this.totalToDoItemsJql = totalToDoItemsJql;
+	}
+
+	/**
+	 * @return the totalInTestItemsJql
+	 */
+	public String getTotalInTestItemsJql() {
+		return totalInTestItemsJql;
+	}
+
+	/**
+	 * @param totalInTestItemsJql the totalInTestItemsJql to set
+	 */
+	public void setTotalInTestItemsJql(String totalInTestItemsJql) {
+		this.totalInTestItemsJql = totalInTestItemsJql;
+	}
 
 	/**
 	 * @return the cloudName
@@ -133,20 +302,6 @@ public class Configurations {
 	 */
 	public void setTeamWork(String teamWork) {
 		this.teamWork = teamWork;
-	}
-
-	/**
-	 * @return the slackApiKey
-	 */
-	public String getSlackApiKey() {
-		return slackApiKey;
-	}
-
-	/**
-	 * @param slackApiKey the slackApiKey to set
-	 */
-	public void setSlackApiKey(String slackApiKey) {
-		this.slackApiKey = slackApiKey;
 	}
 
 	/**
