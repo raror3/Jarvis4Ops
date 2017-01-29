@@ -10,25 +10,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import org.jarvis4ops.bean.DorParameters;
 import org.jarvis4ops.configurations.Configurations;
 import org.jarvis4ops.configurations.SlackMessagingConstants;
 import org.jarvis4ops.helper.DorDodIssuesHelper;
 import org.jarvis4ops.helper.ImageManipulation;
+import org.jarvis4ops.helper.SlackHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import com.cloudinary.Cloudinary;
 import com.google.gson.Gson;
@@ -54,6 +50,9 @@ public class SlachController {
 	@Autowired
 	private ImageManipulation imageManipulation;
 
+	@Autowired
+	private SlackHelper slackHelper;
+
 	@RequestMapping(value = "/postRockstarsOnSlack", method = { RequestMethod.POST })
 	public String buildSlackMessageForRockstars(@RequestBody String rockstarsWithCountFixed) {
 		
@@ -61,7 +60,7 @@ public class SlachController {
 		Type newType = new TypeToken<HashMap<String, String>>(){}.getType();
 		HashMap<String,String> map = new Gson().fromJson(rockstarsWithCountFixed, newType);
 		
-		String rockstars = getRockstarNames(map.keySet());
+		String rockstars = slackHelper.getRockstarNames(map.keySet());
 		SlachBean slachBean = new SlachBean();
 		slachBean.setFallback("@here: " + rockstars + " " + configObj.getGreatJobTitleMsg() + configObj.getIncidentsResolvedMsg());
 		
@@ -71,7 +70,7 @@ public class SlachController {
 			slachBean.setFooter(configObj.getCfd() + " " + configObj.getTeamWork());
 		}
 
-		slachBean.setImage_url(getRockstarsImageUrl(map.keySet().size()));
+		slachBean.setImage_url(slackHelper.getRockstarsImageUrl(map.keySet().size()));
 		slachBean.setText(configObj.getIncidentsResolvedMsg());
 		slachBean.setTitle(rockstars + " " + configObj.getGreatJobTitleMsg());
 		SlachAttachments slachAttachments = new SlachAttachments();
@@ -81,51 +80,9 @@ public class SlachController {
 		
 		//log.info("Json Value: ", gson.toJson(attachments));
 		log.info("Json Value: " + gson.toJson(slachAttachments));
-		postOnSlack(gson.toJson(slachAttachments));
-		//postOnSlack(attachments);
+		slackHelper.postOnSlack(gson.toJson(slachAttachments), "operations");
+		//slackHelper.postOnSlack(attachments);
 		return "200";
-	}
-
-	private String getRockstarNames(Set<String> rockStarJiraIds) {
-		Map<String, String> rockstarMap = new HashMap<String, String>(10);
-		rockstarMap.put("agupta", "Akash");
-		rockstarMap.put("htomar", "Himanshu");
-		rockstarMap.put("hmisra", "Hari Om");
-		rockstarMap.put("pkumar1", "Prabhat");
-		rockstarMap.put("dkhandelwal", "Divyansh");
-		rockstarMap.put("rarora", "Raghav");
-		rockstarMap.put("bkaur", "Bikran");
-		rockstarMap.put("jsahni@sapient.com", "Japneet");
-		rockstarMap.put("pgoyal", "Pulkit");
-		rockstarMap.put("aksharma", "Avinash");
-		rockstarMap.put("hsrivastava", "Harshit");
-		rockstarMap.put("hsinha", "Harshita");
-		rockstarMap.put("vmathur", "Varuneshwar");
-		rockstarMap.put("ayadav", "Antariksh");
-		rockstarMap.put("marora", "Madhur");
-		rockstarMap.put("sswami", "Sundeep");
-		rockstarMap.put("ssingh1", "Sandeep");
-		rockstarMap.put("rpandey", "Rahul");
-		rockstarMap.put("sgupta1", "Sumit");
-		rockstarMap.put("uagarwal", "Umang");
-		rockstarMap.put("rjha", "Raman");
-		rockstarMap.put("pkohli", "Prakash");
-		rockstarMap.put("jtripathy", "Jitendra");
-		rockstarMap.put("sgoel1", "Sonali");
-		rockstarMap.put("vkumar1", "VikasKumar");
-		rockstarMap.put("dgupta", "Deepak");
-		rockstarMap.put("ibanerjee", "Ishika");
-
-		StringBuilder builder = new StringBuilder();
-		rockStarJiraIds.forEach(rockStar->{
-			if(builder.length()==0) {
-				builder.append(rockstarMap.get(rockStar));
-			} else {
-				builder.append(", " + rockstarMap.get(rockStar));
-			}
-		});
-
-		return builder.toString();
 	}
 
 	@RequestMapping(value = "/postScNotificationOnSlack", method = { RequestMethod.POST })
@@ -136,7 +93,7 @@ public class SlachController {
 		SlachBean slachBean = new SlachBean();
 		slachBean.setFallback(openIncidentCount + configObj.getEmptySpace() + slackMessagingConstants.getScIssueNotificationTitleMsg() + slackMessagingConstants.getScIssueNotificationDetailMsg());
 		log.info("Open incident count: " + openIncidentCount);
-		slachBean.setImage_url(getScIssueNotificationImageUrl(openIncidentCount));
+		slachBean.setImage_url(slackHelper.getScIssueNotificationImageUrl(openIncidentCount));
 		slachBean.setText(slackMessagingConstants.getScIssueNotificationDetailMsg());
 		slachBean.setTitle(openIncidentCount + configObj.getEmptySpace() + slackMessagingConstants.getScIssueNotificationTitleMsg());
 		SlachAttachments slachAttachments = new SlachAttachments();
@@ -145,7 +102,7 @@ public class SlachController {
 		slachAttachments.setAttachments(slachBeanList);
 		
 		log.info("Json Value: " + gson.toJson(slachAttachments));
-		postOnSlack(gson.toJson(slachAttachments));
+		slackHelper.postOnSlack(gson.toJson(slachAttachments), "operations");
 		return "200";
 	}
 
@@ -157,7 +114,7 @@ public class SlachController {
 		SlachBean slachBean = new SlachBean();
 		slachBean.setFallback(openIncidentCount + configObj.getEmptySpace() + slackMessagingConstants.getOpenIncidentNotificationTitleMsg() + slackMessagingConstants.getOpenIncidentNotificationDetailMsg1() + configObj.getEmptySpace() + openIncidentCount + configObj.getEmptySpace() + slackMessagingConstants.getOpenIncidentNotificationDetailMsg2());
 		log.info("Open incident count: " + openIncidentCount);
-		slachBean.setImage_url(getOpenIncidentNotificationImageUrl(openIncidentCount));
+		slachBean.setImage_url(slackHelper.getOpenIncidentNotificationImageUrl(openIncidentCount));
 		slachBean.setText(slackMessagingConstants.getOpenIncidentNotificationDetailMsg1() + configObj.getEmptySpace() + openIncidentCount + configObj.getEmptySpace() + slackMessagingConstants.getOpenIncidentNotificationDetailMsg2());
 		slachBean.setTitle(openIncidentCount + configObj.getEmptySpace() + slackMessagingConstants.getOpenIncidentNotificationTitleMsg());
 		SlachAttachments slachAttachments = new SlachAttachments();
@@ -166,38 +123,11 @@ public class SlachController {
 		slachAttachments.setAttachments(slachBeanList);
 		
 		log.info("Json Value: " + gson.toJson(slachAttachments));
-		postOnSlack(gson.toJson(slachAttachments));
+		slackHelper.postOnSlack(gson.toJson(slachAttachments), "operations");
 		return "200";
 	}
 
-	private String getOpenIncidentNotificationImageUrl(int openScIncidentCount) {
-		String imageUrl = null;
-		if (openScIncidentCount<40) {
-			imageUrl = slackMessagingConstants.getOpenIncidentNotificationMemeList().get(0);
-		} else {
-			imageUrl = slackMessagingConstants.getOpenIncidentNotificationMemeList().get(1);
-		}
-		return imageUrl;
-	}
-	
-	private String getScIssueNotificationImageUrl(int openScIncidentCount) {
-		String imageUrl = null;
-		if (openScIncidentCount<3) {
-			imageUrl = slackMessagingConstants.getScIssueNotificationMemeList().get(0);
-		} else {
-			imageUrl = slackMessagingConstants.getScIssueNotificationMemeList().get(1);
-		}
-		return imageUrl;
-	}
-
-	private String getRockstarsImageUrl(int rockstars) {
-		// Random randomNumber = new Random();
-		// int memeListKey = randomNumber.nextInt(9 - 0 + 1) + 0;
-		return configObj.getIncidentRockstarMemeList().get(rockstars-1);
-	}
-
-	
-	@RequestMapping("/directPostOnSlack")
+	@RequestMapping("/directslackHelper.postOnSlack")
 	public String buildAdhocSlachMessage(@RequestParam(value="name", defaultValue="team") String name) {
 		SlachBean slachBean = new SlachBean();
 		slachBean.setFallback(name + configObj.getGreatJobTitleMsg() + configObj.getIncidentsResolvedMsg());
@@ -215,23 +145,11 @@ public class SlachController {
 		Gson gson = new Gson();
 		//log.info("Json Value: ", gson.toJson(attachments));
 		log.info("Json Value: " + gson.toJson(slachAttachments));
-		postOnSlack(gson.toJson(slachAttachments));
-		//postOnSlack(attachments);
+		slackHelper.postOnSlack(gson.toJson(slachAttachments), "jiraBots");
+		//slackHelper.postOnSlack(attachments);
 		return "200";
 	}
 
-	public void postOnSlack(String requestBody) {
-        RestTemplate restTemplate = new RestTemplate();
-        MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
-        headerMap.add("Content-Type", "application/json");
-        HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
-        String slashUrl = configObj.getSlackService()+configObj.getSlackApiKey();
-        String response = restTemplate.postForObject(slashUrl, entity, String.class);
-        //log.info("Response: ", response);
-        log.info("Response: " + response);
-    }
-	
-	
 	@RequestMapping(value = "/postDorStatus", method = { RequestMethod.POST })
 	public String buildSlackMessageForDor(@RequestBody String dorIssuesList) throws IOException {
 
@@ -260,9 +178,32 @@ public class SlachController {
 		slachAttachments.setAttachments(slachBeanList);
 
 		log.info("Json Value: " + gson.toJson(slachAttachments));
-		postOnSlack(gson.toJson(slachAttachments));
+		slackHelper.postOnSlack(gson.toJson(slachAttachments), "jiraBots");
 
 		return "200";
 	}
-	
+
+	@RequestMapping(value = "/postMaxWipBreachedSlack", method = { RequestMethod.POST })
+	public String postMaxWipBreachedSlack(@RequestBody String jiraMaxWipCountRequest) {
+		
+		Gson gson = new Gson();
+		Type newType = new TypeToken<HashMap<String, String>>(){}.getType();
+		HashMap<String,String> jiraMaxWipCountMap = new Gson().fromJson(jiraMaxWipCountRequest, newType);
+		
+		SlachBean slachBean = new SlachBean();
+
+		slachBean.setImage_url(slackMessagingConstants.getJiraMaxWipBreachedImageUrl());
+		slachBean.setText(slackHelper.composeWipBreachedMsg(jiraMaxWipCountMap));
+		slachBean.setTitle(slackMessagingConstants.getJiraMaxWipBreachedTitleMsg());
+		slachBean.setTitle_link(configObj.getJiraSupportKanbanBoardUrl());
+		SlachAttachments slachAttachments = new SlachAttachments();
+		List<SlachBean> slachBeanList = new ArrayList<SlachBean>(1);
+		slachBeanList.add(slachBean);
+		slachAttachments.setAttachments(slachBeanList);
+		
+		log.info("Json Value: " + gson.toJson(slachAttachments));
+		slackHelper.postOnSlack(gson.toJson(slachAttachments), "operations");
+		return "200";
+	}
+
 }

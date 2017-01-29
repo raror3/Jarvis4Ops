@@ -29,7 +29,47 @@ public class SlackMessagingConstants {
 	
 	private String dorStatusTitleMsg;
 	private String dorPendingStoriesDetailMsg;
-	
+
+	private String jiraMaxWipBreachedImageUrl;
+	private String jiraMaxWipBreachedTitleMsg;
+	private String jiraMaxWipBreachedDetailMsg2;
+
+	/**
+	 * @return the jiraMaxWipBreachedTitleMsg
+	 */
+	public String getJiraMaxWipBreachedTitleMsg() {
+		return jiraMaxWipBreachedTitleMsg;
+	}
+	/**
+	 * @param jiraMaxWipBreachedTitleMsg the jiraMaxWipBreachedTitleMsg to set
+	 */
+	public void setJiraMaxWipBreachedTitleMsg(String jiraMaxWipBreachedTitleMsg) {
+		this.jiraMaxWipBreachedTitleMsg = jiraMaxWipBreachedTitleMsg;
+	}
+	/**
+	 * @return the jiraMaxWipBreachedDetailMsg2
+	 */
+	public String getJiraMaxWipBreachedDetailMsg2() {
+		return jiraMaxWipBreachedDetailMsg2;
+	}
+	/**
+	 * @param jiraMaxWipBreachedDetailMsg2 the jiraMaxWipBreachedDetailMsg2 to set
+	 */
+	public void setJiraMaxWipBreachedDetailMsg2(String jiraMaxWipBreachedDetailMsg2) {
+		this.jiraMaxWipBreachedDetailMsg2 = jiraMaxWipBreachedDetailMsg2;
+	}
+	/**
+	 * @return the jiraMaxWipBreachedImageUrl
+	 */
+	public String getJiraMaxWipBreachedImageUrl() {
+		return jiraMaxWipBreachedImageUrl;
+	}
+	/**
+	 * @param jiraMaxWipBreachedImageUrl the jiraMaxWipBreachedImageUrl to set
+	 */
+	public void setJiraMaxWipBreachedImageUrl(String jiraMaxWipBreachedImageUrl) {
+		this.jiraMaxWipBreachedImageUrl = jiraMaxWipBreachedImageUrl;
+	}
 	/**
 	 * @return the dorStatusTitleMsg
 	 */

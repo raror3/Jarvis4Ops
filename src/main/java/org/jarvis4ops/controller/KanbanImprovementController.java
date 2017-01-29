@@ -1,7 +1,6 @@
 package org.jarvis4ops.controller;
 
 import java.net.URI;
-import java.util.Base64;
 import java.util.Map;
 
 import org.jarvis4ops.bean.ArrayIssueDetails;
@@ -15,7 +14,6 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -55,23 +53,11 @@ public class KanbanImprovementController {
 
 		return Integer.toString(response.getBody().getTotal());
     }
-	
+
 	@RequestMapping(value="openIncidents", method= { RequestMethod.GET })
 	public String getOpenIncidents() {
-		String plainCreds = configObj.getJiraCreds();
 
-		byte[] plainCredsBytes = plainCreds.getBytes();
-		byte[] base64CredsBytes = Base64.getEncoder().encode(plainCredsBytes);
-		String base64Creds = new String(base64CredsBytes);
-
-		log.info("base64Creds - " + base64Creds);
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", "Basic "+base64Creds);
-		headers.set("Accept", "application/json");
-	    headers.set("Content-Type", "application/json");
-	    
-		HttpEntity<String> entity = new HttpEntity<String>(headers);
+		HttpEntity<String> entity = jiraIssueResponseHelper.setJiraCredDetails();
 
 	    RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<ArrayIssueDetails> response = restTemplate.exchange(configObj.getJiraEndPoint()+configObj.getOpenIncidentsJql(), HttpMethod.GET, entity, ArrayIssueDetails.class);
