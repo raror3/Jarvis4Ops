@@ -18,6 +18,8 @@ public class Configurations {
 
 	private String port;
 	private String host;
+	private String schedulerHostUrl;
+
 	private String greatJobTitleMsg;
 	private String incidentsResolvedMsg;
 	private String cfd;
@@ -51,6 +53,20 @@ public class Configurations {
 	private Integer jiraInTestWipMaxLimit;
 	private Integer jiraToDoWipMaxLimit;
 	private Integer jiraIndividualAppreciationPrevDayIncCount;
+
+	/**
+	 * @return the schedulerHostUrl
+	 */
+	public String getSchedulerHostUrl() {
+		return schedulerHostUrl;
+	}
+
+	/**
+	 * @param schedulerHostUrl the schedulerHostUrl to set
+	 */
+	public void setSchedulerHostUrl(String schedulerHostUrl) {
+		this.schedulerHostUrl = schedulerHostUrl;
+	}
 
 	/**
 	 * @return the jiraSupportKanbanBoardUrl
