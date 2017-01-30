@@ -202,7 +202,7 @@ public class SlachController {
 		slachAttachments.setAttachments(slachBeanList);
 		
 		log.info("Json Value: " + gson.toJson(slachAttachments));
-		slackHelper.postOnSlack(gson.toJson(slachAttachments), "operations");
+		slackHelper.postOnSlack(gson.toJson(slachAttachments), "jiraBots");
 		return "200";
 	}
 
