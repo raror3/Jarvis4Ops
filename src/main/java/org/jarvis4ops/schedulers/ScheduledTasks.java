@@ -25,7 +25,7 @@ public class ScheduledTasks {
 	private Configurations configObj;
 
     //@Scheduled(fixedRate = 86400000, initialDelay = 7200000)
-    @Scheduled(cron="30 * 0 * * *", zone="IST")
+    @Scheduled(cron="37 0 * * * *", zone="IST")
 	public void getPrevDayRockstarsJiraSch() {
 
 		RestTemplate restTemplate = new RestTemplate();
