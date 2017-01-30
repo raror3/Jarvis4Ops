@@ -24,7 +24,7 @@ public class ScheduledTasks {
     @Autowired
 	private Configurations configObj;
 
-    @Scheduled(fixedRate = 86400000)
+    @Scheduled(fixedRate = 86400000, initialDelay = 7200000)
 	public void getPrevDayRockstarsJiraSch() {
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -35,7 +35,7 @@ public class ScheduledTasks {
         log.info("Response for Scheduled Task to check for Previous Day Rockstars: ", response);
     }
 
-    @Scheduled(fixedRate = 7200000)
+    @Scheduled(fixedRate = 10800000, initialDelay = 10800000)
 	public void checkOpenScIssuesAndPost() {
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -46,7 +46,7 @@ public class ScheduledTasks {
         log.info("Response for Scheduled Task to check for Open SC issues: ", response);
     }
 
-    @Scheduled(fixedRate = 7200000)
+    @Scheduled(fixedRate = 14400000, initialDelay = 14400000)
 	public void getOpenIncidents() {
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -57,7 +57,7 @@ public class ScheduledTasks {
         log.info("Response for Scheduled Task for DOR status SHOPC: ", response);
     }
 
-    @Scheduled(fixedRate = 86400000)
+    @Scheduled(fixedRate = 86400000, initialDelay = 7200000)
 	public void getDorDodJiraForShopC() {
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -68,7 +68,7 @@ public class ScheduledTasks {
         log.info("Response for DOR status for Scheduled Task for SHOPC: ", response);
     }
 
-    @Scheduled(fixedRate = 86400000)
+    @Scheduled(fixedRate = 86400000, initialDelay = 7200000)
 	public void validateJiraWipLimitAndAlert() {
 
 		RestTemplate restTemplate = new RestTemplate();
