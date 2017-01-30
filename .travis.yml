@@ -1,9 +1,9 @@
-# DOING POC.
 language: java
 jdk:
   - oraclejdk8
 
 before_install:
+#  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
   - chmod +x gradlew  
 
 after_success:
@@ -13,3 +13,20 @@ after_success:
 branches:
   only:
     - master
+
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "Rvyn/090aq8L4GTLL2H5LKRccVwBLykmW4h6aD/81O3ZOGFvyb83UzXSBsVy1UqKQqK8igtkIcl359ROQtEGsylUsFN3a1FV0wAf+khBxwacHoeLs++pFg73YYqEmvj4iFbZuQQ+y8AoGKm5Nm3w/F9DOvOvVyTlZkyKU29BnP8m7WKBiQ9EhDkzMppz6TKfP7Uz1/g0EXv+KH9ti39D8HRNbRqkv4R/p+jD8EppIghHkkNilM2sdTBpsXLgYUCOtezFCoXSuS5z+kWX8mRHf3+0PPjdw//+FUHkWYhstjL1Onfm3DNPUCiP3OPSypIx39bFRXZlazcsJqfprQujxrW7mXQkqt4Z2jAQK+Nh6PY6SmHmOjU6MHRlUotZIdUPqAksmz59Wh6tG2jKq+1lj4IaG2zu8KoDA3PEVhJyFbUFtiqx+W6e3brLktuaPaiALMipS44svzbG8DcGVP2qWA5XoiXN3A9a0aOeAIObti3xyUb+/XUXKMTVmHUJzIbsSpLg+rLj8O7abcxqeVfdFlAI9x5wNLD9Z7EteXf7+Z78CJZd9EN8urfidNQuxKi4+3j/XmO8z8mLesfN6/GzOkr6b2plXDOMORymD4tVE39wtHKMNLhKfixHQyvVqk72T30bJb9xHcjZjcaRUQaNsqqWg055Ip5+Jd5WDejpKxg="
+   
+addons:
+  coverity_scan:
+    project:
+      name: "raror3/Jarvis4Ops"
+      description: "Jarvis4Ops build submitted to Travis-CI"
+    notification_email: rarora9@sapient.com
+    build_command_prepend: "./gradlew clean"
+    build_command:   "./gradlew assemble"
+    branch_pattern: coverity_scan
+    
