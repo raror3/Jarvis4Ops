@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.jarvis4ops.bean.SlackResponse;
+import org.jarvis4ops.bean.TimeBean;
 import org.jarvis4ops.configurations.Configurations;
 import org.jarvis4ops.configurations.SlackMessagingConstants;
 import org.jarvis4ops.controller.JiraController;
@@ -13,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -112,8 +115,10 @@ public class SlackHelper {
 					slackUrl = configObj.getSlackService() + configObj.getSlackApiKeyOpsLeads();
 					break;
 				case "jiraBots":
-				default:
 					slackUrl = configObj.getSlackService() + configObj.getSlackApiKeyJiraBots();
+				case "individual":
+				default:
+					slackUrl = configObj.getSlackChatPost() + configObj.getSlackToken();
 			}
 		}
 		return slackUrl;
@@ -140,5 +145,62 @@ public class SlackHelper {
 		}
 		return jiraMaxWipBreachedDetailMsgSb.toString();
 	}
+	
+	public void getInvlaidTimes(HashMap<String, TimeBean> map) {
+		
+		Map<String, String> jiraMap = new HashMap<String, String>(10);
+		jiraMap.put("agupta", "Akash");
+		jiraMap.put("htomar", "Himanshu");
+		jiraMap.put("pkumar1", "Prabhat");
+		jiraMap.put("dkhandelwal", "Divyansh");
+		jiraMap.put("rarora", "Raghav");
+		jiraMap.put("bkaur", "Bikran");
+		jiraMap.put("jsahni@sapient.com", "Japneet");
+		jiraMap.put("pgoyal", "Pulkit");
+		jiraMap.put("aksharma", "Avinash");
+		jiraMap.put("hsrivastava", "Harshit");
+		jiraMap.put("hsinha", "Harshita");
+		jiraMap.put("vmathur", "Varuneshwar");
+		jiraMap.put("ayadav", "Antariksh");
+		jiraMap.put("marora", "Madhur");
+		jiraMap.put("sswami", "Sundeep");
+		jiraMap.put("ssingh1", "Sandeep");
+		jiraMap.put("rpandey", "Rahul");
+		jiraMap.put("sgupta1", "Sumit");
+		jiraMap.put("uagarwal", "Umang");
+		jiraMap.put("rjha", "Raman");
+		jiraMap.put("pkohli", "Prakash");
+		jiraMap.put("jtripathy", "Jitendra");
+		jiraMap.put("sgoel1", "Sonali");
+		jiraMap.put("vkumar1", "VikasKumar");
+		jiraMap.put("dgupta", "Deepak");
+		jiraMap.put("ibanerjee", "Ishika");
+		
+		Map<String, String> slackMap = new HashMap<String, String>(10);
+		slackMap.put("rarora", "raghav");
+		slackMap.put("sgupta1", "sgup40");
+
+		map.entrySet().removeIf(entry -> entry.getValue().getTimeDiff() > 5);
+		
+		map.forEach((user, timeBean)->{			
+			timeBean.setSlackId(slackMap.get(timeBean.getAssignee()));
+			timeBean.setAssignee(jiraMap.get(timeBean.getAssignee()));
+			
+		});
+	}
+	
+	public void postOnSlackChat(String requestBody, String channelName, String chatMessage) {
+        RestTemplate restTemplate = new RestTemplate();
+        MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);        
+        HttpHeaders headerSlack = new HttpHeaders();
+		headerSlack.set("Authorization", "None");
+		headerSlack.set("Accept", "application/json");
+	    headerSlack.set("Content-Type", "application/json");
+	    
+        HttpEntity<String> entitySlack = new HttpEntity<String>(requestBody, headerMap);
+        String slashUrl = buildSlackUrl(channelName) + "&channel=" +channelName +"&text="+chatMessage;
+        SlackResponse response = restTemplate.postForObject(slashUrl, entitySlack, SlackResponse.class);
+        log.info("Response: " + response.toString());
+    }
 
 }
