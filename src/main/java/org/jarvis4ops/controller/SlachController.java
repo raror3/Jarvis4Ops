@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Random;
 
 import org.jarvis4ops.bean.DorParameters;
+import org.jarvis4ops.bean.TimeBean;
 import org.jarvis4ops.configurations.Configurations;
 import org.jarvis4ops.configurations.SlackMessagingConstants;
 import org.jarvis4ops.helper.DorDodIssuesHelper;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cloudinary.Cloudinary;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 
 /**
  * @author raror3
@@ -203,6 +205,36 @@ public class SlachController {
 		
 		log.info("Json Value: " + gson.toJson(slachAttachments));
 		slackHelper.postOnSlack(gson.toJson(slachAttachments), "jiraBots");
+		return "200";
+	}
+	
+	@RequestMapping(value = "/postInvalidTimeOnSlack", method = { RequestMethod.POST })
+	public String slackMessageForInvalidTime(@RequestBody String invalidJiraTimeIssues) {
+		
+		Gson gson = new Gson();
+		Type newType = new TypeToken<HashMap<String, TimeBean>>(){}.getType();
+		HashMap<String, TimeBean> map = new Gson().fromJson(invalidJiraTimeIssues, newType);
+		
+		slackHelper.getInvlaidTimes(map);
+		SlachBean slachBean = new SlachBean();
+		
+		slachBean.setFallback("@here: " + map.toString() + " " + configObj.getGreatJobTitleMsg() + configObj.getIncidentsResolvedMsg());
+
+		slachBean.setText(configObj.getInvalidTimeMessage());
+		slachBean.setTitle(map.toString() + " " + configObj.getGreatJobTitleMsg());
+		SlachAttachments slachAttachments = new SlachAttachments();
+		List<SlachBean> slachBeanList = new ArrayList<SlachBean>(1);
+		slachBeanList.add(slachBean);
+		slachAttachments.setAttachments(slachBeanList);
+		
+		//log.info("Json Value: ", gson.toJson(attachments));
+		log.info("Json Value: " + gson.toJson(slachAttachments));
+		
+		for (String jiraItem: map.keySet())
+		{
+			slackHelper.postOnSlackChat(gson.toJson(slachAttachments), "@"+ map.get(jiraItem).getSlackId(), "JIRA ID # " + jiraItem + " is closed in less than 5 minutes. Please follow the Kanban guidelines to resolve issues");
+		}
+		//slackHelper.postOnSlack(attachments);
 		return "200";
 	}
 

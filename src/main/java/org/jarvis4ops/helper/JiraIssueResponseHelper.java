@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jarvis4ops.bean.IssueDetails;
+import org.jarvis4ops.bean.TimeBean;
 import org.jarvis4ops.configurations.Configurations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,9 +114,9 @@ public class JiraIssueResponseHelper {
 		}
 	}
 	
-	public Map<String, Integer> issuesTimeElapsed(List <IssueDetails> paramIssueList)
+	public Map<String, TimeBean> issuesTimeElapsed(List <IssueDetails> paramIssueList)
 	{
-		Map <String, Integer> yesterdaysIssuesMap = new HashMap<String, Integer>();;
+		Map <String, TimeBean> yesterdaysIssuesMap = new HashMap<String, TimeBean>();;
 		
 		for (IssueDetails issue : paramIssueList)
 		{
@@ -123,17 +124,17 @@ public class JiraIssueResponseHelper {
 			
 			SimpleDateFormat sdf = new SimpleDateFormat(jiraDatePattern);
 			
+			TimeBean userTime = new TimeBean();
+			
 			String issueKey = issue.getKey();
-			String nameKey = issue.getFields().getAssignee().getName();
+			userTime.setAssignee( issue.getFields().getAssignee().getName());
+			userTime.setIssueId(issue.getKey());
 			
 			Calendar issueCreated = Calendar.getInstance();
 			Calendar issueResolved = Calendar.getInstance();
 			try {
 				issueCreated.setTime(sdf.parse(issue.getFields().getCreated()));
-			
-			
-				
-				issueResolved.setTime(sdf.parse(issue.getFields().getResolutiondate()));
+				issueResolved.setTime(sdf.parse(issue.getFields().getResolutiondate()));				
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -143,9 +144,10 @@ public class JiraIssueResponseHelper {
 				
 			long timeDiff = resolvedTimeInMiliSeconds - createTimeInMiliSeconds;
 				
-			log.info(issueKey+ " - " + nameKey +" - " + timeDiff/(1000*60));
-				
-			yesterdaysIssuesMap.put(issueKey, (int) timeDiff/(1000*60));
+//			log.info(issue.getKey()+ " - " + issue.getFields().getAssignee().getName() +" - " + timeDiff/(1000*60));
+			userTime.setTimeDiff((int) timeDiff); 
+			yesterdaysIssuesMap.put(issueKey, userTime);
+			issue.getFields().getAssignee();
 		
 		}
 

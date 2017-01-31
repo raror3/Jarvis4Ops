@@ -38,7 +38,8 @@ public class Configurations {
 	private String totalInDevItemsJql;
 	private String totalToDoItemsJql;
 	private String totalInTestItemsJql;
-
+	
+	private String slackToken;
 	private String slackService;
 	private String slackApiKeyJiraBots;
 	private String slackApiKeyOperations;
@@ -53,7 +54,9 @@ public class Configurations {
 	private Integer jiraInTestWipMaxLimit;
 	private Integer jiraToDoWipMaxLimit;
 	private Integer jiraIndividualAppreciationPrevDayIncCount;
-
+	private String invalidTimeMessage;
+	private String slackChatPost;
+	
 	/**
 	 * @return the schedulerHostUrl
 	 */
@@ -487,7 +490,48 @@ public class Configurations {
 	public void setDorDodJql(String dorDodJql) {
 		DorDodJql = dorDodJql;
 	}
-	
-	
 
+	/**
+	 * @return the slackToken
+	 */
+	public String getSlackToken() {
+		return slackToken;
+	}
+
+	/**
+	 * @param slackToken the slackToken to set
+	 */
+	public void setSlackToken(String slackToken) {
+		this.slackToken = slackToken;
+	}
+
+	/**
+	 * @return the invalidTimeMessage
+	 */
+	public String getInvalidTimeMessage() {
+		return invalidTimeMessage;
+	}
+
+	/**
+	 * @param invalidTimeMessage the invalidTimeMessage to set
+	 */
+	public void setInvalidTimeMessage(String invalidTimeMessage) {
+		this.invalidTimeMessage = invalidTimeMessage;
+	}
+
+	/**
+	 * @return the slackChatPost
+	 */
+	public String getSlackChatPost() {
+		return slackChatPost;
+	}
+
+	/**
+	 * @param slackChatPost the slackChatPost to set
+	 */
+	public void setSlackChatPost(String slackChatPost) {
+		this.slackChatPost = slackChatPost;
+	}
+	
+	
 }
