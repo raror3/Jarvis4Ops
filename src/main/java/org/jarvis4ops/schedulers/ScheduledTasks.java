@@ -25,7 +25,7 @@ public class ScheduledTasks {
 	private Configurations configObj;
 
     //@Scheduled(fixedRate = 86400000, initialDelay = 7200000)
-    @Scheduled(cron="* 55 7 * * *", zone="IST")
+    @Scheduled(cron="* 12 8 * * *", zone="IST")
 	public void getPrevDayRockstarsJiraSch() {
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -74,7 +74,7 @@ public class ScheduledTasks {
     }
 
     //@Scheduled(fixedRate = 86400000, initialDelay = 7200000)
-    @Scheduled(cron="* 55 7 * * *", zone="IST")
+    @Scheduled(cron="* 12 8 * * *", zone="IST")
     public void validateJiraWipLimitAndAlert() {
 
 		RestTemplate restTemplate = new RestTemplate();
