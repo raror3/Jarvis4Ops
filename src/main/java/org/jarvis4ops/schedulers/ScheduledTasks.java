@@ -74,7 +74,7 @@ public class ScheduledTasks {
     }
 
     //@Scheduled(fixedRate = 86400000, initialDelay = 7200000)
-    @Scheduled(cron="* 24 8 * * *", zone="IST", initialDelay = 900000, fixedDelay = 900000)
+    @Scheduled(initialDelay = 900000, fixedDelay = 900000, fixedRate = 900000)
     public void validateJiraWipLimitAndAlert() {
 
 		RestTemplate restTemplate = new RestTemplate();
