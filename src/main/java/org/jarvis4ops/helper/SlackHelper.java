@@ -62,6 +62,7 @@ public class SlackHelper {
 		rockstarMap.put("vkumar1", "VikasKumar");
 		rockstarMap.put("dgupta", "Deepak");
 		rockstarMap.put("ibanerjee", "Ishika");
+		rockstarMap.put("rkumar1", "Rishikesh");
 
 		StringBuilder builder = new StringBuilder();
 		rockStarJiraIds.forEach(rockStar->{

@@ -47,7 +47,7 @@ public class KanbanImprovementController {
 	    RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<ArrayIssueDetails> response = restTemplate.exchange(configObj.getJiraEndPoint()+configObj.getOpenSiteConfidenceIncidentsJql(), HttpMethod.GET, entity, ArrayIssueDetails.class);
 
-		if (response.getBody().getTotal() > 0) {
+		if (response.getBody().getTotal() > configObj.getOpenScIncidentsShout()) {
 			slackSCIssueNotification(response.getBody().getTotal());
 		}
 
@@ -62,7 +62,7 @@ public class KanbanImprovementController {
 	    RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<ArrayIssueDetails> response = restTemplate.exchange(configObj.getJiraEndPoint()+configObj.getOpenIncidentsJql(), HttpMethod.GET, entity, ArrayIssueDetails.class);
 
-		if (response.getBody().getTotal() > 30) {
+		if (response.getBody().getTotal() > configObj.getJiraOpenIncidentsShout()) {
 			slackOpenIncidentNotification(response.getBody().getTotal());
 		}
 
