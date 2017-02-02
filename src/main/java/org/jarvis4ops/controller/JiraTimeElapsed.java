@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.jarvis4ops.bean.ArrayIssueDetails;
 import org.jarvis4ops.configurations.Configurations;
-import org.jarvis4ops.helper.JiraIssueResponseHelper;
+import org.jarvis4ops.helper.JiraHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class JiraTimeElapsed {
 	private Configurations configObj;
 	
 	@Autowired
-	private JiraIssueResponseHelper jiraIssueResponseHelper;
+	private JiraHelper jiraIssueResponseHelper;
 	
 	@RequestMapping(path="/getTimeElapsedInJira")
 	public String getTimeElapsedInJira()

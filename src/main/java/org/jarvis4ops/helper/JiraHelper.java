@@ -1,5 +1,7 @@
 package org.jarvis4ops.helper;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
@@ -11,6 +13,7 @@ import java.util.Set;
 
 import org.jarvis4ops.bean.IssueDetails;
 import org.jarvis4ops.configurations.Configurations;
+import org.jarvis4ops.configurations.JiraConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +28,17 @@ import org.springframework.web.client.RestTemplate;
 import com.google.gson.Gson;
 
 @Component
-public class JiraIssueResponseHelper {
-	private static final Logger log = LoggerFactory.getLogger(JiraIssueResponseHelper.class);
+public class JiraHelper {
+	private static final Logger log = LoggerFactory.getLogger(JiraHelper.class);
 
 	@Autowired
 	private Configurations configObj;
 	
 	@Autowired
 	private Environment environment;
+	
+	@Autowired
+	private JiraConstants jiraConstants;
 
 	/**
 	 * @return
@@ -181,5 +187,35 @@ public class JiraIssueResponseHelper {
         String response = restTemplate.postForObject(slackUrl, entity, String.class);
         log.info("Response: " + response);
     }
+
+	public String fetchProjectDorJql(String projectName) {
+		String projectNameJql = null;
+
+		if(jiraConstants.getEligibleProjects().contains(projectName)) {
+			try {
+				Class classObj = jiraConstants.getClass();
+				Method gs1Method = classObj.getMethod("get"+projectName+"DorJql");
+				projectNameJql = (String) gs1Method.invoke(jiraConstants, new Object[] {});
+
+			} catch (IllegalAccessException e) {
+				log.error(e.getMessage(), e.fillInStackTrace());
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				log.error(e.getMessage(), e.fillInStackTrace());
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				log.error(e.getMessage(), e.fillInStackTrace());
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				log.error(e.getMessage(), e.fillInStackTrace());
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				log.error(e.getMessage(), e.fillInStackTrace());
+				e.printStackTrace();
+			}
+			
+		}
+		return projectNameJql;
+	}
 
 }

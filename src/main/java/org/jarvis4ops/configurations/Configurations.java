@@ -53,6 +53,53 @@ public class Configurations {
 	private Integer jiraInTestWipMaxLimit;
 	private Integer jiraToDoWipMaxLimit;
 	private Integer jiraIndividualAppreciationPrevDayIncCount;
+	private Integer jiraOpenIncidentsShout;
+	private Integer openScIncidentsShout;
+
+	private String bonusLyGiverEmail;
+
+	
+	/**
+	 * @return the openScIncidentsShout
+	 */
+	public Integer getOpenScIncidentsShout() {
+		return openScIncidentsShout;
+	}
+
+	/**
+	 * @param openScIncidentsShout the openScIncidentsShout to set
+	 */
+	public void setOpenScIncidentsShout(Integer openScIncidentsShout) {
+		this.openScIncidentsShout = openScIncidentsShout;
+	}
+
+	/**
+	 * @return the jiraOpenIncidentsShout
+	 */
+	public Integer getJiraOpenIncidentsShout() {
+		return jiraOpenIncidentsShout;
+	}
+
+	/**
+	 * @param jiraOpenIncidentsShout the jiraOpenIncidentsShout to set
+	 */
+	public void setJiraOpenIncidentsShout(Integer jiraOpenIncidentsShout) {
+		this.jiraOpenIncidentsShout = jiraOpenIncidentsShout;
+	}
+
+	/**
+	 * @return the bonusLyGiverEmail
+	 */
+	public String getBonusLyGiverEmail() {
+		return bonusLyGiverEmail;
+	}
+
+	/**
+	 * @param bonusLyGiverEmail the bonusLyGiverEmail to set
+	 */
+	public void setBonusLyGiverEmail(String bonusLyGiverEmail) {
+		this.bonusLyGiverEmail = bonusLyGiverEmail;
+	}
 
 	/**
 	 * @return the schedulerHostUrl

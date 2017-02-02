@@ -20,7 +20,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.jarvis4ops.controller.JiraController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -30,12 +29,18 @@ import org.springframework.stereotype.Component;
 public class ImageManipulation {
 	private static final Logger log = LoggerFactory.getLogger(JiraController.class);
 
-	public String manipulateImage(String inputString) {
+	public String manipulateImage(String inputString, int rowCount) {
 
 		String outputFilePath = "src/main/resources/emptyWrittenImage.jpg";
 		BufferedImage image;
 		try {
-			image = ImageIO.read(new File("src/main/resources/emptyPage.jpg"));
+			if (rowCount < 10) {
+				image = ImageIO.read(new File("src/main/resources/emptyPage_10.jpg"));
+			} else if (rowCount < 20) {
+				image = ImageIO.read(new File("src/main/resources/emptyPage_20.jpg"));
+			} else {
+				image = ImageIO.read(new File("src/main/resources/emptyPage.jpg"));
+			}
 
 		    Graphics g2 = image.getGraphics();
 		    Graphics2D g = (Graphics2D) g2;

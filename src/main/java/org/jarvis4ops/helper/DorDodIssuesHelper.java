@@ -1,5 +1,6 @@
 package org.jarvis4ops.helper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,32 +93,35 @@ public class DorDodIssuesHelper {
 			dataStringBuilder.append("\n");
 			dataStringBuilder.append(String.format("%-20s", mapKey.getKey()));
 			DorParameters storyDorParameters = mapKey.getValue();
-			if("Yes".equalsIgnoreCase(storyDorParameters.getTechReview())) {  
+			List<String> yesList = new ArrayList<>(2);
+			yesList.add("Yes");
+			yesList.add("N/A");
+			if(yesList.contains(storyDorParameters.getTechReview())) {  
 				dataStringBuilder.append(String.format("%-37s", storyDorParameters.getTechReview()));
 			} else {
 				dataStringBuilder.append(String.format("%-38s", "No"));
 			}
 			
-			if("Yes".equalsIgnoreCase(storyDorParameters.getAcceptanceCriteria())) {  
+			if(yesList.contains(storyDorParameters.getAcceptanceCriteria())) {  
 				dataStringBuilder.append(String.format("%-40s", storyDorParameters.getAcceptanceCriteria()));
 			} else {
 				dataStringBuilder.append(String.format("%-41s", "No"));
 			}
 			
-			if("Yes".equalsIgnoreCase(storyDorParameters.getUxDesign())) {  
+			if(yesList.contains(storyDorParameters.getUxDesign())) {  
 				dataStringBuilder.append(String.format("%-30s", storyDorParameters.getUxDesign()));
 			} else {
 				dataStringBuilder.append(String.format("%-30s", "No"));
 			}
 			
-			if("Yes".equalsIgnoreCase(storyDorParameters.getThirdParty()))
+			if(yesList.contains(storyDorParameters.getThirdParty()))
 			{  
 				dataStringBuilder.append(String.format("%-23s", storyDorParameters.getThirdParty()));
 			} else {
 				dataStringBuilder.append(String.format("%-24s", "No"));
 			}
 			
-			if("Yes".equalsIgnoreCase(storyDorParameters.getNfrRequirement())) {
+			if(yesList.contains(storyDorParameters.getNfrRequirement())) {
 				dataStringBuilder.append(String.format("%-24s", storyDorParameters.getNfrRequirement()));
 			} else {
 				dataStringBuilder.append(String.format("%-25s", "No"));
@@ -141,8 +145,10 @@ public class DorDodIssuesHelper {
 	{
 		StringBuilder sbfListNotCovered = new StringBuilder();
 		for (String element : issuesMap.keySet()) {
-			if(issuesMap.get(element).getOverallStatus().equals("N")){
-				sbfListNotCovered.append(element + ":");
+			if(sbfListNotCovered.length()==0 && issuesMap.get(element).getOverallStatus().equals("N")){
+				sbfListNotCovered.append(element);
+			} else if (issuesMap.get(element).getOverallStatus().equals("N")) {
+				sbfListNotCovered.append(", " + element);
 			}
 		}
 		sbfListNotCovered.toString().substring(0, sbfListNotCovered.length() - 2);

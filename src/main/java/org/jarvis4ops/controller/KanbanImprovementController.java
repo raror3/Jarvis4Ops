@@ -6,7 +6,7 @@ import java.util.Map;
 import org.jarvis4ops.bean.ArrayIssueDetails;
 import org.jarvis4ops.bean.IssueDetails;
 import org.jarvis4ops.configurations.Configurations;
-import org.jarvis4ops.helper.JiraIssueResponseHelper;
+import org.jarvis4ops.helper.JiraHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class KanbanImprovementController {
 	private Configurations configObj;
 
 	@Autowired
-	private JiraIssueResponseHelper jiraIssueResponseHelper;
+	private JiraHelper jiraIssueResponseHelper;
 	
 	@Autowired
 	private Environment environment;
@@ -47,7 +47,7 @@ public class KanbanImprovementController {
 	    RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<ArrayIssueDetails> response = restTemplate.exchange(configObj.getJiraEndPoint()+configObj.getOpenSiteConfidenceIncidentsJql(), HttpMethod.GET, entity, ArrayIssueDetails.class);
 
-		if (response.getBody().getTotal() > 0) {
+		if (response.getBody().getTotal() > configObj.getOpenScIncidentsShout()) {
 			slackSCIssueNotification(response.getBody().getTotal());
 		}
 
@@ -62,7 +62,7 @@ public class KanbanImprovementController {
 	    RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<ArrayIssueDetails> response = restTemplate.exchange(configObj.getJiraEndPoint()+configObj.getOpenIncidentsJql(), HttpMethod.GET, entity, ArrayIssueDetails.class);
 
-		if (response.getBody().getTotal() > 30) {
+		if (response.getBody().getTotal() > configObj.getJiraOpenIncidentsShout()) {
 			slackOpenIncidentNotification(response.getBody().getTotal());
 		}
 
