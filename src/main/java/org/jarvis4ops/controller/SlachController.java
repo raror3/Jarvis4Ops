@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Random;
 
 import org.jarvis4ops.bean.DorParameters;
+import org.jarvis4ops.bean.SlachAttachments;
+import org.jarvis4ops.bean.SlachBean;
 import org.jarvis4ops.configurations.Configurations;
 import org.jarvis4ops.configurations.SlackMessagingConstants;
 import org.jarvis4ops.helper.DorDodIssuesHelper;
@@ -80,9 +82,7 @@ public class SlachController {
 		
 		//log.info("Json Value: ", gson.toJson(attachments));
 		log.info("Json Value: " + gson.toJson(slachAttachments));
-		slackHelper.postOnSlack(gson.toJson(slachAttachments), "operations");
-		//slackHelper.postOnSlack(attachments);
-		return "200";
+		return slackHelper.postOnSlack(gson.toJson(slachAttachments), "operations");
 	}
 
 	@RequestMapping(value = "/postScNotificationOnSlack", method = { RequestMethod.POST })

@@ -6,6 +6,7 @@ import org.jarvis4ops.bean.ArrayIssueDetails;
 import org.jarvis4ops.bean.DorParameters;
 import org.jarvis4ops.bean.IssueDetails;
 import org.jarvis4ops.configurations.Configurations;
+import org.jarvis4ops.configurations.HttpConstants;
 import org.jarvis4ops.helper.DorDodIssuesHelper;
 import org.jarvis4ops.helper.JiraIssueResponseHelper;
 import org.slf4j.Logger;
@@ -42,6 +43,9 @@ public class JiraController {
 	@Autowired
 	private Environment environment;
 
+	@Autowired
+	private HttpConstants httpConstants;
+	
 	@RequestMapping(path="/getPrevDayJiraRockstars")
 	public String getPrevDayJiraRockstars() {
     	HttpEntity<String> entity = jiraIssueResponseHelper.setJiraCredDetails();
@@ -52,13 +56,43 @@ public class JiraController {
 		Map<String, Integer> rockstarsJiraIssueCountMap = jiraIssueResponseHelper.maxIssueCount(response.getBody().getIssues());
 
 		if (null != rockstarsJiraIssueCountMap && rockstarsJiraIssueCountMap.size()>0) {
-			invokeSlackServiceToPost(rockstarsJiraIssueCountMap);
+			if (httpConstants.getStatusOk().equals(invokeSlackServiceToPost(rockstarsJiraIssueCountMap))) {
+				invokeBonusLyServiceToPost(rockstarsJiraIssueCountMap);
+			}
 		}
 
 		return rockstarsJiraIssueCountMap.keySet().toString();
     }
 
-	public void invokeSlackServiceToPost(Map<String, Integer> rockstarsJiraIssueCountMap) {
+	/**
+	 * This method invokes API service to post rewards for the rockstars passed in the request.
+	 * This method takes the map of rockstars, creates the request of the API service and sends the map data as request body.
+	 * @param rockstarsJiraIssueCountMap HashMap<String, Integer>
+	 * @return String
+	 */
+	public String invokeBonusLyServiceToPost(Map<String, Integer> rockstarsJiraIssueCountMap) {
+
+		Gson gson = new Gson();
+		log.info("Request JSON for rockstars: " + gson.toJson(rockstarsJiraIssueCountMap));
+		String rockstarsJiraIssueCountJson = gson.toJson(rockstarsJiraIssueCountMap);
+
+		RestTemplate restTemplate = new RestTemplate();
+        MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
+        headerMap.add("Content-Type", "application/json");
+        HttpEntity<String> entity = new HttpEntity<String>(rockstarsJiraIssueCountJson, headerMap);
+        String bonusLyUrl = configObj.getHost()+environment.getProperty("server.port")+"/rewardRockstars";
+        String response = restTemplate.postForObject(bonusLyUrl, entity, String.class);
+        log.info("Response from bonusLy Service: " + response);
+        return response;
+    }
+
+	/**
+	 * This method invokes API service to post message on Slack for the rockstars passed in the request.
+	 * This method takes the map of rockstars, creates the request of the API service and sends the map data as request body.
+	 * @param rockstarsJiraIssueCountMap HashMap<String, Integer>
+	 * @return String
+	 */
+	public String invokeSlackServiceToPost(Map<String, Integer> rockstarsJiraIssueCountMap) {
 
 		Gson gson = new Gson();
 		log.info("Response JSON for rockstars: " + gson.toJson(rockstarsJiraIssueCountMap));
@@ -70,8 +104,8 @@ public class JiraController {
         HttpEntity<String> entity = new HttpEntity<String>(rockstarsJiraIssueCountJson, headerMap);
         String slashUrl = configObj.getHost()+environment.getProperty("server.port")+"/postRockstarsOnSlack";
         String response = restTemplate.postForObject(slashUrl, entity, String.class);
-        //log.info("Response: ", response);
         log.info("Response: " + response);
+        return response;
     }
 
 	public IssueDetails index(RestTemplate restTemplate) {
@@ -89,7 +123,11 @@ public class JiraController {
 		
 		return issueDetails;
     }
-	
+
+	/**
+	 * This method invokes the JIRA API to get the details of DOR for specific project.
+	 */
+	//@RequestMapping(path="/dor/{project}")
 	@RequestMapping(path="/getDorDodJira")
 	public void issuesDorDod()
 	{
@@ -106,7 +144,6 @@ public class JiraController {
 
 	}
 
-	
 	public void invokeSlackServiceDor(Map<String, DorParameters> dorJiraIssuesMap) {
 
 		Gson gson = new Gson();

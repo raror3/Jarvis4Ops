@@ -54,6 +54,23 @@ public class Configurations {
 	private Integer jiraToDoWipMaxLimit;
 	private Integer jiraIndividualAppreciationPrevDayIncCount;
 
+	private String bonusLyGiverEmail;
+
+	
+	/**
+	 * @return the bonusLyGiverEmail
+	 */
+	public String getBonusLyGiverEmail() {
+		return bonusLyGiverEmail;
+	}
+
+	/**
+	 * @param bonusLyGiverEmail the bonusLyGiverEmail to set
+	 */
+	public void setBonusLyGiverEmail(String bonusLyGiverEmail) {
+		this.bonusLyGiverEmail = bonusLyGiverEmail;
+	}
+
 	/**
 	 * @return the schedulerHostUrl
 	 */

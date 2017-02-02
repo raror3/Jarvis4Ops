@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.jarvis4ops.controller;
+package org.jarvis4ops.bean;
 
 import java.util.ArrayList;
 import java.util.Arrays;

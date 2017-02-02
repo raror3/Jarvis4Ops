@@ -119,7 +119,7 @@ public class SlackHelper {
 		return slackUrl;
 	}
 	
-	public void postOnSlack(String requestBody, String channelName) {
+	public String postOnSlack(String requestBody, String channelName) {
         RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
         headerMap.add("Content-Type", "application/json");
@@ -127,6 +127,7 @@ public class SlackHelper {
         String slashUrl = buildSlackUrl(channelName);
         String response = restTemplate.postForObject(slashUrl, entity, String.class);
         log.info("Response: " + response);
+        return response;
     }
 
 	public String composeWipBreachedMsg(HashMap<String, String> jiraMaxWipCountMap) {
