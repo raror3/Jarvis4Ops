@@ -14,6 +14,7 @@ import java.util.Random;
 import org.jarvis4ops.bean.DorParameters;
 import org.jarvis4ops.bean.SlachAttachments;
 import org.jarvis4ops.bean.SlachBean;
+import org.jarvis4ops.bean.SlackFields;
 import org.jarvis4ops.configurations.Configurations;
 import org.jarvis4ops.configurations.SlackMessagingConstants;
 import org.jarvis4ops.helper.DorDodIssuesHelper;
@@ -161,14 +162,21 @@ public class SlachController {
 		
 		slachBean.setFallback(dorIssuesHelper.countOfissuesDorImcomplete(dorIssuesMap) + slackMessagingConstants.getDorStatusTitleMsg());
 		slachBean.setTitle(dorIssuesHelper.countOfissuesDorImcomplete(dorIssuesMap) + configObj.getEmptySpace() + slackMessagingConstants.getDorStatusTitleMsg());
-		slachBean.setText(slackMessagingConstants.getDorPendingStoriesDetailMsg() + configObj.getEmptySpace() + dorIssuesHelper.getIncompleteDorStoryList(dorIssuesMap));
+		//slachBean.setText(slackMessagingConstants.getDorPendingStoriesDetailMsg() + configObj.getEmptySpace() + dorIssuesHelper.getIncompleteDorStoryList(dorIssuesMap));
+		SlackFields slackField = new SlackFields();
+		slackField.setTitle(slackMessagingConstants.getDorPendingStoriesDetailMsg());
+		slackField.setValue(dorIssuesHelper.getIncompleteDorStoryList(dorIssuesMap));
+		List<SlackFields> fields = new ArrayList<SlackFields>(1);
+		fields.add(slackField);
+		slachBean.setFields(fields);
+		slachBean.setColor("#F35A00");
 
 		Cloudinary cloudinary = new Cloudinary();
 		Map<String, String> options = new HashMap<String, String>(2);
 		options.put("api_key", configObj.getCloudinaryApiKey());
 		options.put("api_secret", configObj.getCloudinaryApiSecKey());
 		options.put("cloud_name", configObj.getCloudName());
-		Map<String, String> result = cloudinary.uploader().upload(imageManipulation.manipulateImage(dorIssuesHelper.populateDataforDorImage(dorIssuesMap)), options);
+		Map<String, String> result = cloudinary.uploader().upload(imageManipulation.manipulateImage(dorIssuesHelper.populateDataforDorImage(dorIssuesMap), dorIssuesMap.size()), options);
 
 		slachBean.setImage_url(result.get("url"));
 

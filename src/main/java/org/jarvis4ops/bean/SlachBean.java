@@ -20,7 +20,20 @@ public class SlachBean {
 	private String color = "#800080";
 	private String footer;
 	private List<String> mrkdwn_in = Arrays.asList("text", "pretext");
+	private List<SlackFields> fields = new ArrayList<SlackFields>(2);
 
+	/**
+	 * @return the fields
+	 */
+	public List<SlackFields> getFields() {
+		return fields;
+	}
+	/**
+	 * @param fields the fields to set
+	 */
+	public void setFields(List<SlackFields> fields) {
+		this.fields = fields;
+	}
 	/**
 	 * @return the mrkdwn_in
 	 */

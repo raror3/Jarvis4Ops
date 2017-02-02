@@ -28,7 +28,7 @@ public class ScheduledTasks {
      * everyday of week
      * in IST Time-zone 
      */
-    @Scheduled(cron="0 45 10 * * *", zone="IST")
+    //@Scheduled(cron="0 45 10 * * *", zone="IST")
 	public void getPrevDayRockstarsJiraSch() {
     	apiHelper.invoKeApiService("/getPrevDayJiraRockstars");
     }
@@ -40,7 +40,7 @@ public class ScheduledTasks {
      * everyday of week
      * in IST time-zone. 
      */
-    @Scheduled(cron="0 10 9,14,18,22 * * *", zone="IST")
+    //@Scheduled(cron="0 10 9,14,18,22 * * *", zone="IST")
 	public void checkOpenScIssuesAndPost() {
     	apiHelper.invoKeApiService("/checkOpenScIssuesAndPost");
     }
@@ -52,7 +52,7 @@ public class ScheduledTasks {
      * every Monday - Friday
      * in IST time-zone 
      */
-    @Scheduled(cron="0 10 10,16,21 * * MON-FRI", zone="IST")
+    //@Scheduled(cron="0 10 10,16,21 * * MON-FRI", zone="IST")
 	public void getOpenIncidents() {
     	apiHelper.invoKeApiService("/openIncidents");
     }
@@ -64,10 +64,10 @@ public class ScheduledTasks {
      * every Monday - Friday
      * in IST time-zone 
      */
-    @Scheduled(cron="0 10 10 * * MON-FRI", zone="IST")
+    //@Scheduled(cron="0 10 10 * * MON-FRI", zone="IST")
 	public void getDorDodJiraForShopC() {
 
-		apiHelper.invoKeApiService("/getDorDodJira");
+		apiHelper.invoKeApiService("/Shopc/dor");
     }
 
     /**
@@ -77,7 +77,7 @@ public class ScheduledTasks {
      * every Monday - Friday
      * in IST timezone 
      */
-    @Scheduled(cron="0 10 9,15,20 * * MON-FRI", zone="IST")
+    //@Scheduled(cron="0 10 9,15,20 * * MON-FRI", zone="IST")
     public void validateJiraWipLimitAndAlert() {
     	apiHelper.invoKeApiService("/validateWipLimitsAndAlert");
     }
