@@ -39,6 +39,9 @@ public class JiraHelper {
 	
 	@Autowired
 	private JiraConstants jiraConstants;
+	
+	@Autowired
+	private ApiHelper apiHelper;
 
 	/**
 	 * @return
@@ -182,6 +185,7 @@ public class JiraHelper {
 		RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
         headerMap.add("Content-Type", "application/json");
+        apiHelper.setApiAuthHeader(headerMap);
         HttpEntity<String> entity = new HttpEntity<String>(jiraMaxWipCountJson, headerMap);
         String slackUrl = configObj.getHost() + environment.getProperty("server.port") + "/postMaxWipBreachedSlack";
         String response = restTemplate.postForObject(slackUrl, entity, String.class);
