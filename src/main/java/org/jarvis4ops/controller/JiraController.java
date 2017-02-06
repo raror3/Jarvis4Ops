@@ -7,6 +7,7 @@ import org.jarvis4ops.bean.ArrayIssueDetails;
 import org.jarvis4ops.bean.DorParameters;
 import org.jarvis4ops.configurations.Configurations;
 import org.jarvis4ops.configurations.HttpConstants;
+import org.jarvis4ops.helper.ApiHelper;
 import org.jarvis4ops.helper.DorDodIssuesHelper;
 import org.jarvis4ops.helper.JiraHelper;
 import org.jarvis4ops.helper.ServiceInvoker;
@@ -48,6 +49,9 @@ public class JiraController {
 	@Autowired
 	private ServiceInvoker serviceInvoker;
 
+	@Autowired
+	private ApiHelper apiHelper;
+	
 	@RequestMapping(path="/getPrevDayJiraRockstars")
 	public String getPrevDayJiraRockstars() {
     	HttpEntity<String> entity = jiraIssueResponseHelper.setJiraCredDetails();
@@ -98,8 +102,8 @@ public class JiraController {
 		RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
         headerMap.add("Content-Type", "application/json");
+        apiHelper.setApiAuthHeader(headerMap);
         HttpEntity<String> entity = new HttpEntity<String>(jiraIssuesJson, headerMap);
-
         String slashUrl = configObj.getHost()+environment.getProperty("server.port")+"/postDorStatus";
         String response = restTemplate.postForObject(slashUrl, entity, String.class);
         

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.jarvis4ops.bean.ArrayIssueDetails;
 import org.jarvis4ops.bean.IssueDetails;
 import org.jarvis4ops.configurations.Configurations;
+import org.jarvis4ops.helper.ApiHelper;
 import org.jarvis4ops.helper.JiraHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,9 @@ public class KanbanImprovementController {
 	@Autowired
 	private Environment environment;
 
+	@Autowired
+	private ApiHelper apiHelper;
+	
 	@RequestMapping(value="/checkOpenScIssuesAndPost", method = { RequestMethod.GET })
 	public String getOpenSiteConfidenceIncidents() {
 
@@ -73,7 +77,7 @@ public class KanbanImprovementController {
 		RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
         headerMap.add("Content-Type", "application/json");
-
+        apiHelper.setApiAuthHeader(headerMap);
         HttpEntity<String> entity = new HttpEntity<String>(headerMap);
         String slashUrl = configObj.getHost()+environment.getProperty("server.port")+"/postScNotificationOnSlack";
         URI targetUrl= UriComponentsBuilder.fromUriString(configObj.getHost()+environment.getProperty("server.port")).
@@ -87,7 +91,7 @@ public class KanbanImprovementController {
 		RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
         headerMap.add("Content-Type", "application/json");
-
+        apiHelper.setApiAuthHeader(headerMap);
         HttpEntity<String> entity = new HttpEntity<String>(headerMap);
         String slashUrl = configObj.getHost()+environment.getProperty("server.port")+"/postScNotificationOnSlack";
         URI targetUrl= UriComponentsBuilder.fromUriString(configObj.getHost()+environment.getProperty("server.port")).
@@ -106,7 +110,7 @@ public class KanbanImprovementController {
 		RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
         headerMap.add("Content-Type", "application/json");
-
+        apiHelper.setApiAuthHeader(headerMap);
         HttpEntity<String> entity = new HttpEntity<String>(rockstarsJiraIssueCountJson, headerMap);
         String slashUrl = configObj.getHost()+environment.getProperty("server.port")+"/postOnSlack";
         String response = restTemplate.postForObject(slashUrl, entity, String.class);
