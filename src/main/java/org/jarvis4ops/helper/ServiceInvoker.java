@@ -37,7 +37,7 @@ public class ServiceInvoker {
 	public String invokeBonusLyServiceToPost(Map<String, Integer> rockstarsJiraIssueCountMap) {
 
 		Gson gson = new Gson();
-		log.info("Request JSON for rockstars: " + gson.toJson(rockstarsJiraIssueCountMap));
+		log.info("BonusLy Request JSON for rockstars: " + gson.toJson(rockstarsJiraIssueCountMap));
 		String rockstarsJiraIssueCountJson = gson.toJson(rockstarsJiraIssueCountMap);
 
 		RestTemplate restTemplate = new RestTemplate();

@@ -16,6 +16,7 @@ import org.jarvis4ops.bean.SlachAttachments;
 import org.jarvis4ops.bean.SlachBean;
 import org.jarvis4ops.bean.SlackFields;
 import org.jarvis4ops.configurations.Configurations;
+import org.jarvis4ops.configurations.JiraConstants;
 import org.jarvis4ops.configurations.SlackMessagingConstants;
 import org.jarvis4ops.helper.DorDodIssuesHelper;
 import org.jarvis4ops.helper.ImageManipulation;
@@ -55,6 +56,9 @@ public class SlachController {
 
 	@Autowired
 	private SlackHelper slackHelper;
+	
+	@Autowired
+	private JiraConstants jiraConstants;
 
 	@RequestMapping(value = "/postRockstarsOnSlack", method = { RequestMethod.POST })
 	public String buildSlackMessageForRockstars(@RequestBody String rockstarsWithCountFixed) {
@@ -65,17 +69,19 @@ public class SlachController {
 		
 		String rockstars = slackHelper.getRockstarNames(map.keySet());
 		SlachBean slachBean = new SlachBean();
-		slachBean.setFallback("@here: " + rockstars + " " + configObj.getGreatJobTitleMsg() + configObj.getIncidentsResolvedMsg());
+		//slachBean.setFallback("@here: " + rockstars + " " + slackMessagingConstants.getGreatJobTitleMsg() + slackMessagingConstants.getIncidentsResolvedMsg().get(0) + configObj.getEmptySpace() + jiraConstants.getPrevDayJiraRockstarThreshold() + configObj.getEmptySpace() + slackMessagingConstants.getIncidentsResolvedMsg().get(1));
 		
 		if (null != map.keySet() && map.keySet().size() == 1) {
-			slachBean.setFooter(configObj.getCfd());
+			slachBean.setFooter(slackMessagingConstants.getCfd());
 		} else if (null != map.keySet() && map.keySet().size() > 1) {
-			slachBean.setFooter(configObj.getCfd() + " " + configObj.getTeamWork());
+			slachBean.setFooter(slackMessagingConstants.getCfd() + " " + slackMessagingConstants.getTeamWork());
 		}
 
 		slachBean.setImage_url(slackHelper.getRockstarsImageUrl(map.keySet().size()));
-		slachBean.setText(configObj.getIncidentsResolvedMsg());
-		slachBean.setTitle(rockstars + " " + configObj.getGreatJobTitleMsg());
+		String slackText = slackHelper.buildPrevDayRockstarMessage(rockstars);
+		slachBean.setFallback(slackText);
+		slachBean.setText(slackText);
+		slachBean.setTitle(rockstars + " " + slackMessagingConstants.getGreatJobTitleMsg());
 		SlachAttachments slachAttachments = new SlachAttachments();
 		List<SlachBean> slachBeanList = new ArrayList<SlachBean>(1);
 		slachBeanList.add(slachBean);
@@ -125,29 +131,6 @@ public class SlachController {
 		
 		log.info("Json Value: " + gson.toJson(slachAttachments));
 		slackHelper.postOnSlack(gson.toJson(slachAttachments), "operations");
-		return "200";
-	}
-
-	@RequestMapping("/directslackHelper.postOnSlack")
-	public String buildAdhocSlachMessage(@RequestParam(value="name", defaultValue="team") String name) {
-		SlachBean slachBean = new SlachBean();
-		slachBean.setFallback(name + configObj.getGreatJobTitleMsg() + configObj.getIncidentsResolvedMsg());
-		slachBean.setFooter(configObj.getCfd());
-
-		Random randomNumber = new Random();
-		int memeListKey = randomNumber.nextInt(0 - 0) + 0;
-		slachBean.setImage_url(configObj.getIncidentRockstarMemeList().get(memeListKey));
-		slachBean.setText(configObj.getIncidentsResolvedMsg());
-		slachBean.setTitle(configObj.getGreatJobTitleMsg());
-		SlachAttachments slachAttachments = new SlachAttachments();
-		List<SlachBean> slachBeanList = new ArrayList<SlachBean>(1);
-		slachBeanList.add(slachBean);
-		slachAttachments.setAttachments(slachBeanList);
-		Gson gson = new Gson();
-		//log.info("Json Value: ", gson.toJson(attachments));
-		log.info("Json Value: " + gson.toJson(slachAttachments));
-		slackHelper.postOnSlack(gson.toJson(slachAttachments), "jiraBots");
-		//slackHelper.postOnSlack(attachments);
 		return "200";
 	}
 

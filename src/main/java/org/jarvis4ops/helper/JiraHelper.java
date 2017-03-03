@@ -86,14 +86,9 @@ public class JiraHelper {
 
 	private Map<String, Integer> updateMapWithRockstars(Map<String, Integer> issuesMap) {
 		
-		issuesMap.entrySet().removeIf(entry -> entry.getValue() < 5);
+		issuesMap.entrySet().removeIf(entry -> entry.getValue() < jiraConstants.getPrevDayJiraRockstarThreshold());
 		
 		return issuesMap;
-		/*issuesMap.forEach((user,countOfFixed)->{
-			if (countOfFixed <5) {
-				issuesMap.remove(user);
-			}
-		});*/
 	}
 
 	/**
