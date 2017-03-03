@@ -3,7 +3,7 @@ jdk:
   - oraclejdk8
 
 before_install:
-  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+#  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
   - chmod +x gradlew  
 
 after_success:
@@ -26,6 +26,7 @@ addons:
       name: "raror3/Jarvis4Ops"
       description: "Jarvis4Ops build submitted to Travis-CI"
     notification_email: rarora9@sapient.com
-    build_command_prepend: "gradlew clean"
+    build_command_prepend: "./gradlew clean"
     build_command:   "./gradlew assemble"
     branch_pattern: coverity_scan
+    

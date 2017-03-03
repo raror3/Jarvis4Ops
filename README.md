@@ -11,6 +11,14 @@ Ops initiative for 4.0 - creating our own Jarvis
 * SpringBoot
 * Gradle for build
 * Heroku for deploy
+* Mongo DB
+* Secure APIs
+
+
+#### 3rd Party Integrations: Yes
+#### Health Dashboards: Yes
+#### Alerting & Monitoring: Yes
+#### CI Integrations: Yes
 
 
 
