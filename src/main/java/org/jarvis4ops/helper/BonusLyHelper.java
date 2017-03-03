@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.jarvis4ops.bean.BonusLyResponseBean;
 import org.jarvis4ops.bean.BonusLyUserDetailResponseBean;
 import org.jarvis4ops.bean.UserProfileBean;
 import org.jarvis4ops.configurations.BonusLyConstants;
@@ -43,10 +44,9 @@ public class BonusLyHelper {
         headerMap.add("Content-Type", "application/json");
         HttpEntity<String> entity = new HttpEntity<String>(bonusLyJson, headerMap);
         String bonusLyUrl = configObj.getBonusLyEndpointUrl() + configObj.getBonusLyAccessToken();
-        //BonusLyResponseBean bonusLyResponse = restTemplate.postForObject(bonusLyUrl, entity, BonusLyResponseBean.class);
-        //log.info("Response: " + bonusLyResponse.toString());
-        //return bonusLyResponse.toString();
-        return "200";
+        BonusLyResponseBean bonusLyResponse = restTemplate.postForObject(bonusLyUrl, entity, BonusLyResponseBean.class);
+        log.info("Response: " + bonusLyResponse.toString());
+        return bonusLyResponse.toString();
 	}
 
 	public Map<String, String> getRockstarsToBeRewarded(Map<String, String> rockstarJiraIdWithCountMap) {
