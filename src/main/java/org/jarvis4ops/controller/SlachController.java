@@ -196,5 +196,39 @@ public class SlachController {
 		slackHelper.postOnSlack(gson.toJson(slachAttachments), "jiraBots");
 		return "200";
 	}
+	
+	@RequestMapping(value = "/postFoundWorkSlack", method = { RequestMethod.POST })
+	public String postFoundWorkSlack(@RequestBody String jirafoundWorkCountRequest) {
+		
+		Gson gson = new Gson();
+		Type newType = new TypeToken<HashMap<String, String>>(){}.getType();
+		HashMap<String,String> jiraFoundWorkCountMap = new Gson().fromJson(jirafoundWorkCountRequest, newType);
+		
+		SlachBean slachBean = new SlachBean();
+		slachBean.setTitle(slackMessagingConstants.getJiraFoundWorkTitleMsg() + slackHelper.composeFoundWorkMsg(jiraFoundWorkCountMap));
+		slachBean.setImage_url(slackMessagingConstants.getJiraFoundWorkImageUrl());
+		
+		final String jiraIds = jiraFoundWorkCountMap.get("storyId").toString();
+		final String[] jiraList = jiraIds.split(",");
+		List<SlackFields> fields = new ArrayList<SlackFields>(jiraList.length);
+		for (int i=0;i<jiraList.length;i++) {
+			SlackFields slackField = new SlackFields();
+			final String[] jiraDetail = jiraList[i].split("::::");
+			slackField.setTitle(jiraDetail[0]);
+			slackField.setValue(jiraDetail[1]);
+			fields.add(slackField);
+		}
+		slachBean.setFields(fields);
+		slachBean.setColor("#7CD197");
+
+		SlachAttachments slachAttachments = new SlachAttachments();
+		List<SlachBean> slachBeanList = new ArrayList<SlachBean>(1);
+		slachBeanList.add(slachBean);
+		slachAttachments.setAttachments(slachBeanList);
+		
+		log.info("Json Value: " + gson.toJson(slachAttachments));
+		slackHelper.postOnSlack(gson.toJson(slachAttachments), "jiraBots");
+		return "200";
+	}
 
 }

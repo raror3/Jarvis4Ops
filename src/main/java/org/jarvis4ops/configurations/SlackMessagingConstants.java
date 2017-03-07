@@ -33,6 +33,9 @@ public class SlackMessagingConstants {
 	private String jiraMaxWipBreachedImageUrl;
 	private String jiraMaxWipBreachedTitleMsg;
 	private String jiraMaxWipBreachedDetailMsg2;
+	
+	private String jiraFoundWorkTitleMsg;
+	private String jiraFoundWorkImageUrl;
 
 	private String greatJobTitleMsg;
 	private List<String> incidentsResolvedMsg;
@@ -41,6 +44,19 @@ public class SlackMessagingConstants {
 	private String teamWork;
 
 	/**
+	 * @return the value of -jiraFoundWorkTitleMsg
+	 */
+	public String getJiraFoundWorkTitleMsg() {
+		return jiraFoundWorkTitleMsg;
+	}
+	/**
+	 * @param jiraFoundWorkTitleMsg
+	 */
+	public void setJiraFoundWorkTitleMsg(String jiraFoundWorkTitleMsg) {
+		this.jiraFoundWorkTitleMsg = jiraFoundWorkTitleMsg;
+	}
+	/**
+	 * @return the jiraMaxWipBreachedTitleMsg
 	 * @return the scIssueNotificationTitleMsg
 	 */
 	public String getScIssueNotificationTitleMsg() {
@@ -243,5 +259,17 @@ public class SlackMessagingConstants {
 	 */
 	public void setTeamWork(String teamWork) {
 		this.teamWork = teamWork;
+	}
+	/**
+	 * @return the jiraFoundWorkImageUrl
+	 */
+	public String getJiraFoundWorkImageUrl() {
+		return jiraFoundWorkImageUrl;
+	}
+	/**
+	 * @param jiraFoundWorkImageUrl the jiraFoundWorkImageUrl to set
+	 */
+	public void setJiraFoundWorkImageUrl(String jiraFoundWorkImageUrl) {
+		this.jiraFoundWorkImageUrl = jiraFoundWorkImageUrl;
 	}
 }

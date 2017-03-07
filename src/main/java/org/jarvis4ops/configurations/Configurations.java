@@ -36,6 +36,7 @@ public class Configurations {
 	private String totalInDevItemsJql;
 	private String totalToDoItemsJql;
 	private String totalInTestItemsJql;
+	private String foundWorkJql;
 	private String recentlyClosedSprintPath;
 
 	private String slackService;
@@ -493,5 +494,20 @@ public class Configurations {
 	public void setBonusLyAccessToken(String bonusLyAccessToken) {
 		this.bonusLyAccessToken = bonusLyAccessToken;
 	}
+	/**
+	 * @return the foundWorkJql
+	 */
+	public String getFoundWorkJql() {
+		return foundWorkJql;
+	}
+
+	/**
+	 * @param foundWorkJql the foundWorkJql to set
+	 */
+	public void setFoundWorkJql(final String foundWorkJql) {
+		this.foundWorkJql = foundWorkJql;
+	}
+	
+	
 
 }

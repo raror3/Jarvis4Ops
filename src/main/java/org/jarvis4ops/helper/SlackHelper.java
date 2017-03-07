@@ -129,6 +129,13 @@ public class SlackHelper {
 		}
 		return jiraMaxWipBreachedDetailMsgSb.toString();
 	}
+	
+	public String composeFoundWorkMsg(HashMap<String, String> jiraFoundWorkCountMap) {
+		StringBuilder jiraFoundWorkDetailMsgSb = new StringBuilder();
+		int count = Integer.parseInt(jiraFoundWorkCountMap.get("FoundWorkCount"));
+		jiraFoundWorkDetailMsgSb.append(" " + count + "- new item" );
+		return jiraFoundWorkDetailMsgSb.toString();
+	}
 
 	public String buildPrevDayRockstarMessage(String rockstars) {
 		StringBuilder slackMsgSb = new StringBuilder("@here ");
