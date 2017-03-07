@@ -191,6 +191,22 @@ public class JiraHelper {
         String response = restTemplate.postForObject(slackUrl, entity, String.class);
         log.info("Response: " + response);
     }
+	
+	public void invokeSlackPostFoundWork(Map<String, Integer> jiraFoundWorkCountMap) {
+
+		Gson gson = new Gson();
+		log.info("Response JSON for Found Work from JIRA: " + gson.toJson(jiraFoundWorkCountMap));
+		String jiraFoundWorkCountJson = gson.toJson(jiraFoundWorkCountMap);
+		
+		RestTemplate restTemplate = new RestTemplate();
+        MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
+        headerMap.add("Content-Type", "application/json");
+        apiHelper.setApiAuthHeader(headerMap);
+        HttpEntity<String> entity = new HttpEntity<String>(jiraFoundWorkCountJson, headerMap);
+        String slackUrl = configObj.getHost() + environment.getProperty("server.port") + "/postFoundWorkSlack";
+        String response = restTemplate.postForObject(slackUrl, entity, String.class);
+        log.info("Response: " + response);
+    }
 
 	public String fetchProjectDorJql(String projectName) {
 		String projectNameJql = null;

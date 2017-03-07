@@ -38,6 +38,7 @@ public class Configurations {
 	private String totalInDevItemsJql;
 	private String totalToDoItemsJql;
 	private String totalInTestItemsJql;
+	private String foundWorkJql;
 
 	private String slackService;
 	private String slackApiKeyJiraBots;
@@ -533,6 +534,19 @@ public class Configurations {
 	 */
 	public void setDorDodJql(String dorDodJql) {
 		DorDodJql = dorDodJql;
+	}
+	/**
+	 * @return the foundWorkJql
+	 */
+	public String getFoundWorkJql() {
+		return foundWorkJql;
+	}
+
+	/**
+	 * @param foundWorkJql the foundWorkJql to set
+	 */
+	public void setFoundWorkJql(final String foundWorkJql) {
+		this.foundWorkJql = foundWorkJql;
 	}
 	
 	
