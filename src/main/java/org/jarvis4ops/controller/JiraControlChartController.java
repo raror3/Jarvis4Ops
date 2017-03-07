@@ -11,10 +11,10 @@ import java.util.Map;
 
 import org.jarvis4ops.bean.JiraControlChartIssueBean;
 import org.jarvis4ops.bean.JiraControlChartResponseBean;
-import org.jarvis4ops.bean.JiraSprintDetailResponseBean;
-import org.jarvis4ops.bean.JiraSprintValuesBean;
+import org.jarvis4ops.bean.JiraVersionBean;
 import org.jarvis4ops.configurations.Configurations;
 import org.jarvis4ops.configurations.JiraConstants;
+import org.jarvis4ops.helper.DateHelper;
 import org.jarvis4ops.helper.JiraHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,66 +46,78 @@ public class JiraControlChartController {
 	
 	@Autowired
 	private Environment environment;
+	
+	@Autowired
+	private DateHelper dateHelper;
 
 	@RequestMapping(path="/{projectName}/loadPreviousSprintLeadTime", method = { RequestMethod.GET })
 	public String invokeJiraControlChartApi(@PathVariable String projectName) throws ParseException {
 
 		boolean isProjectNameValid = validateProjectName(projectName);
+		ResponseEntity<JiraControlChartResponseBean> jiraControlChartResponse = null;
+		Gson gson = new Gson();
+
 		if (isProjectNameValid) {
 			
-			fetchRecentlyReleasedVersion(projectName);
+			JiraVersionBean versionBean = fetchRecentlyReleasedVersion(projectName);
 			
-			HttpEntity<String> entity = jiraIssueResponseHelper.setJiraCredDetails();
-	
-		    RestTemplate restTemplate = new RestTemplate();
-		    StringBuilder queryString = new StringBuilder("");
-		    queryString.append("view=reporting&chart=controlChart");
-		    queryString.append("&rapidViewId=4041");
-		    queryString.append("&swimlaneId=4548");
-		    queryString.append("&days=14");
-		    //queryString.append("&days=custom&from=2017-02-09&to=2017-02-21");
-			ResponseEntity<JiraControlChartResponseBean> jiraControlChartResponse = restTemplate.exchange(configObj.getJiraControlChartApiEndPoint()+queryString, HttpMethod.GET, entity, JiraControlChartResponseBean.class);
-			System.out.println("List of issues from JIRA: " + jiraControlChartResponse.getBody().getIssues().size());
-						
-			Map<String, Long> calulatedControlChartMetrics = calculateAverageLeadTime(jiraControlChartResponse.getBody().getIssues());
-			persistMetricsToDatabase(calulatedControlChartMetrics);
-			
-			Gson gson = new Gson();
-			return gson.toJson(jiraControlChartResponse);
+			if (null != versionBean) {
+				HttpEntity<String> entity = jiraIssueResponseHelper.setJiraCredDetails();
+
+			    RestTemplate restTemplate = new RestTemplate();
+			    StringBuilder queryString = new StringBuilder("");
+			    queryString.append("view=reporting&chart=controlChart");
+			    queryString.append("&rapidViewId=4041");
+			    queryString.append("&days=custom");
+			    queryString.append("&swimlaneId=4548");
+			    queryString.append("&from="+dateHelper.getDateInFormat(versionBean.getStartDate(),"yyyy-MM-dd"));
+			    queryString.append("&to="+dateHelper.getDateInFormat(versionBean.getReleaseDate(),"yyyy-MM-dd"));
+			    //queryString.append("&days=14");
+				jiraControlChartResponse = restTemplate.exchange(configObj.getJiraControlChartApiEndPoint()+queryString, HttpMethod.GET, entity, JiraControlChartResponseBean.class);
+				log.info("List of issues from JIRA: " + jiraControlChartResponse.getBody().getIssues().size());
+							
+				calculateAverageLeadTime(jiraControlChartResponse.getBody().getIssues(), versionBean);
+				persistMetricsToDatabase(versionBean);
+
+				return gson.toJson(versionBean);
+			}
+			return "WARN: No recently closed release version";
 		}
 		return "Error: Invalid Project name OR invalid request";
     }
 
-	private void fetchRecentlyReleasedVersion(String projectName) throws ParseException {
+	private JiraVersionBean fetchRecentlyReleasedVersion(String projectName) throws ParseException {
 		HttpEntity<String> entity = jiraIssueResponseHelper.setJiraCredDetails();
 	    RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<JiraSprintDetailResponseBean> jiraSprintApiResponse = restTemplate.exchange(configObj.getJiraAgileBoardEndPoint() + "4041" + configObj.getRecentlyClosedSprintPath() + "closed", HttpMethod.GET, entity, JiraSprintDetailResponseBean.class);
+		ResponseEntity<JiraVersionBean[]> jiraSprintApiResponse = restTemplate.exchange(configObj.getJiraProjectApiEndPoint() + projectName.toUpperCase() + configObj.getVersions(), HttpMethod.GET, entity, JiraVersionBean[].class);
 
-		for (JiraSprintValuesBean sprintValuesBean : jiraSprintApiResponse.getBody().getValues()) {
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyy-mm-dd hh:mm:ss");
-			Date sprintEndDate = dateFormat.parse(sprintValuesBean.getEndDate());
-			
-			Calendar calendar = Calendar.getInstance();
-			calendar.add(Calendar.DATE, -1);
-			Date yesterday = calendar.getTime();
-			yesterday = dateFormat.parse(dateFormat.format(yesterday));
-			
-			calendar.add(Calendar.DATE, +1);
-			Date tomorrow = calendar.getTime();
-			tomorrow = dateFormat.parse(dateFormat.format(tomorrow));
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyy-mm-dd");
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, -1);
+		Date yesterday = calendar.getTime();
+		yesterday = dateFormat.parse(dateFormat.format(yesterday));
 
-			if (sprintEndDate.after(yesterday) && sprintEndDate.before(tomorrow)) {
-				// TODO Auto-generated method stub
+		JiraVersionBean []jiraVersionBeanArr = jiraSprintApiResponse.getBody();
+
+		for (JiraVersionBean versionBean : jiraVersionBeanArr) {
+
+			/*if (null != versionBean.getReleaseDate() && "Ops Sprints".equalsIgnoreCase(versionBean.getDescription()) && versionBean.getReleaseDate().equals(yesterday)) {
+				return versionBean;
+			}*/
+			if (null != versionBean.getName() && versionBean.getName().equals("Embury")) {
+				return versionBean;
 			}
 		}
+		return null;
 	}
 
-	private void persistMetricsToDatabase(Map<String, Long> calulatedControlChartMetrics) {
+	private void persistMetricsToDatabase(JiraVersionBean calulatedControlChartMetrics) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	private Map<String, Long> calculateAverageLeadTime(List<JiraControlChartIssueBean> issues) {
+	private JiraVersionBean calculateAverageLeadTime(List<JiraControlChartIssueBean> issues, JiraVersionBean versionBean) {
 		StringBuilder controlChartAvailableIssuesSb = new StringBuilder();
 		issues.forEach(jiraControlChartIssue -> {
 			if (controlChartAvailableIssuesSb.length() == 0) {
@@ -115,7 +127,7 @@ public class JiraControlChartController {
 			}
 		});
 
-		long startTimeEpoch = getEpochTime(14);
+		long startTimeEpoch = dateHelper.getEpochTime(14);
 		
 		final Map<String, Long> calulatedControlChartMetrics = new HashMap<String, Long>();
 		int counter = 0;
@@ -141,23 +153,10 @@ public class JiraControlChartController {
 		calulatedControlChartMetrics.put("averageLeadTime", calulatedControlChartMetrics.get("averageLeadTime")/issues.size());
 		calulatedControlChartMetrics.put("averageCycleTime", calulatedControlChartMetrics.get("averageCycleTime")/issues.size());
 		log.info("Calculated ControlChartMetrics for sprint: " + calulatedControlChartMetrics.get("averageLeadTime") + " & " + calulatedControlChartMetrics.get("averageCycleTime"));
-		
-		// TODO Auto-generated method stub
-		return calulatedControlChartMetrics;
-	}
-
-	private long getEpochTime(int days) {
-		Calendar calendar = new GregorianCalendar();
-		calendar.add(Calendar.DAY_OF_MONTH, -days);
-		calendar.set(Calendar.HOUR_OF_DAY, 0);
-	    calendar.set(Calendar.MINUTE, 0);
-	    calendar.set(Calendar.SECOND, 0);
-	    calendar.set(Calendar.MILLISECOND, 0);
-		Date forteenDaysAgo = calendar.getTime();
-		System.out.println("Date comes out to be: " + forteenDaysAgo);
-		long epoch = forteenDaysAgo.getTime();
-		System.out.println("Date comes out to be: " + epoch);
-		return epoch;
+		versionBean.setAverageCycleTime(calulatedControlChartMetrics.get("averageCycleTime"));
+		versionBean.setAverageLeadTime(calulatedControlChartMetrics.get("averageLeadTime"));
+		versionBean.setControlChartIssueCount(counter);
+		return versionBean;
 	}
 
 	private boolean validateProjectName(String projectName) {
