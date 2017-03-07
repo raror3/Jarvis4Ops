@@ -83,26 +83,15 @@ public class ScheduledTasks {
     }
     
     /**
-     * This method schedules and invokes API to check for WIP limits from JIRA and post an update on Slack.
+     * This method schedules and invokes API to check for found work from JIRA and post an update on Slack.
      * Scheduled method to execute at:
-     * 0th second, 10th minute of 9th hour, 15th hour, 20th hour on
+     * 0th second, 10th minute of 10th hour on
      * every Monday - Friday
      * in IST timezone 
      */
-    //@Scheduled(cron="0 10 9,15,20 * * MON-FRI", zone="IST")
+  //@Scheduled(cron="0 10 10 * * MON-FRI", zone="IST")
     public void getJiraFoundWorkForCommerce() {
     	apiHelper.invoKeApiService("/foundWork/SHOPC");
-    }
-    
-    /**
-     * This method schedules and invokes API to check for WIP limits from JIRA and post an update on Slack.
-     * Scheduled method to execute at:
-     * 0th second, 10th minute of 9th hour, 15th hour, 20th hour on
-     * every Monday - Friday
-     * in IST timezone 
-     */
-    //@Scheduled(cron="0 10 9,15,20 * * MON-FRI", zone="IST")
-    public void getJiraFoundWorkForBrowse() {
     	apiHelper.invoKeApiService("/foundWork/SHOPB");
     }
 
