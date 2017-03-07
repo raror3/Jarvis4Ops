@@ -494,20 +494,6 @@ public class Configurations {
 	public void setBonusLyAccessToken(String bonusLyAccessToken) {
 		this.bonusLyAccessToken = bonusLyAccessToken;
 	}
-
-	/**
-	 * @return the dorDodJql
-	 */
-	public String getDorDodJql() {
-		return DorDodJql;
-	}
-
-	/**
-	 * @param dorDodJql the dorDodJql to set
-	 */
-	public void setDorDodJql(String dorDodJql) {
-		DorDodJql = dorDodJql;
-	}
 	/**
 	 * @return the foundWorkJql
 	 */

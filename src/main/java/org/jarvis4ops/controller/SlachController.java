@@ -207,6 +207,7 @@ public class SlachController {
 		SlachBean slachBean = new SlachBean();
 		slachBean.setTitle(slackMessagingConstants.getJiraFoundWorkTitleMsg());
 		slachBean.setText(slackHelper.composeFoundWorkMsg(jiraFoundWorkCountMap));
+		//slachBean.setImage_url(slackMessagingConstants.getJiraFoundWorkImageUrl());
 		
 		final String jiraIds = jiraFoundWorkCountMap.get("storyId").toString();
 		final String[] jiraList = jiraIds.split(",");
