@@ -72,7 +72,7 @@ public class BonusLyHelper {
         HttpEntity<String> entity = new HttpEntity<String>(headerMap);
         
         for (String giverUserId : configObj.getBonusLyGiverUserIds()) {
-        	System.out.println("Bonusly User API Request: " + configObj.getBonusLyUsersEndpointUrl() + giverUserId + configObj.getBonusLyAccessToken());
+        	log.info("Bonusly User API Request: " + configObj.getBonusLyUsersEndpointUrl() + giverUserId + configObj.getBonusLyAccessToken());
         	ResponseEntity<BonusLyUserDetailResponseBean> bonusLyUserDetailResponse = restTemplate.exchange(configObj.getBonusLyUsersEndpointUrl() + giverUserId + configObj.getBonusLyAccessToken(), HttpMethod.GET, entity, BonusLyUserDetailResponseBean.class);
         	if (bonusLyUserDetailResponse.getBody().isSuccess() 
         			&& bonusLyUserDetailResponse.getBody().getResult().getGiving_balance() > 0 
