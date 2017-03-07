@@ -205,9 +205,8 @@ public class SlachController {
 		HashMap<String,String> jiraFoundWorkCountMap = new Gson().fromJson(jirafoundWorkCountRequest, newType);
 		
 		SlachBean slachBean = new SlachBean();
-		slachBean.setTitle(slackMessagingConstants.getJiraFoundWorkTitleMsg());
-		slachBean.setText(slackHelper.composeFoundWorkMsg(jiraFoundWorkCountMap));
-		//slachBean.setImage_url(slackMessagingConstants.getJiraFoundWorkImageUrl());
+		slachBean.setTitle(slackMessagingConstants.getJiraFoundWorkTitleMsg() + slackHelper.composeFoundWorkMsg(jiraFoundWorkCountMap));
+		slachBean.setImage_url(slackMessagingConstants.getJiraFoundWorkImageUrl());
 		
 		final String jiraIds = jiraFoundWorkCountMap.get("storyId").toString();
 		final String[] jiraList = jiraIds.split(",");

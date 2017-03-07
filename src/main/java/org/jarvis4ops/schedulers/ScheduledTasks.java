@@ -81,18 +81,5 @@ public class ScheduledTasks {
     public void validateJiraWipLimitAndAlert() {
     	apiHelper.invoKeApiService("/validateWipLimitsAndAlert");
     }
-    
-    /**
-     * This method schedules and invokes API to check for found work from JIRA and post an update on Slack.
-     * Scheduled method to execute at:
-     * 0th second, 10th minute of 10th hour on
-     * every Monday - Friday
-     * in IST timezone 
-     */
-  //@Scheduled(cron="0 10 10 * * MON-FRI", zone="IST")
-    public void getJiraFoundWorkForCommerce() {
-    	apiHelper.invoKeApiService("/foundWork/SHOPC");
-    	apiHelper.invoKeApiService("/foundWork/SHOPB");
-    }
 
 }

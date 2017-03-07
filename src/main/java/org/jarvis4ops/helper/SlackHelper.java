@@ -133,7 +133,7 @@ public class SlackHelper {
 	public String composeFoundWorkMsg(HashMap<String, String> jiraFoundWorkCountMap) {
 		StringBuilder jiraFoundWorkDetailMsgSb = new StringBuilder();
 		int count = Integer.parseInt(jiraFoundWorkCountMap.get("FoundWorkCount"));
-		jiraFoundWorkDetailMsgSb.append("\n " + "Total found work created today - " + count);
+		jiraFoundWorkDetailMsgSb.append(" " + count + "- new item" );
 		return jiraFoundWorkDetailMsgSb.toString();
 	}
 
