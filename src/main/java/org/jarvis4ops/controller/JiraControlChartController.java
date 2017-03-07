@@ -52,6 +52,9 @@ public class JiraControlChartController {
 
 		boolean isProjectNameValid = validateProjectName(projectName);
 		if (isProjectNameValid) {
+			
+			fetchRecentlyReleasedVersion(projectName);
+			
 			HttpEntity<String> entity = jiraIssueResponseHelper.setJiraCredDetails();
 	
 		    RestTemplate restTemplate = new RestTemplate();
@@ -63,9 +66,7 @@ public class JiraControlChartController {
 		    //queryString.append("&days=custom&from=2017-02-09&to=2017-02-21");
 			ResponseEntity<JiraControlChartResponseBean> jiraControlChartResponse = restTemplate.exchange(configObj.getJiraControlChartApiEndPoint()+queryString, HttpMethod.GET, entity, JiraControlChartResponseBean.class);
 			System.out.println("List of issues from JIRA: " + jiraControlChartResponse.getBody().getIssues().size());
-			
-			fetchRecentlyClosedSprint(projectName);
-			
+						
 			Map<String, Long> calulatedControlChartMetrics = calculateAverageLeadTime(jiraControlChartResponse.getBody().getIssues());
 			persistMetricsToDatabase(calulatedControlChartMetrics);
 			
@@ -75,7 +76,7 @@ public class JiraControlChartController {
 		return "Error: Invalid Project name OR invalid request";
     }
 
-	private void fetchRecentlyClosedSprint(String projectName) throws ParseException {
+	private void fetchRecentlyReleasedVersion(String projectName) throws ParseException {
 		HttpEntity<String> entity = jiraIssueResponseHelper.setJiraCredDetails();
 	    RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<JiraSprintDetailResponseBean> jiraSprintApiResponse = restTemplate.exchange(configObj.getJiraAgileBoardEndPoint() + "4041" + configObj.getRecentlyClosedSprintPath() + "closed", HttpMethod.GET, entity, JiraSprintDetailResponseBean.class);
