@@ -27,7 +27,9 @@ public class Configurations {
 	private String jiraEndPoint;
 	private String sampleJiraEndPoint;
 	private String jiraControlChartApiEndPoint;
-	private String jiraAgileBoardEndPoint;
+	private String jiraProjectApiEndPoint;
+	private String jiraControlChartConfigApi;
+	private String versions;
 
 	private String prevDayIncidentRockstarJql;
 	private String openSiteConfidenceIncidentsJql;
@@ -37,7 +39,6 @@ public class Configurations {
 	private String totalToDoItemsJql;
 	private String totalInTestItemsJql;
 	private String foundWorkJql;
-	private String recentlyClosedSprintPath;
 
 	private String slackService;
 	private String slackApiKeyJiraBots;
@@ -63,28 +64,16 @@ public class Configurations {
 	private List<String> bonusLyGiverUserIds;
 
 	/**
-	 * @return the bonusLyGiverUserIds
+	 * @return the jiraControlChartConfigApi
 	 */
-	public List<String> getBonusLyGiverUserIds() {
-		return bonusLyGiverUserIds;
+	public String getJiraControlChartConfigApi() {
+		return jiraControlChartConfigApi;
 	}
 	/**
-	 * @param bonusLyGiverUserIds the bonusLyGiverUserIds to set
+	 * @param jiraControlChartConfigApi the jiraControlChartConfigApi to set
 	 */
-	public void setBonusLyGiverUserIds(List<String> bonusLyGiverUserIds) {
-		this.bonusLyGiverUserIds = bonusLyGiverUserIds;
-	}
-	/**
-	 * @return the bonusLyUsersEndpointUrl
-	 */
-	public String getBonusLyUsersEndpointUrl() {
-		return bonusLyUsersEndpointUrl;
-	}
-	/**
-	 * @param bonusLyUsersEndpointUrl the bonusLyUsersEndpointUrl to set
-	 */
-	public void setBonusLyUsersEndpointUrl(String bonusLyUsersEndpointUrl) {
-		this.bonusLyUsersEndpointUrl = bonusLyUsersEndpointUrl;
+	public void setJiraControlChartConfigApi(String jiraControlChartConfigApi) {
+		this.jiraControlChartConfigApi = jiraControlChartConfigApi;
 	}
 	/**
 	 * @return the port
@@ -183,16 +172,28 @@ public class Configurations {
 		this.jiraControlChartApiEndPoint = jiraControlChartApiEndPoint;
 	}
 	/**
-	 * @return the jiraAgileBoardEndPoint
+	 * @return the jiraProjectApiEndPoint
 	 */
-	public String getJiraAgileBoardEndPoint() {
-		return jiraAgileBoardEndPoint;
+	public String getJiraProjectApiEndPoint() {
+		return jiraProjectApiEndPoint;
 	}
 	/**
-	 * @param jiraAgileBoardEndPoint the jiraAgileBoardEndPoint to set
+	 * @param jiraProjectApiEndPoint the jiraProjectApiEndPoint to set
 	 */
-	public void setJiraAgileBoardEndPoint(String jiraAgileBoardEndPoint) {
-		this.jiraAgileBoardEndPoint = jiraAgileBoardEndPoint;
+	public void setJiraProjectApiEndPoint(String jiraProjectApiEndPoint) {
+		this.jiraProjectApiEndPoint = jiraProjectApiEndPoint;
+	}
+	/**
+	 * @return the versions
+	 */
+	public String getVersions() {
+		return versions;
+	}
+	/**
+	 * @param versions the versions to set
+	 */
+	public void setVersions(String versions) {
+		this.versions = versions;
 	}
 	/**
 	 * @return the prevDayIncidentRockstarJql
@@ -279,16 +280,16 @@ public class Configurations {
 		this.totalInTestItemsJql = totalInTestItemsJql;
 	}
 	/**
-	 * @return the recentlyClosedSprintPath
+	 * @return the foundWorkJql
 	 */
-	public String getRecentlyClosedSprintPath() {
-		return recentlyClosedSprintPath;
+	public String getFoundWorkJql() {
+		return foundWorkJql;
 	}
 	/**
-	 * @param recentlyClosedSprintPath the recentlyClosedSprintPath to set
+	 * @param foundWorkJql the foundWorkJql to set
 	 */
-	public void setRecentlyClosedSprintPath(String recentlyClosedSprintPath) {
-		this.recentlyClosedSprintPath = recentlyClosedSprintPath;
+	public void setFoundWorkJql(String foundWorkJql) {
+		this.foundWorkJql = foundWorkJql;
 	}
 	/**
 	 * @return the slackService
@@ -495,19 +496,28 @@ public class Configurations {
 		this.bonusLyAccessToken = bonusLyAccessToken;
 	}
 	/**
-	 * @return the foundWorkJql
+	 * @return the bonusLyUsersEndpointUrl
 	 */
-	public String getFoundWorkJql() {
-		return foundWorkJql;
+	public String getBonusLyUsersEndpointUrl() {
+		return bonusLyUsersEndpointUrl;
 	}
-
 	/**
-	 * @param foundWorkJql the foundWorkJql to set
+	 * @param bonusLyUsersEndpointUrl the bonusLyUsersEndpointUrl to set
 	 */
-	public void setFoundWorkJql(final String foundWorkJql) {
-		this.foundWorkJql = foundWorkJql;
+	public void setBonusLyUsersEndpointUrl(String bonusLyUsersEndpointUrl) {
+		this.bonusLyUsersEndpointUrl = bonusLyUsersEndpointUrl;
 	}
-	
-	
+	/**
+	 * @return the bonusLyGiverUserIds
+	 */
+	public List<String> getBonusLyGiverUserIds() {
+		return bonusLyGiverUserIds;
+	}
+	/**
+	 * @param bonusLyGiverUserIds the bonusLyGiverUserIds to set
+	 */
+	public void setBonusLyGiverUserIds(List<String> bonusLyGiverUserIds) {
+		this.bonusLyGiverUserIds = bonusLyGiverUserIds;
+	}
 
 }
