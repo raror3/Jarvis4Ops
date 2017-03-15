@@ -1,13 +1,17 @@
 package org.jarvis4ops.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class JiraVersionBean {
-	private String self;
+@Document(collection = "jiraControlChart")
+public class JiraVersionBean implements Comparable<JiraVersionBean> {
+	@Id
 	private int id;
+	private String self;
 	private String description;
 	private String name;
 	private boolean archived;
@@ -18,58 +22,8 @@ public class JiraVersionBean {
 	private String userStartDate;
 	private String userReleaseDate;
 	private String projectId;
-	private Long averageLeadTime;
-	private Long averageCycleTime;
-	private int controlChartIssueCount;
+	private List<JiraSwimlaneBean> swimlane = new ArrayList<JiraSwimlaneBean>(1);
 
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-	/**
-	 * @param description the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	/**
-	 * @return the controlChartIssueCount
-	 */
-	public int getControlChartIssueCount() {
-		return controlChartIssueCount;
-	}
-	/**
-	 * @param controlChartIssueCount the controlChartIssueCount to set
-	 */
-	public void setControlChartIssueCount(int controlChartIssueCount) {
-		this.controlChartIssueCount = controlChartIssueCount;
-	}
-	/**
-	 * @return the averageLeadTime
-	 */
-	public Long getAverageLeadTime() {
-		return averageLeadTime;
-	}
-	/**
-	 * @param averageLeadTime the averageLeadTime to set
-	 */
-	public void setAverageLeadTime(Long averageLeadTime) {
-		this.averageLeadTime = averageLeadTime;
-	}
-	/**
-	 * @return the averageCycleTime
-	 */
-	public Long getAverageCycleTime() {
-		return averageCycleTime;
-	}
-	/**
-	 * @param averageCycleTime the averageCycleTime to set
-	 */
-	public void setAverageCycleTime(Long averageCycleTime) {
-		this.averageCycleTime = averageCycleTime;
-	}
 	/**
 	 * @return the self
 	 */
@@ -93,6 +47,18 @@ public class JiraVersionBean {
 	 */
 	public void setId(int id) {
 		this.id = id;
+	}
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	/**
 	 * @return the name
@@ -202,5 +168,21 @@ public class JiraVersionBean {
 	public void setProjectId(String projectId) {
 		this.projectId = projectId;
 	}
+	/**
+	 * @return the swimlane
+	 */
+	public List<JiraSwimlaneBean> getSwimlane() {
+		return swimlane;
+	}
+	/**
+	 * @param swimlane the swimlane to set
+	 */
+	public void setSwimlane(List<JiraSwimlaneBean> swimlane) {
+		this.swimlane = swimlane;
+	}
 
+	@Override
+	public int compareTo(JiraVersionBean versionBean2) {
+		return getReleaseDate().compareTo(versionBean2.getReleaseDate());
+	}
 }

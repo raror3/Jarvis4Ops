@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "userProfile")
 public class UserProfileBean {
-	
+
 	@Id
 	private String _id;
 	private String jiraUsername;

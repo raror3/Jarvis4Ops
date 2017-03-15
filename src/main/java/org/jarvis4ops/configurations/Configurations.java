@@ -28,6 +28,7 @@ public class Configurations {
 	private String sampleJiraEndPoint;
 	private String jiraControlChartApiEndPoint;
 	private String jiraProjectApiEndPoint;
+	private String jiraControlChartConfigApi;
 	private String versions;
 
 	private String prevDayIncidentRockstarJql;
@@ -62,6 +63,18 @@ public class Configurations {
 	private String bonusLyUsersEndpointUrl;
 	private List<String> bonusLyGiverUserIds;
 
+	/**
+	 * @return the jiraControlChartConfigApi
+	 */
+	public String getJiraControlChartConfigApi() {
+		return jiraControlChartConfigApi;
+	}
+	/**
+	 * @param jiraControlChartConfigApi the jiraControlChartConfigApi to set
+	 */
+	public void setJiraControlChartConfigApi(String jiraControlChartConfigApi) {
+		this.jiraControlChartConfigApi = jiraControlChartConfigApi;
+	}
 	/**
 	 * @return the port
 	 */
