@@ -45,18 +45,12 @@ public class JiraControlChartDao {
 				    }
 			    }
 			}
-			/*for (JiraVersionBean versionBean : versionBeanList) {
-				versionBean.getSwimlane().removeIf(swimlane -> swimlaneInt != swimlane.getSwimLaneId());
-			}*/
 		}
-		// Collections.sort(versionBeanList, jiraVersionBeanComparator);
-		//JiraVersionBean []versionBeanArr = versionBeanList.toArray();
 		JiraVersionBean[] versionBeanArr = versionBeanList.toArray(new JiraVersionBean[versionBeanList.size()]);
 		Arrays.sort(versionBeanList.toArray());
 		versionBeanList = Arrays.asList(versionBeanArr);
 
 		return versionBeanList;
-		// TODO Auto-generated method stub
 	}
 
 }
