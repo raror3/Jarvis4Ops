@@ -99,6 +99,12 @@ public class SlackHelper {
 				case "opsLeads":
 					slackUrl = configObj.getSlackService() + configObj.getSlackApiKeyOpsLeads();
 					break;
+				case "commerce":
+					slackUrl = configObj.getSlackService() + configObj.getSlackApiKeyCommerce();
+					break;
+				case "browse":
+					slackUrl = configObj.getSlackService() + configObj.getSlackApiKeyBrowse();
+					break;
 				case "jiraBots":
 				default:
 					slackUrl = configObj.getSlackService() + configObj.getSlackApiKeyJiraBots();

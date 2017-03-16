@@ -109,16 +109,6 @@ public class JiraControlChartHelper {
 	public JiraVersionBean[] processControlChartMetricsForVersions(JiraVersionBean []arrayOfVersions, String projectName, String swimlaneDesc, Integer swimlaneId) throws ParseException {
 		
 	    RestTemplate restTemplate;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyy-mm-dd");
-		
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DATE, -1);
-		Date yesterday = calendar.getTime();
-		yesterday = dateFormat.parse(dateFormat.format(yesterday));
-
-		calendar.add(Calendar.DATE, +1);
-		Date tomorrow = calendar.getTime();
-		tomorrow = dateFormat.parse(dateFormat.format(tomorrow));
 		
 		HttpEntity<String> entity = jiraHelper.setJiraCredDetails();
 
@@ -126,36 +116,56 @@ public class JiraControlChartHelper {
 
 			ResponseEntity<JiraControlChartResponseBean> jiraControlChartResponse = null;
 
-			if (null != versionBean) {
+			boolean validBean = validateVersionBean(versionBean);
+			if (validBean) {
 
-				if (null != versionBean.getReleaseDate() && "Ops Sprint".equalsIgnoreCase(versionBean.getDescription()) && tomorrow.after(versionBean.getReleaseDate())) {
-					// && versionBean.getReleaseDate().equals(yesterday)
+			    restTemplate = new RestTemplate();
+			    StringBuilder queryString = new StringBuilder("");
+			    queryString.append("view=reporting&chart=controlChart");
+			    queryString.append("&rapidViewId="+4041);
+			    queryString.append("&days=custom");
+			    queryString.append("&swimlaneId="+swimlaneId);
+			    queryString.append("&from="+dateHelper.getDateInFormat(versionBean.getStartDate(),"yyyy-MM-dd"));
+			    queryString.append("&to="+dateHelper.getDateInFormat(versionBean.getReleaseDate(),"yyyy-MM-dd"));
+			    //queryString.append("&days=14");
+				jiraControlChartResponse = restTemplate.exchange(configObj.getJiraControlChartApiEndPoint()+queryString, HttpMethod.GET, entity, JiraControlChartResponseBean.class);
+				log.info("List of issues from JIRA: " + jiraControlChartResponse.getBody().getIssues().size());
+							
+				JiraSwimlaneBean swimlaneBean = jiraControlChartHelper.calculateMetrics(jiraControlChartResponse.getBody().getIssues(), versionBean);
+				if (null != swimlaneBean) {
+					swimlaneBean.setSwimLaneDesc(swimlaneDesc);
+					swimlaneBean.setSwimLaneId(swimlaneId);
+					versionBean.getSwimlane().add(swimlaneBean);
 
-				    restTemplate = new RestTemplate();
-				    StringBuilder queryString = new StringBuilder("");
-				    queryString.append("view=reporting&chart=controlChart");
-				    queryString.append("&rapidViewId="+4041);
-				    queryString.append("&days=custom");
-				    queryString.append("&swimlaneId="+swimlaneId);
-				    queryString.append("&from="+dateHelper.getDateInFormat(versionBean.getStartDate(),"yyyy-MM-dd"));
-				    queryString.append("&to="+dateHelper.getDateInFormat(versionBean.getReleaseDate(),"yyyy-MM-dd"));
-				    //queryString.append("&days=14");
-					jiraControlChartResponse = restTemplate.exchange(configObj.getJiraControlChartApiEndPoint()+queryString, HttpMethod.GET, entity, JiraControlChartResponseBean.class);
-					log.info("List of issues from JIRA: " + jiraControlChartResponse.getBody().getIssues().size());
-								
-					JiraSwimlaneBean swimlaneBean = jiraControlChartHelper.calculateMetrics(jiraControlChartResponse.getBody().getIssues(), versionBean);
-					if (null != swimlaneBean) {
-						swimlaneBean.setSwimLaneDesc(swimlaneDesc);
-						swimlaneBean.setSwimLaneId(swimlaneId);
-						versionBean.getSwimlane().add(swimlaneBean);
-
-						jiraControlChartDao.persistMetricsToDatabase(versionBean);
-					}
+					jiraControlChartDao.persistMetricsToDatabase(versionBean);
 				}
-
 			}
 		}
 		return arrayOfVersions;
+	}
+
+	/**
+	 * This method checks whether versionBean is valid 
+	 * @param versionBean
+	 * @return
+	 * @throws ParseException
+	 */
+	private boolean validateVersionBean(JiraVersionBean versionBean) throws ParseException {
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyy-MM-dd");
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, -1);
+		Date yesterday = calendar.getTime();
+		yesterday = dateFormat.parse(dateFormat.format(yesterday));
+
+		if (null != versionBean && null != versionBean.getReleaseDate()) {
+			Date releaseDate = dateFormat.parse(dateFormat.format(versionBean.getReleaseDate()));
+			if ("Ops Sprint".equalsIgnoreCase(versionBean.getDescription()) && yesterday.equals(releaseDate)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public JiraSwimlaneBean calculateMetrics(List<JiraControlChartIssueBean> issues, JiraVersionBean versionBean) {
