@@ -44,8 +44,10 @@ public class Configurations {
 	private String slackApiKeyJiraBots;
 	private String slackApiKeyOperations;
 	private String slackApiKeyOpsLeads;
+	private String slackApiKeyCommerce;
+	private String slackApiKeyBrowse;
 	private String jiraSupportKanbanBoardUrl;
-	
+
 	private String cloudinaryApiKey;
 	private String cloudinaryApiSecKey;
 	private String cloudName;
@@ -63,6 +65,30 @@ public class Configurations {
 	private String bonusLyUsersEndpointUrl;
 	private List<String> bonusLyGiverUserIds;
 
+	/**
+	 * @return the slackApiKeyCommerce
+	 */
+	public String getSlackApiKeyCommerce() {
+		return slackApiKeyCommerce;
+	}
+	/**
+	 * @param slackApiKeyCommerce the slackApiKeyCommerce to set
+	 */
+	public void setSlackApiKeyCommerce(String slackApiKeyCommerce) {
+		this.slackApiKeyCommerce = slackApiKeyCommerce;
+	}
+	/**
+	 * @return the slackApiKeyBrowse
+	 */
+	public String getSlackApiKeyBrowse() {
+		return slackApiKeyBrowse;
+	}
+	/**
+	 * @param slackApiKeyBrowse the slackApiKeyBrowse to set
+	 */
+	public void setSlackApiKeyBrowse(String slackApiKeyBrowse) {
+		this.slackApiKeyBrowse = slackApiKeyBrowse;
+	}
 	/**
 	 * @return the jiraControlChartConfigApi
 	 */

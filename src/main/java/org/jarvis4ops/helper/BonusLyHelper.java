@@ -44,10 +44,9 @@ public class BonusLyHelper {
         headerMap.add("Content-Type", "application/json");
         HttpEntity<String> entity = new HttpEntity<String>(bonusLyJson, headerMap);
         String bonusLyUrl = configObj.getBonusLyEndpointUrl() + configObj.getBonusLyAccessToken();
-        //BonusLyResponseBean bonusLyResponse = restTemplate.postForObject(bonusLyUrl, entity, BonusLyResponseBean.class);
-        //log.info("Response: " + bonusLyResponse.toString());
-        //return bonusLyResponse.toString();
-        return "2--";
+        BonusLyResponseBean bonusLyResponse = restTemplate.postForObject(bonusLyUrl, entity, BonusLyResponseBean.class);
+        log.info("Response: " + bonusLyResponse.toString());
+        return bonusLyResponse.toString();
 	}
 
 	public Map<String, String> getRockstarsToBeRewarded(Map<String, String> rockstarJiraIdWithCountMap) {
