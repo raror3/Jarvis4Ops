@@ -225,9 +225,9 @@ public class SlachController {
 		List<SlachBean> slachBeanList = new ArrayList<SlachBean>(1);
 		slachBeanList.add(slachBean);
 		slachAttachments.setAttachments(slachBeanList);
-		
+		final String slackChannel = slackHelper.fetchSlackChannel(jiraFoundWorkCountMap);
 		log.info("Json Value: " + gson.toJson(slachAttachments));
-		slackHelper.postOnSlack(gson.toJson(slachAttachments), "jiraBots");
+		slackHelper.postOnSlack(gson.toJson(slachAttachments), slackChannel);
 		return "200";
 	}
 

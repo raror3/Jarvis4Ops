@@ -49,8 +49,9 @@ public class JiraFoundWorkController {
 				configObj.getJiraEndPoint() + jql, HttpMethod.GET, entity,
 				ArrayIssueDetails.class);
 		final int foundWorkCount = foundWorkResponse.getBody().getTotal();
-		Map jiraFoundWorkMap = new HashMap(2);
+		Map jiraFoundWorkMap = new HashMap(3);
 		jiraFoundWorkMap.put("FoundWorkCount", foundWorkResponse.getBody().getTotal());
+		jiraFoundWorkMap.put("projectName", projectName);
 		if (foundWorkCount >= 1) {
 			StringBuffer jiraId = new StringBuffer();
 			for (int i = 0; i < foundWorkResponse.getBody().getIssues().size(); i++) {
