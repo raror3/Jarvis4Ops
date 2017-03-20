@@ -36,6 +36,9 @@ public class SlackMessagingConstants {
 	
 	private String jiraFoundWorkTitleMsg;
 	private String jiraFoundWorkImageUrl;
+	
+	private String jiraAdoptedWorkTitleMsg;
+	private String jiraAdoptedWorkImageUrl;
 
 	private String greatJobTitleMsg;
 	private List<String> incidentsResolvedMsg;
@@ -54,6 +57,20 @@ public class SlackMessagingConstants {
 	 */
 	public void setJiraFoundWorkTitleMsg(String jiraFoundWorkTitleMsg) {
 		this.jiraFoundWorkTitleMsg = jiraFoundWorkTitleMsg;
+	}
+	
+	
+	public String getJiraAdoptedWorkTitleMsg() {
+		return jiraAdoptedWorkTitleMsg;
+	}
+	public void setJiraAdoptedWorkTitleMsg(final String jiraAdoptedWorkTitleMsg) {
+		this.jiraAdoptedWorkTitleMsg = jiraAdoptedWorkTitleMsg;
+	}
+	public String getJiraAdoptedWorkImageUrl() {
+		return jiraAdoptedWorkImageUrl;
+	}
+	public void setJiraAdoptedWorkImageUrl(String jiraAdoptedWorkImageUrl) {
+		this.jiraAdoptedWorkImageUrl = jiraAdoptedWorkImageUrl;
 	}
 	/**
 	 * @return the jiraMaxWipBreachedTitleMsg
