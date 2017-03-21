@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
+import org.jarvis4ops.bean.ArrayIssueDetails;
 import org.jarvis4ops.bean.DorParameters;
+import org.jarvis4ops.bean.IssueDetails;
 import org.jarvis4ops.bean.SlachAttachments;
 import org.jarvis4ops.bean.SlachBean;
 import org.jarvis4ops.bean.SlackFields;
@@ -24,6 +25,7 @@ import org.jarvis4ops.helper.SlackHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -226,6 +228,36 @@ public class SlachController {
 		slachBeanList.add(slachBean);
 		slachAttachments.setAttachments(slachBeanList);
 		
+		log.info("Json Value: " + gson.toJson(slachAttachments));
+		slackHelper.postOnSlack(gson.toJson(slachAttachments), "jiraBots");
+		return "200";
+	}
+
+	@RequestMapping(value="/postAdoptedWorkOnSlack/{project}" , method = { RequestMethod.POST })
+	public String sendAdoptedWorkNotification(@PathVariable(value = "project", required = true) String project,
+			@RequestBody String jiraAdoptedWorkRequest) {
+		Gson gson = new Gson();
+		ArrayIssueDetails jiraAdoptedWorkIssues = new Gson().fromJson(jiraAdoptedWorkRequest, ArrayIssueDetails.class);
+
+		SlachBean slachBean = new SlachBean();
+		slachBean.setTitle(String.valueOf(jiraAdoptedWorkIssues.getTotal()).concat(" ")
+				.concat(slackMessagingConstants.getJiraAdoptedWorkTitleMsg()));
+		slachBean.setImage_url(slackMessagingConstants.getJiraAdoptedWorkImageUrl());
+
+		final List<IssueDetails> issuesDetails = jiraAdoptedWorkIssues.getIssues();
+		List<SlackFields> fields = new ArrayList<SlackFields>(issuesDetails.size());
+		for (int i = 0; i < issuesDetails.size(); i++) {
+			SlackFields slackField = new SlackFields();
+			slackField.setTitle("Jira Id : " + issuesDetails.get(i).getKey());
+			slackField.setValue("Summary : ".concat(issuesDetails.get(i).getFields().getSummary()).concat("  ").concat("Assignee : " + issuesDetails.get(i).getFields().getAssignee().getName()));
+			fields.add(slackField);
+		}
+		slachBean.setFields(fields);
+		slachBean.setColor("#7CD197");
+		SlachAttachments slachAttachments = new SlachAttachments();
+		List<SlachBean> slachBeanList = new ArrayList<SlachBean>(1);
+		slachBeanList.add(slachBean);
+		slachAttachments.setAttachments(slachBeanList);
 		log.info("Json Value: " + gson.toJson(slachAttachments));
 		slackHelper.postOnSlack(gson.toJson(slachAttachments), "jiraBots");
 		return "200";

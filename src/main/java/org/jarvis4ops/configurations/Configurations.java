@@ -39,6 +39,7 @@ public class Configurations {
 	private String totalToDoItemsJql;
 	private String totalInTestItemsJql;
 	private String foundWorkJql;
+	private String adoptedWorkJql;
 
 	private String slackService;
 	private String slackApiKeyJiraBots;
@@ -305,6 +306,21 @@ public class Configurations {
 	public void setTotalInTestItemsJql(String totalInTestItemsJql) {
 		this.totalInTestItemsJql = totalInTestItemsJql;
 	}
+	
+	/**
+	 * @return the adoptedWorkJql
+	 */
+	public String getAdoptedWorkJql() {
+		return adoptedWorkJql;
+	}
+
+	/**
+	 * @param adoptedWorkJql the adoptedWorkJql to set
+	 */
+	public void setAdoptedWorkJql(String adoptedWorkJql) {
+		this.adoptedWorkJql = adoptedWorkJql;
+	}
+
 	/**
 	 * @return the foundWorkJql
 	 */
