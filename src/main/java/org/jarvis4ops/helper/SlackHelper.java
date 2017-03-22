@@ -155,5 +155,18 @@ public class SlackHelper {
 		slackMsgSb.append(slackMessagingConstants.getIncidentsResolvedMsg().get(1));
 		return slackMsgSb.toString();
 	}
+	/**
+	 * This method will return the slack channel name based upon the param in request.
+	 * @param jiraFoundWorkCountMap
+	 * @return
+	 */
+	public String fetchSlackChannel(HashMap<String, String> jiraFoundWorkCountMap) {
+		final String projName = jiraFoundWorkCountMap.get("projectName").toString();
+		if ("SHOPC".equalsIgnoreCase(projName)) {
+			return "commerce";
+		} else {
+			return "browse";
+		}
+	}
 
 }
