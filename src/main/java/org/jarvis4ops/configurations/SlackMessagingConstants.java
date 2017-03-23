@@ -28,6 +28,7 @@ public class SlackMessagingConstants {
 	private String openIncidentNotificationDetailMsg2;
 	
 	private String dorStatusTitleMsg;
+	private String dorStatusTitleMsg2;
 	private String dorPendingStoriesDetailMsg;
 
 	private String jiraMaxWipBreachedImageUrl;
@@ -177,6 +178,18 @@ public class SlackMessagingConstants {
 	 */
 	public void setOpenIncidentNotificationTitleMsg(String openIncidentNotificationTitleMsg) {
 		this.openIncidentNotificationTitleMsg = openIncidentNotificationTitleMsg;
+	}
+	/**
+	 * @return the dorStatusTitleMsg2
+	 */
+	public String getDorStatusTitleMsg2() {
+		return dorStatusTitleMsg2;
+	}
+	/**
+	 * @param dorStatusTitleMsg2 the dorStatusTitleMsg2 to set
+	 */
+	public void setDorStatusTitleMsg2(String dorStatusTitleMsg2) {
+		this.dorStatusTitleMsg2 = dorStatusTitleMsg2;
 	}
 
 }

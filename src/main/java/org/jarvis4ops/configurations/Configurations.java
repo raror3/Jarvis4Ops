@@ -57,6 +57,7 @@ public class Configurations {
 	private Integer openScIncidentsShout;
 
 	private String bonusLyGiverEmail;
+	private String jiraActiveSprintEndPoint;
 
 	
 	/**
@@ -533,6 +534,20 @@ public class Configurations {
 	 */
 	public void setDorDodJql(String dorDodJql) {
 		DorDodJql = dorDodJql;
+	}
+
+	/**
+	 * @return the jiraActiveSprintEndPoint
+	 */
+	public String getJiraActiveSprintEndPoint() {
+		return jiraActiveSprintEndPoint;
+	}
+
+	/**
+	 * @param jiraActiveSprintEndPoint the jiraActiveSprintEndPoint to set
+	 */
+	public void setJiraActiveSprintEndPoint(String jiraActiveSprintEndPoint) {
+		this.jiraActiveSprintEndPoint = jiraActiveSprintEndPoint;
 	}
 	
 	

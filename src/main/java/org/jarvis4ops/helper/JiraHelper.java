@@ -4,6 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -11,18 +13,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.Spring;
+
+import org.apache.commons.lang.StringUtils;
+import org.jarvis4ops.bean.ActiveSprintDetails;
+import org.jarvis4ops.bean.ActiveSprintResponse;
+import org.jarvis4ops.bean.ArrayIssueDetails;
+import org.jarvis4ops.bean.DorParameters;
 import org.jarvis4ops.bean.IssueDetails;
 import org.jarvis4ops.configurations.Configurations;
 import org.jarvis4ops.configurations.JiraConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.admin.SpringApplicationAdminMXBeanRegistrar;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
@@ -42,6 +55,11 @@ public class JiraHelper {
 	
 	@Autowired
 	private ApiHelper apiHelper;
+	
+	@Autowired
+	private DorDodIssuesHelper dorIssuesHelper;
+
+	private int[] sprintIds;
 
 	/**
 	 * @return
@@ -222,4 +240,31 @@ public class JiraHelper {
 		return projectNameJql;
 	}
 
+	public List<ActiveSprintDetails> fetchActiveSprint(String projectName, HttpEntity<String> entity){
+		
+		List<ActiveSprintDetails> sprintList = new ArrayList<ActiveSprintDetails>();
+		String projectAciveSprintURL=null;
+	    RestTemplate restTemplate = new RestTemplate();		  
+		if (jiraConstants.getEligibleProjects().contains(projectName)){
+			log.info("Fetching active sprints for project -" +projectName);
+			if(("shopc").equalsIgnoreCase(projectName))
+			{
+				projectAciveSprintURL=jiraConstants.getShopcActiveSprint();	
+			}
+			if(("support").equalsIgnoreCase(projectName))
+			{
+				projectAciveSprintURL=jiraConstants.getSupportActiveSprint();	
+			}
+			if(("shopb").equalsIgnoreCase(projectName))
+			{
+				projectAciveSprintURL=jiraConstants.getShopbActiveSprint();	
+			}
+		}
+		  if (StringUtils.isNotEmpty(projectAciveSprintURL)) {
+		    	ResponseEntity<ActiveSprintResponse> response = restTemplate.exchange(configObj.getJiraActiveSprintEndPoint() + projectAciveSprintURL, HttpMethod.GET, entity, ActiveSprintResponse.class);
+		    	sprintList= response.getBody().getValues();	
+		    }
+	return sprintList;
+	}
+		
 }
