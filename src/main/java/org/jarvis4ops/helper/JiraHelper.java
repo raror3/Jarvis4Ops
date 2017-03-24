@@ -104,14 +104,9 @@ public class JiraHelper {
 
 	private Map<String, Integer> updateMapWithRockstars(Map<String, Integer> issuesMap) {
 		
-		issuesMap.entrySet().removeIf(entry -> entry.getValue() < 5);
+		issuesMap.entrySet().removeIf(entry -> entry.getValue() < jiraConstants.getPrevDayJiraRockstarThreshold());
 		
 		return issuesMap;
-		/*issuesMap.forEach((user,countOfFixed)->{
-			if (countOfFixed <5) {
-				issuesMap.remove(user);
-			}
-		});*/
 	}
 
 	/**
@@ -206,6 +201,22 @@ public class JiraHelper {
         apiHelper.setApiAuthHeader(headerMap);
         HttpEntity<String> entity = new HttpEntity<String>(jiraMaxWipCountJson, headerMap);
         String slackUrl = configObj.getHost() + environment.getProperty("server.port") + "/postMaxWipBreachedSlack";
+        String response = restTemplate.postForObject(slackUrl, entity, String.class);
+        log.info("Response: " + response);
+    }
+	
+	public void invokeSlackPostFoundWork(Map<String, Integer> jiraFoundWorkCountMap) {
+
+		Gson gson = new Gson();
+		log.info("Response JSON for Found Work from JIRA: " + gson.toJson(jiraFoundWorkCountMap));
+		String jiraFoundWorkCountJson = gson.toJson(jiraFoundWorkCountMap);
+		
+		RestTemplate restTemplate = new RestTemplate();
+        MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
+        headerMap.add("Content-Type", "application/json");
+        apiHelper.setApiAuthHeader(headerMap);
+        HttpEntity<String> entity = new HttpEntity<String>(jiraFoundWorkCountJson, headerMap);
+        String slackUrl = configObj.getHost() + environment.getProperty("server.port") + "/postFoundWorkSlack";
         String response = restTemplate.postForObject(slackUrl, entity, String.class);
         log.info("Response: " + response);
     }

@@ -5,7 +5,7 @@ package org.jarvis4ops.controller;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 import org.jarvis4ops.bean.BonusLyBean;
 import org.jarvis4ops.configurations.BonusLyConstants;
@@ -14,6 +14,7 @@ import org.jarvis4ops.helper.BonusLyHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,21 +42,27 @@ public class BonusLyController {
 
 	@RequestMapping(value = "/rewardRockstars", method = { RequestMethod.POST })
 	public String buildBonusLyMessageForRockstars(@RequestBody String rockstarsWithCountFixed) {
-		
+
 		Gson gson = new Gson();
 		Type newType = new TypeToken<HashMap<String, String>>(){}.getType();
 		HashMap<String,String> map = new Gson().fromJson(rockstarsWithCountFixed, newType);
 		
-		List<String> rockstarsToBeRewarded = bonusLyHelper.getRockstarsToBeRewarded(map.keySet());
-
-		rockstarsToBeRewarded.forEach(rockstar->{
+		Map<String, String> rockstarBonusLyIdAndCountMap = bonusLyHelper.getRockstarsToBeRewarded(map);
+		
+		for (Map.Entry<String, String> rockstarEntry : rockstarBonusLyIdAndCountMap.entrySet()) {
 			final BonusLyBean bonusLyBean = new BonusLyBean();
-			bonusLyBean.setGiver_email(configObj.getBonusLyGiverEmail());
-			bonusLyBean.setReason(bonusLyConstants.getRockstarRewardCitation());
-			System.out.println(rockstar);
-			log.info("BonusLy Json Value: " + gson.toJson(bonusLyBean));
-			bonusLyHelper.postRewards(gson.toJson(bonusLyBean));
-		});
+			final String giverEmail = bonusLyHelper.getEligibleGiverEmail();
+			if (StringUtils.isEmpty(giverEmail)) {
+				log.info("All giver emails are out of giver points : Please contact IT Support");
+			} else {
+				bonusLyBean.setGiver_email(giverEmail);
+				String citation = bonusLyHelper.buildRockstarCitation(rockstarEntry);
+				//bonusLyBean.setReason("@"+ rockstarEntry.getKey() + configObj.getEmptySpace() + bonusLyConstants.getRockstarRewardCitation() + configObj.getEmptySpace() + configObj.getCfd());
+				bonusLyBean.setReason(citation);
+				log.info("BonusLy Json Value: " + gson.toJson(bonusLyBean));
+				bonusLyHelper.postRewards(gson.toJson(bonusLyBean));
+			}
+		}
 		return "200";
 	}
 

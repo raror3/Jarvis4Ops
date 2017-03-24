@@ -4,10 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Controller
 public class EnvController {
 	private static final Logger log = LoggerFactory.getLogger(EnvController.class);
 
@@ -21,6 +23,15 @@ public class EnvController {
 		log.info("Slack Service from Environment: " + environment.getProperty("slackService"));
 		log.info("Server port from Environment: " + environment.getProperty("server.port"));
 		return "200";
+    }
+	
+	@RequestMapping(path="/index.html")
+	public String getIndex() {
+
+		log.info("Slack Service from System: " + System.getenv("slackService"));
+		log.info("Slack Service from Environment: " + environment.getProperty("slackService"));
+		log.info("Server port from Environment: " + environment.getProperty("server.port"));
+		return "index";
     }
 
 }

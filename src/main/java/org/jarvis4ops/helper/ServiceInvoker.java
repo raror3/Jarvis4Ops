@@ -2,6 +2,7 @@ package org.jarvis4ops.helper;
 
 import java.util.Map;
 
+import org.jarvis4ops.bean.ArrayIssueDetails;
 import org.jarvis4ops.configurations.Configurations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,7 @@ public class ServiceInvoker {
 	public String invokeBonusLyServiceToPost(Map<String, Integer> rockstarsJiraIssueCountMap) {
 
 		Gson gson = new Gson();
-		log.info("Request JSON for rockstars: " + gson.toJson(rockstarsJiraIssueCountMap));
+		log.info("BonusLy Request JSON for rockstars: " + gson.toJson(rockstarsJiraIssueCountMap));
 		String rockstarsJiraIssueCountJson = gson.toJson(rockstarsJiraIssueCountMap);
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -69,6 +70,27 @@ public class ServiceInvoker {
         apiHelper.setApiAuthHeader(headerMap);
         HttpEntity<String> entity = new HttpEntity<String>(rockstarsJiraIssueCountJson, headerMap);
         String slashUrl = configObj.getHost()+environment.getProperty("server.port")+"/postRockstarsOnSlack";
+        String response = restTemplate.postForObject(slashUrl, entity, String.class);
+        log.info("Response: " + response);
+        return response;
+    }
+	
+	/**
+	 * This method invokes API service to post message on Slack for the rockstars passed in the request.
+	 * This method takes the map of rockstars, creates the request of the API service and sends the map data as request body.
+	 * @param rockstarsJiraIssueCountMap HashMap<String, Integer>
+	 * @return String
+	 */
+	public String invokeAdoptedWorkService(final ArrayIssueDetails issueResponse, final String project) {
+		Gson gson = new Gson();
+		log.info("Response JSON for Adopted Work: " + gson.toJson(issueResponse));
+		String adoptedWorkJson = gson.toJson(issueResponse);
+		RestTemplate restTemplate = new RestTemplate();
+        MultiValueMap<String, String> headerMap = new LinkedMultiValueMap<String, String>(1);
+        headerMap.add("Content-Type", "application/json");
+        apiHelper.setApiAuthHeader(headerMap);
+        HttpEntity<String> entity = new HttpEntity<String>(adoptedWorkJson, headerMap);
+        String slashUrl = configObj.getHost()+environment.getProperty("server.port")+"/postAdoptedWorkOnSlack/"+project;
         String response = restTemplate.postForObject(slashUrl, entity, String.class);
         log.info("Response: " + response);
         return response;

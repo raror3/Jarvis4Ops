@@ -5,9 +5,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.jarvis4ops.bean.UserProfileBean;
 import org.jarvis4ops.configurations.Configurations;
+import org.jarvis4ops.configurations.JiraConstants;
 import org.jarvis4ops.configurations.SlackMessagingConstants;
 import org.jarvis4ops.controller.JiraController;
+import org.jarvis4ops.mongoRepositories.UserProfileRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +20,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import com.google.gson.Gson;
 
 @Component
 public class SlackHelper {
@@ -32,48 +33,34 @@ public class SlackHelper {
 	
 	@Autowired
 	private SlackMessagingConstants slackMessagingConstants;
+	
+	@Autowired
+	private JiraConstants jiraConstants;
+	
+	@Autowired
+	private UserProfileRepository userProfileRepository;
 
 	public String getRockstarNames(Set<String> rockStarJiraIds) {
-		Map<String, String> rockstarMap = new HashMap<String, String>(10);
-		rockstarMap.put("agupta", "Akash");
-		rockstarMap.put("htomar", "Himanshu");
-		rockstarMap.put("hmisra", "Hari Om");
-		rockstarMap.put("pkumar1", "Prabhat");
-		rockstarMap.put("dkhandelwal", "Divyansh");
-		rockstarMap.put("rarora", "Raghav");
-		rockstarMap.put("bkaur", "Bikran");
-		rockstarMap.put("jsahni@sapient.com", "Japneet");
-		rockstarMap.put("pgoyal", "Pulkit");
-		rockstarMap.put("aksharma", "Avinash");
-		rockstarMap.put("hsrivastava", "Harshit");
-		rockstarMap.put("hsinha", "Harshita");
-		rockstarMap.put("vmathur", "Varuneshwar");
-		rockstarMap.put("ayadav", "Antariksh");
-		rockstarMap.put("marora", "Madhur");
-		rockstarMap.put("sswami", "Sundeep");
-		rockstarMap.put("ssingh1", "Sandeep");
-		rockstarMap.put("rpandey", "Rahul");
-		rockstarMap.put("sgupta1", "Sumit");
-		rockstarMap.put("uagarwal", "Umang");
-		rockstarMap.put("rjha", "Raman");
-		rockstarMap.put("pkohli", "Prakash");
-		rockstarMap.put("jtripathy", "Jitendra");
-		rockstarMap.put("sgoel1", "Sonali");
-		rockstarMap.put("vkumar1", "VikasKumar");
-		rockstarMap.put("dgupta", "Deepak");
-		rockstarMap.put("ibanerjee", "Ishika");
-		rockstarMap.put("rkumar1", "Rishikesh");
-
-		StringBuilder builder = new StringBuilder();
-		rockStarJiraIds.forEach(rockStar->{
-			if(builder.length()==0) {
-				builder.append(rockstarMap.get(rockStar));
-			} else {
-				builder.append(", " + rockstarMap.get(rockStar));
+		
+		final StringBuilder rockstarNamesSb = new StringBuilder();
+		for (String rockstarId : rockStarJiraIds)
+		{
+		    UserProfileBean userProfile = userProfileRepository.findByJiraUsername(rockstarId);
+			if (userProfile != null) {
+				if (rockstarNamesSb.length() == 0) {
+					rockstarNamesSb.append(userProfile.getFirstName());
+					rockstarNamesSb.append(configObj.getEmptySpace());
+					rockstarNamesSb.append(userProfile.getLastName());
+				} else {
+					rockstarNamesSb.append(", " + userProfile.getFirstName());
+					rockstarNamesSb.append(configObj.getEmptySpace());
+					rockstarNamesSb.append(userProfile.getLastName());
+				}
+				
 			}
-		});
+		}
 
-		return builder.toString();
+		return rockstarNamesSb.toString();
 	}
 
 	public String getOpenIncidentNotificationImageUrl(int openScIncidentCount) {
@@ -99,7 +86,7 @@ public class SlackHelper {
 	public String getRockstarsImageUrl(int rockstars) {
 		// Random randomNumber = new Random();
 		// int memeListKey = randomNumber.nextInt(9 - 0 + 1) + 0;
-		return configObj.getIncidentRockstarMemeList().get(rockstars-1);
+		return slackMessagingConstants.getIncidentRockstarMemeList().get(rockstars-1);
 	}
 
 	public String buildSlackUrl(String channelName) {
@@ -111,6 +98,12 @@ public class SlackHelper {
 					break;
 				case "opsLeads":
 					slackUrl = configObj.getSlackService() + configObj.getSlackApiKeyOpsLeads();
+					break;
+				case "commerce":
+					slackUrl = configObj.getSlackService() + configObj.getSlackApiKeyCommerce();
+					break;
+				case "browse":
+					slackUrl = configObj.getSlackService() + configObj.getSlackApiKeyBrowse();
 					break;
 				case "jiraBots":
 				default:
@@ -141,6 +134,39 @@ public class SlackHelper {
 			jiraMaxWipBreachedDetailMsgSb.append("\n Max WIP limit breached for ToDo items and is: *" + jiraMaxWipCountMap.get("ToDo") + slackMessagingConstants.getJiraMaxWipBreachedDetailMsg2() + configObj.getEmptySpace() + configObj.getJiraToDoWipMaxLimit());
 		}
 		return jiraMaxWipBreachedDetailMsgSb.toString();
+	}
+	
+	public String composeFoundWorkMsg(HashMap<String, String> jiraFoundWorkCountMap) {
+		StringBuilder jiraFoundWorkDetailMsgSb = new StringBuilder();
+		int count = Integer.parseInt(jiraFoundWorkCountMap.get("FoundWorkCount"));
+		jiraFoundWorkDetailMsgSb.append(" " + count + "- new item" );
+		return jiraFoundWorkDetailMsgSb.toString();
+	}
+
+	public String buildPrevDayRockstarMessage(String rockstars) {
+		StringBuilder slackMsgSb = new StringBuilder("@here ");
+		slackMsgSb.append(rockstars);
+		slackMsgSb.append(configObj.getEmptySpace());
+		slackMsgSb.append(slackMessagingConstants.getGreatJobTitleMsg());
+		slackMsgSb.append(slackMessagingConstants.getIncidentsResolvedMsg().get(0));
+		slackMsgSb.append(configObj.getEmptySpace());
+		slackMsgSb.append(jiraConstants.getPrevDayJiraRockstarThreshold() + "+");
+		slackMsgSb.append(configObj.getEmptySpace());
+		slackMsgSb.append(slackMessagingConstants.getIncidentsResolvedMsg().get(1));
+		return slackMsgSb.toString();
+	}
+	/**
+	 * This method will return the slack channel name based upon the param in request.
+	 * @param jiraFoundWorkCountMap
+	 * @return
+	 */
+	public String fetchSlackChannel(HashMap<String, String> jiraFoundWorkCountMap) {
+		final String projName = jiraFoundWorkCountMap.get("projectName").toString();
+		if ("SHOPC".equalsIgnoreCase(projName)) {
+			return "commerce";
+		} else {
+			return "browse";
+		}
 	}
 
 }

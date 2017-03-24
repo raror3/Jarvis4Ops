@@ -21,12 +21,28 @@ public class JiraConstants {
 	private List<String> eligibleProjects;
 	private String shopcDorJql;
 	private String shopbDorJql;
+
 	private String supportDorJql;
 	private String shopcActiveSprint;
 	private String shopbActiveSprint;
 	private String supportActiveSprint;
-	
-	
+
+	private Integer prevDayJiraRockstarThreshold;
+
+	/**
+	 * @return the prevDayJiraRockstarThreshold
+	 */
+	public Integer getPrevDayJiraRockstarThreshold() {
+		return prevDayJiraRockstarThreshold;
+	}
+
+	/**
+	 * @param prevDayJiraRockstarThreshold the prevDayJiraRockstarThreshold to set
+	 */
+	public void setPrevDayJiraRockstarThreshold(Integer prevDayJiraRockstarThreshold) {
+		this.prevDayJiraRockstarThreshold = prevDayJiraRockstarThreshold;
+	}
+
 	/**
 	 * @return the shopcDorJql
 	 */

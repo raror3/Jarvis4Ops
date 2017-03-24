@@ -34,92 +34,47 @@ public class SlackMessagingConstants {
 	private String jiraMaxWipBreachedImageUrl;
 	private String jiraMaxWipBreachedTitleMsg;
 	private String jiraMaxWipBreachedDetailMsg2;
+	
+	private String jiraFoundWorkTitleMsg;
+	private String jiraFoundWorkImageUrl;
+	
+	private String jiraAdoptedWorkTitleMsg;
+	private String jiraAdoptedWorkImageUrl;
+
+	private String greatJobTitleMsg;
+	private List<String> incidentsResolvedMsg;
+	private String cfd;
+	private List<String> incidentRockstarMemeList;
+	private String teamWork;
 
 	/**
+	 * @return the value of -jiraFoundWorkTitleMsg
+	 */
+	public String getJiraFoundWorkTitleMsg() {
+		return jiraFoundWorkTitleMsg;
+	}
+	/**
+	 * @param jiraFoundWorkTitleMsg
+	 */
+	public void setJiraFoundWorkTitleMsg(String jiraFoundWorkTitleMsg) {
+		this.jiraFoundWorkTitleMsg = jiraFoundWorkTitleMsg;
+	}
+	
+	
+	public String getJiraAdoptedWorkTitleMsg() {
+		return jiraAdoptedWorkTitleMsg;
+	}
+	public void setJiraAdoptedWorkTitleMsg(final String jiraAdoptedWorkTitleMsg) {
+		this.jiraAdoptedWorkTitleMsg = jiraAdoptedWorkTitleMsg;
+	}
+	public String getJiraAdoptedWorkImageUrl() {
+		return jiraAdoptedWorkImageUrl;
+	}
+	public void setJiraAdoptedWorkImageUrl(String jiraAdoptedWorkImageUrl) {
+		this.jiraAdoptedWorkImageUrl = jiraAdoptedWorkImageUrl;
+	}
+	/**
 	 * @return the jiraMaxWipBreachedTitleMsg
-	 */
-	public String getJiraMaxWipBreachedTitleMsg() {
-		return jiraMaxWipBreachedTitleMsg;
-	}
-	/**
-	 * @param jiraMaxWipBreachedTitleMsg the jiraMaxWipBreachedTitleMsg to set
-	 */
-	public void setJiraMaxWipBreachedTitleMsg(String jiraMaxWipBreachedTitleMsg) {
-		this.jiraMaxWipBreachedTitleMsg = jiraMaxWipBreachedTitleMsg;
-	}
-	/**
-	 * @return the jiraMaxWipBreachedDetailMsg2
-	 */
-	public String getJiraMaxWipBreachedDetailMsg2() {
-		return jiraMaxWipBreachedDetailMsg2;
-	}
-	/**
-	 * @param jiraMaxWipBreachedDetailMsg2 the jiraMaxWipBreachedDetailMsg2 to set
-	 */
-	public void setJiraMaxWipBreachedDetailMsg2(String jiraMaxWipBreachedDetailMsg2) {
-		this.jiraMaxWipBreachedDetailMsg2 = jiraMaxWipBreachedDetailMsg2;
-	}
-	/**
-	 * @return the jiraMaxWipBreachedImageUrl
-	 */
-	public String getJiraMaxWipBreachedImageUrl() {
-		return jiraMaxWipBreachedImageUrl;
-	}
-	/**
-	 * @param jiraMaxWipBreachedImageUrl the jiraMaxWipBreachedImageUrl to set
-	 */
-	public void setJiraMaxWipBreachedImageUrl(String jiraMaxWipBreachedImageUrl) {
-		this.jiraMaxWipBreachedImageUrl = jiraMaxWipBreachedImageUrl;
-	}
-	/**
-	 * @return the dorStatusTitleMsg
-	 */
-	public String getDorStatusTitleMsg() {
-		return dorStatusTitleMsg;
-	}
-	/**
-	 * @param dorStatusTitleMsg the dorStatusTitleMsg to set
-	 */
-	public void setDorStatusTitleMsg(String dorStatusTitleMsg) {
-		this.dorStatusTitleMsg = dorStatusTitleMsg;
-	}
-	/**
-	 * @return the dorPendingStoriesDetailMsg
-	 */
-	public String getDorPendingStoriesDetailMsg() {
-		return dorPendingStoriesDetailMsg;
-	}
-	/**
-	 * @param dorPendingStoriesDetailMsg the dorPendingStoriesDetailMsg to set
-	 */
-	public void setDorPendingStoriesDetailMsg(String dorPendingStoriesDetailMsg) {
-		this.dorPendingStoriesDetailMsg = dorPendingStoriesDetailMsg;
-	}
-	/**
-	 * @return the openIncidentNotificationDetailMsg1
-	 */
-	public String getOpenIncidentNotificationDetailMsg1() {
-		return openIncidentNotificationDetailMsg1;
-	}
-	/**
-	 * @param openIncidentNotificationDetailMsg1 the openIncidentNotificationDetailMsg1 to set
-	 */
-	public void setOpenIncidentNotificationDetailMsg1(String openIncidentNotificationDetailMsg1) {
-		this.openIncidentNotificationDetailMsg1 = openIncidentNotificationDetailMsg1;
-	}
-	/**
-	 * @return the openIncidentNotificationDetailMsg2
-	 */
-	public String getOpenIncidentNotificationDetailMsg2() {
-		return openIncidentNotificationDetailMsg2;
-	}
-	/**
-	 * @param openIncidentNotificationDetailMsg2 the openIncidentNotificationDetailMsg2 to set
-	 */
-	public void setOpenIncidentNotificationDetailMsg2(String openIncidentNotificationDetailMsg2) {
-		this.openIncidentNotificationDetailMsg2 = openIncidentNotificationDetailMsg2;
-	}
-	/**
 	 * @return the scIssueNotificationTitleMsg
 	 */
 	public String getScIssueNotificationTitleMsg() {
@@ -178,6 +133,162 @@ public class SlackMessagingConstants {
 	 */
 	public void setOpenIncidentNotificationTitleMsg(String openIncidentNotificationTitleMsg) {
 		this.openIncidentNotificationTitleMsg = openIncidentNotificationTitleMsg;
+	}
+	/**
+	 * @return the openIncidentNotificationDetailMsg1
+	 */
+	public String getOpenIncidentNotificationDetailMsg1() {
+		return openIncidentNotificationDetailMsg1;
+	}
+	/**
+	 * @param openIncidentNotificationDetailMsg1 the openIncidentNotificationDetailMsg1 to set
+	 */
+	public void setOpenIncidentNotificationDetailMsg1(String openIncidentNotificationDetailMsg1) {
+		this.openIncidentNotificationDetailMsg1 = openIncidentNotificationDetailMsg1;
+	}
+	/**
+	 * @return the openIncidentNotificationDetailMsg2
+	 */
+	public String getOpenIncidentNotificationDetailMsg2() {
+		return openIncidentNotificationDetailMsg2;
+	}
+	/**
+	 * @param openIncidentNotificationDetailMsg2 the openIncidentNotificationDetailMsg2 to set
+	 */
+	public void setOpenIncidentNotificationDetailMsg2(String openIncidentNotificationDetailMsg2) {
+		this.openIncidentNotificationDetailMsg2 = openIncidentNotificationDetailMsg2;
+	}
+	/**
+	 * @return the dorStatusTitleMsg
+	 */
+	public String getDorStatusTitleMsg() {
+		return dorStatusTitleMsg;
+	}
+	/**
+	 * @param dorStatusTitleMsg the dorStatusTitleMsg to set
+	 */
+	public void setDorStatusTitleMsg(String dorStatusTitleMsg) {
+		this.dorStatusTitleMsg = dorStatusTitleMsg;
+	}
+	/**
+	 * @return the dorPendingStoriesDetailMsg
+	 */
+	public String getDorPendingStoriesDetailMsg() {
+		return dorPendingStoriesDetailMsg;
+	}
+	/**
+	 * @param dorPendingStoriesDetailMsg the dorPendingStoriesDetailMsg to set
+	 */
+	public void setDorPendingStoriesDetailMsg(String dorPendingStoriesDetailMsg) {
+		this.dorPendingStoriesDetailMsg = dorPendingStoriesDetailMsg;
+	}
+	/**
+	 * @return the jiraMaxWipBreachedImageUrl
+	 */
+	public String getJiraMaxWipBreachedImageUrl() {
+		return jiraMaxWipBreachedImageUrl;
+	}
+	/**
+	 * @param jiraMaxWipBreachedImageUrl the jiraMaxWipBreachedImageUrl to set
+	 */
+	public void setJiraMaxWipBreachedImageUrl(String jiraMaxWipBreachedImageUrl) {
+		this.jiraMaxWipBreachedImageUrl = jiraMaxWipBreachedImageUrl;
+	}
+	/**
+	 * @return the jiraMaxWipBreachedTitleMsg
+	 */
+	public String getJiraMaxWipBreachedTitleMsg() {
+		return jiraMaxWipBreachedTitleMsg;
+	}
+	/**
+	 * @param jiraMaxWipBreachedTitleMsg the jiraMaxWipBreachedTitleMsg to set
+	 */
+	public void setJiraMaxWipBreachedTitleMsg(String jiraMaxWipBreachedTitleMsg) {
+		this.jiraMaxWipBreachedTitleMsg = jiraMaxWipBreachedTitleMsg;
+	}
+	/**
+	 * @return the jiraMaxWipBreachedDetailMsg2
+	 */
+	public String getJiraMaxWipBreachedDetailMsg2() {
+		return jiraMaxWipBreachedDetailMsg2;
+	}
+	/**
+	 * @param jiraMaxWipBreachedDetailMsg2 the jiraMaxWipBreachedDetailMsg2 to set
+	 */
+	public void setJiraMaxWipBreachedDetailMsg2(String jiraMaxWipBreachedDetailMsg2) {
+		this.jiraMaxWipBreachedDetailMsg2 = jiraMaxWipBreachedDetailMsg2;
+	}
+	/**
+	 * @return the greatJobTitleMsg
+	 */
+	public String getGreatJobTitleMsg() {
+		return greatJobTitleMsg;
+	}
+	/**
+	 * @param greatJobTitleMsg the greatJobTitleMsg to set
+	 */
+	public void setGreatJobTitleMsg(String greatJobTitleMsg) {
+		this.greatJobTitleMsg = greatJobTitleMsg;
+	}
+	/**
+	 * @return the incidentsResolvedMsg
+	 */
+	public List<String> getIncidentsResolvedMsg() {
+		return incidentsResolvedMsg;
+	}
+	/**
+	 * @param incidentsResolvedMsg the incidentsResolvedMsg to set
+	 */
+	public void setIncidentsResolvedMsg(List<String> incidentsResolvedMsg) {
+		this.incidentsResolvedMsg = incidentsResolvedMsg;
+	}
+	/**
+	 * @return the cfd
+	 */
+	public String getCfd() {
+		return cfd;
+	}
+	/**
+	 * @param cfd the cfd to set
+	 */
+	public void setCfd(String cfd) {
+		this.cfd = cfd;
+	}
+	/**
+	 * @return the incidentRockstarMemeList
+	 */
+	public List<String> getIncidentRockstarMemeList() {
+		return incidentRockstarMemeList;
+	}
+	/**
+	 * @param incidentRockstarMemeList the incidentRockstarMemeList to set
+	 */
+	public void setIncidentRockstarMemeList(List<String> incidentRockstarMemeList) {
+		this.incidentRockstarMemeList = incidentRockstarMemeList;
+	}
+	/**
+	 * @return the teamWork
+	 */
+	public String getTeamWork() {
+		return teamWork;
+	}
+	/**
+	 * @param teamWork the teamWork to set
+	 */
+	public void setTeamWork(String teamWork) {
+		this.teamWork = teamWork;
+	}
+	/**
+	 * @return the jiraFoundWorkImageUrl
+	 */
+	public String getJiraFoundWorkImageUrl() {
+		return jiraFoundWorkImageUrl;
+	}
+	/**
+	 * @param jiraFoundWorkImageUrl the jiraFoundWorkImageUrl to set
+	 */
+	public void setJiraFoundWorkImageUrl(String jiraFoundWorkImageUrl) {
+		this.jiraFoundWorkImageUrl = jiraFoundWorkImageUrl;
 	}
 	/**
 	 * @return the dorStatusTitleMsg2
