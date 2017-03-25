@@ -3,8 +3,8 @@ package org.jarvis4ops.bean;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ActiveSprintDetails {
-	private int id;
+public class SprintDetailBean {
+    private int id;
 	private String name;
 	private String state;
 	/**

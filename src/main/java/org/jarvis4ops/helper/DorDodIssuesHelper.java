@@ -7,10 +7,7 @@ import java.util.Map;
 
 import org.jarvis4ops.bean.DorParameters;
 import org.jarvis4ops.bean.IssueDetails;
-import org.springframework.boot.autoconfigure.jdbc.metadata.TomcatDataSourcePoolMetadata;
 import org.springframework.stereotype.Component;
-
-import ch.qos.logback.core.net.SyslogOutputStream;
 
 @Component
 public class DorDodIssuesHelper {

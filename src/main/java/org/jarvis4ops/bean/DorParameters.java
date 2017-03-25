@@ -83,13 +83,6 @@ public class DorParameters {
 		this.overallStatus = overallStatus;
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return techReview + ", " + acceptanceCriteria.trim() + ", "+ uxDesign.trim() + ", " + thirdParty.trim() + ", " + nfrRequirement.trim() + ", "+ overallStatus.trim()+","+sprintName.trim();
-	}
 	/**
 	 * @return the sprintName
 	 */

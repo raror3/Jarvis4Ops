@@ -5,15 +5,15 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ActiveSprintResponse {
+public class JiraActiveSprintResponseBean {
 	
-	private List<ActiveSprintDetails> values;
+	private List<SprintDetailBean> values;
 	
-	public List<ActiveSprintDetails> getValues() {
+	public List<SprintDetailBean> getValues() {
 		return values;
 	}
 
-	public void setValues(List<ActiveSprintDetails> values) {
+	public void setValues(List<SprintDetailBean> values) {
 		this.values = values;
 	}
 

@@ -4,12 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.jarvis4ops.bean.ActiveSprintDetails;
+import org.jarvis4ops.bean.SprintDetailBean;
 import org.jarvis4ops.bean.ArrayIssueDetails;
 import org.jarvis4ops.bean.DorParameters;
 import org.jarvis4ops.configurations.Configurations;
 import org.jarvis4ops.configurations.HttpConstants;
-import org.jarvis4ops.configurations.JiraConstants;
 import org.jarvis4ops.helper.ApiHelper;
 import org.jarvis4ops.helper.DorDodIssuesHelper;
 import org.jarvis4ops.helper.JiraHelper;
@@ -85,9 +84,9 @@ public class JiraController {
 
 	    RestTemplate restTemplate = new RestTemplate();
 	    String projectNameDorJql = jiraIssueResponseHelper.fetchProjectDorJql(projectName);
-	    List<ActiveSprintDetails> activeSprintResp=jiraIssueResponseHelper.fetchActiveSprint(projectName,entity);
+	    List<SprintDetailBean> activeSprintResp=jiraIssueResponseHelper.fetchActiveSprint(projectName,entity);
 	    if (StringUtils.isNotEmpty(projectNameDorJql) && activeSprintResp.size()>0) {
-		    for(ActiveSprintDetails sprint : activeSprintResp){		    	
+		    for(SprintDetailBean sprint : activeSprintResp){		    	
 			    	log.info("Active Sprint for "+projectName+" is/are "+sprint.getName()+", Sprint Id- "+sprint.getId());
 			    	ResponseEntity<ArrayIssueDetails> response = restTemplate.exchange(configObj.getJiraEndPoint() + projectNameDorJql + sprint.getId() + ")", HttpMethod.GET, entity, ArrayIssueDetails.class);
 			    	Map<String, DorParameters> dorIssuesMap = dorIssuesHelper.issuesDorDodList(response.getBody().getIssues());					
