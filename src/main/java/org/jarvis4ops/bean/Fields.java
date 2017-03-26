@@ -22,6 +22,7 @@ public class Fields {
 	private CustomFieldValue customfield_13002; //For the field "UX Design"
 	private CustomFieldValue customfield_13003; //For the field "3rd Party Dependency"
 	private CustomFieldValue customfield_13004; //For the field "NFR Requirement considered"
+	private String [] customfield_10005; // For Sprint name
 
 	public Fields() {
 		super();
@@ -171,4 +172,22 @@ public class Fields {
 				+", UX Design=" + customfield_13002 + ", NFR Requirement considered=" + customfield_13002
 				+", 3rd Party Dependency=" + customfield_13003;
 	}
+
+
+	/**
+	 * @return the customfield_10005
+	 */
+	public String[] getCustomfield_10005() {
+		return customfield_10005;
+	}
+
+
+	/**
+	 * @param customfield_10005 the customfield_10005 to set
+	 */
+	public void setCustomfield_10005(String[] customfield_10005) {
+		this.customfield_10005 = customfield_10005;
+	}
+
+
 }

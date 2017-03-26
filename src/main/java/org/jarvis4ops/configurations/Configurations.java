@@ -60,6 +60,7 @@ public class Configurations {
 	private Integer jiraOpenIncidentsShout;
 	private Integer openScIncidentsShout;
 
+	private String jiraActiveSprintEndPoint;
 	private List<String> bonusLyGiverEmails;
 	private String bonusLyEndpointUrl;
 	private String bonusLyAccessToken;
@@ -560,6 +561,20 @@ public class Configurations {
 	 */
 	public void setBonusLyGiverUserIds(List<String> bonusLyGiverUserIds) {
 		this.bonusLyGiverUserIds = bonusLyGiverUserIds;
+	}
+
+	/**
+	 * @return the jiraActiveSprintEndPoint
+	 */
+	public String getJiraActiveSprintEndPoint() {
+		return jiraActiveSprintEndPoint;
+	}
+
+	/**
+	 * @param jiraActiveSprintEndPoint the jiraActiveSprintEndPoint to set
+	 */
+	public void setJiraActiveSprintEndPoint(String jiraActiveSprintEndPoint) {
+		this.jiraActiveSprintEndPoint = jiraActiveSprintEndPoint;
 	}
 
 }

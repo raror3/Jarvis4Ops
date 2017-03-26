@@ -8,6 +8,7 @@ public class DorParameters {
 	private String thirdParty; //For the field "3rd Party Dependency"
 	private String nfrRequirement; //For the field "NFR Requirement considered"
 	private String overallStatus;
+	private String sprintName;
 
 	/**
 	 * @return the techReview
@@ -81,11 +82,18 @@ public class DorParameters {
 	public void setOverallStatus(String overallStatus) {
 		this.overallStatus = overallStatus;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	
+	/**
+	 * @return the sprintName
 	 */
-	@Override
-	public String toString() {
-		return techReview + ", " + acceptanceCriteria.trim() + ", "+ uxDesign.trim() + ", " + thirdParty.trim() + ", " + nfrRequirement.trim() + ", "+ overallStatus.trim();
-	}	
+	public String getSprintName() {
+		return sprintName;
+	}
+	/**
+	 * @param sprintName the sprintName to set
+	 */
+	public void setSprintName(String sprintName) {
+		this.sprintName = sprintName;
+	}
+	
 }

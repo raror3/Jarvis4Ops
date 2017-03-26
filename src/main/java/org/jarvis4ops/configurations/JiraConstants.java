@@ -21,6 +21,12 @@ public class JiraConstants {
 	private List<String> eligibleProjects;
 	private String shopcDorJql;
 	private String shopbDorJql;
+
+	private String supportDorJql;
+	private String shopcActiveSprint;
+	private String shopbActiveSprint;
+	private String supportActiveSprint;
+
 	private Integer prevDayJiraRockstarThreshold;
 
 	/**
@@ -77,6 +83,66 @@ public class JiraConstants {
 	 */
 	public void setEligibleProjects(List<String> eligibleProjects) {
 		this.eligibleProjects = eligibleProjects;
+	}
+	
+	/**
+	 * @return shopcActiveSprint
+	 */
+	public String getShopcActiveSprint(){
+		return shopcActiveSprint;
+	}
+	
+	/**
+	 * 
+	 * @param shopcActiveSprint
+	 */
+	public void setShopcActiveSprint(String shopcActiveSprint){
+		
+	this.shopcActiveSprint=shopcActiveSprint;
+	}
+	/**
+	 * @return shopbActiveSprint
+	 */
+	public String getShopbActiveSprint(){
+		return shopbActiveSprint;
+	}
+	
+	/**
+	 * 
+	 * @param shopbActiveSprint
+	 */
+	public void setShopbActiveSprint(String shopbActiveSprint){
+		
+	this.shopbActiveSprint=shopbActiveSprint;
+	}
+	/**
+	 * @return supportActiveSprint
+	 */
+	public String getSupportActiveSprint(){
+		return supportActiveSprint;
+	}
+	
+	/**
+	 * 
+	 * @param supportActiveSprint
+	 */
+	public void setSupportActiveSprint(String supportActiveSprint){
+		
+	this.supportActiveSprint=supportActiveSprint;
+	}
+
+	/**
+	 * @return the supportDorJql
+	 */
+	public String getSupportDorJql() {
+		return supportDorJql;
+	}
+
+	/**
+	 * @param supportDorJql the supportDorJql to set
+	 */
+	public void setSupportDorJql(String supportDorJql) {
+		this.supportDorJql = supportDorJql;
 	}
 
 }

@@ -1,8 +1,10 @@
 package org.jarvis4ops.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.jarvis4ops.bean.SprintDetailBean;
 import org.jarvis4ops.bean.ArrayIssueDetails;
 import org.jarvis4ops.bean.DorParameters;
 import org.jarvis4ops.configurations.Configurations;
@@ -77,19 +79,23 @@ public class JiraController {
 	@RequestMapping(path="/{projectName}/dor")
 	public String checkProjectSpecificDorStatus(@PathVariable String projectName)
 	{
-		String returnString = null;
+		String returnString = null;		
 		HttpEntity<String> entity = jiraIssueResponseHelper.setJiraCredDetails();
 
 	    RestTemplate restTemplate = new RestTemplate();
 	    String projectNameDorJql = jiraIssueResponseHelper.fetchProjectDorJql(projectName);
-		//ResponseEntity<ArrayIssueDetails> response = restTemplate.exchange(configObj.getJiraEndPoint()+configObj.getDorDodJql(), HttpMethod.GET, entity, ArrayIssueDetails.class);
-	    if (StringUtils.isNotEmpty(projectNameDorJql)) {
-	    	ResponseEntity<ArrayIssueDetails> response = restTemplate.exchange(configObj.getJiraEndPoint() + projectNameDorJql, HttpMethod.GET, entity, ArrayIssueDetails.class);
-	    	Map<String, DorParameters> dorIssuesMap = dorIssuesHelper.issuesDorDodList(response.getBody().getIssues());
-			
-			if (null != dorIssuesMap && dorIssuesMap.size()>0) {
-				returnString = invokeSlackServiceDor(dorIssuesMap);
-			}
+	    List<SprintDetailBean> activeSprintResp=jiraIssueResponseHelper.fetchActiveSprint(projectName,entity);
+	    if (StringUtils.isNotEmpty(projectNameDorJql) && activeSprintResp.size()>0) {
+		    for(SprintDetailBean sprint : activeSprintResp){		    	
+			    	log.info("Active Sprint for "+projectName+" is/are "+sprint.getName()+", Sprint Id- "+sprint.getId());
+			    	ResponseEntity<ArrayIssueDetails> response = restTemplate.exchange(configObj.getJiraEndPoint() + projectNameDorJql + sprint.getId() + ")", HttpMethod.GET, entity, ArrayIssueDetails.class);
+			    	Map<String, DorParameters> dorIssuesMap = dorIssuesHelper.issuesDorDodList(response.getBody().getIssues());					
+					if (null != dorIssuesMap && dorIssuesMap.size()>0) {
+						returnString = invokeSlackServiceDor(dorIssuesMap);
+					}
+			    }
+	    }else{
+	    	returnString="ERROR";
 	    }
 	    return returnString;
 	}
@@ -110,5 +116,5 @@ public class JiraController {
         log.info("Response: " + response);
         return response;
     }
-
+	
 }

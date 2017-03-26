@@ -141,12 +141,13 @@ public class SlachController {
 
 		Gson gson = new Gson();
 		SlachBean slachBean = new SlachBean();
-
 		Type mapType = new TypeToken<HashMap<String, DorParameters>>(){}.getType();
 		HashMap<String,DorParameters> dorIssuesMap = new Gson().fromJson(dorIssuesList, mapType);
-		
+		String[] sprintNam=dorIssuesList.split("sprintName");
+		String[] sprintName=sprintNam[1].split("}");
+		sprintName[0] = sprintName[0].replaceAll("^\"|\":$", "");
 		slachBean.setFallback(dorIssuesHelper.countOfissuesDorImcomplete(dorIssuesMap) + slackMessagingConstants.getDorStatusTitleMsg());
-		slachBean.setTitle(dorIssuesHelper.countOfissuesDorImcomplete(dorIssuesMap) + configObj.getEmptySpace() + slackMessagingConstants.getDorStatusTitleMsg());
+		slachBean.setTitle(dorIssuesHelper.countOfissuesDorImcomplete(dorIssuesMap) + configObj.getEmptySpace() + slackMessagingConstants.getDorStatusTitleMsg() + sprintName[0] +" "+ slackMessagingConstants.getDorStatusTitleMsg2());
 		//slachBean.setText(slackMessagingConstants.getDorPendingStoriesDetailMsg() + configObj.getEmptySpace() + dorIssuesHelper.getIncompleteDorStoryList(dorIssuesMap));
 		SlackFields slackField = new SlackFields();
 		slackField.setTitle(slackMessagingConstants.getDorPendingStoriesDetailMsg());
@@ -170,7 +171,7 @@ public class SlachController {
 		slachBeanList.add(slachBean);
 		slachAttachments.setAttachments(slachBeanList);
 
-		log.info("Json Value: " + gson.toJson(slachAttachments));
+	//	log.info("Json Value: " + gson.toJson(slachAttachments));
 		slackHelper.postOnSlack(gson.toJson(slachAttachments), "jiraBots");
 
 		return "200";

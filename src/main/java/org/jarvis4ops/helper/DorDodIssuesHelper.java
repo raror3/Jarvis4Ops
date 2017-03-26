@@ -17,7 +17,9 @@ public class DorDodIssuesHelper {
 		Map <String, DorParameters> issuesMap = new HashMap<String, DorParameters>();;
 		
 		StringBuffer sbDor = new StringBuffer();
-		
+		String[] sprintString=null;
+		String[] sprintName=null; 
+		String[] sprintNam=null;
 		for (IssueDetails issue : paramIssueList)
 		{
 			String issueKey = issue.getKey();
@@ -26,7 +28,12 @@ public class DorDodIssuesHelper {
 			DorParameters dorParameters = new DorParameters();
 			
 			int dorCounter = 0;
-	
+			if(issue.getFields().getCustomfield_10005() != null) { 				
+		    sprintString=issue.getFields().getCustomfield_10005();
+			sprintNam =sprintString[0].split("name=");
+			sprintName= sprintNam[1].split(",");
+			dorParameters.setSprintName(sprintName[0]);
+			}
 			if(issue.getFields().getCustomfield_13000() != null) {  
 				dorCounter++;
 				dorParameters.setTechReview(issue.getFields().getCustomfield_13000().getValue() );
@@ -144,12 +151,21 @@ public class DorDodIssuesHelper {
 	public String getIncompleteDorStoryList(Map <String, DorParameters> issuesMap)
 	{
 		StringBuilder sbfListNotCovered = new StringBuilder();
+		int issueCounter=0;
+		int secondaryCounter=0;
 		for (String element : issuesMap.keySet()) {
 			if(sbfListNotCovered.length()==0 && issuesMap.get(element).getOverallStatus().equals("N")){
 				sbfListNotCovered.append(element);
-			} else if (issuesMap.get(element).getOverallStatus().equals("N")) {
+				issueCounter++;
+			} else if (issuesMap.get(element).getOverallStatus().equals("N") && issueCounter <5) {
 				sbfListNotCovered.append(", " + element);
+				issueCounter++;
+			}else if (issuesMap.get(element).getOverallStatus().equals("N") && issueCounter >=5){
+				secondaryCounter++;
 			}
+		}
+		if (secondaryCounter>1){
+			sbfListNotCovered.append(" and more. . .");
 		}
 		sbfListNotCovered.toString().substring(0, sbfListNotCovered.length() - 2);
 		return sbfListNotCovered.toString();

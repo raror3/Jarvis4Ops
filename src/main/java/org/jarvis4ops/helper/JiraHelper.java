@@ -4,13 +4,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
+import org.apache.commons.lang.StringUtils;
+import org.jarvis4ops.bean.SprintDetailBean;
+import org.jarvis4ops.bean.JiraActiveSprintResponseBean;
 import org.jarvis4ops.bean.IssueDetails;
 import org.jarvis4ops.configurations.Configurations;
 import org.jarvis4ops.configurations.JiraConstants;
@@ -20,6 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -42,6 +47,8 @@ public class JiraHelper {
 	
 	@Autowired
 	private ApiHelper apiHelper;
+
+
 
 	/**
 	 * @return
@@ -233,4 +240,31 @@ public class JiraHelper {
 		return projectNameJql;
 	}
 
+	public List<SprintDetailBean> fetchActiveSprint(String projectName, HttpEntity<String> entity){
+		
+		List<SprintDetailBean> sprintList = new ArrayList<SprintDetailBean>();
+		String projectAciveSprintURL=null;
+	    RestTemplate restTemplate = new RestTemplate();		  
+		if (jiraConstants.getEligibleProjects().contains(projectName)){
+			log.info("Fetching active sprints for project -" +projectName);
+			if(("shopc").equalsIgnoreCase(projectName))
+			{
+				projectAciveSprintURL=jiraConstants.getShopcActiveSprint();	
+			}
+			if(("support").equalsIgnoreCase(projectName))
+			{
+				projectAciveSprintURL=jiraConstants.getSupportActiveSprint();	
+			}
+			if(("shopb").equalsIgnoreCase(projectName))
+			{
+				projectAciveSprintURL=jiraConstants.getShopbActiveSprint();	
+			}
+		}
+		  if (StringUtils.isNotEmpty(projectAciveSprintURL)) {
+		    	ResponseEntity<JiraActiveSprintResponseBean> response = restTemplate.exchange(configObj.getJiraActiveSprintEndPoint() + projectAciveSprintURL, HttpMethod.GET, entity, JiraActiveSprintResponseBean.class);
+		    	sprintList= response.getBody().getValues();	
+		    }
+	return sprintList;
+	}
+		
 }
