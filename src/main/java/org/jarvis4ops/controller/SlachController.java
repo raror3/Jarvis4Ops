@@ -138,13 +138,11 @@ public class SlachController {
 
 	@RequestMapping(value = "/postDorStatus", method = { RequestMethod.POST })
 	public String buildSlackMessageForDor(@RequestBody String dorIssuesList) throws IOException {
-		log.info("Executing method buildSlackMessageForDor");
 		Gson gson = new Gson();
 		String channelName="jirabots"; // Setting default channel name as jirabots to post alert on slack
 		SlachBean slachBean = new SlachBean();
 		Type mapType = new TypeToken<HashMap<String, DorParameters>>(){}.getType();
 		HashMap<String,DorParameters> dorIssuesMap = new Gson().fromJson(dorIssuesList, mapType);
-		log.info("dor issue list -"+dorIssuesList );
 		String[] sprintNam=dorIssuesList.split("sprintName");
 		String[] sprintName=sprintNam[1].split("}");
 		sprintName[0] = sprintName[0].replaceAll("^\"|\":$", "");
