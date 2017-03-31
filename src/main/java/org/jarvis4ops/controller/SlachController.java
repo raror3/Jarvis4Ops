@@ -138,14 +138,22 @@ public class SlachController {
 
 	@RequestMapping(value = "/postDorStatus", method = { RequestMethod.POST })
 	public String buildSlackMessageForDor(@RequestBody String dorIssuesList) throws IOException {
-
 		Gson gson = new Gson();
+		String channelName="jirabots"; // Setting default channel name as jirabots to post alert on slack
 		SlachBean slachBean = new SlachBean();
 		Type mapType = new TypeToken<HashMap<String, DorParameters>>(){}.getType();
 		HashMap<String,DorParameters> dorIssuesMap = new Gson().fromJson(dorIssuesList, mapType);
 		String[] sprintNam=dorIssuesList.split("sprintName");
 		String[] sprintName=sprintNam[1].split("}");
 		sprintName[0] = sprintName[0].replaceAll("^\"|\":$", "");
+		if(dorIssuesList.contains("SHOPC")){
+			channelName="commerce";
+		}else if (dorIssuesList.contains("SHOPB")){
+			channelName="browse";
+		}else {
+			channelName="jirabots";
+		}
+		log.info("Channel name to post DOR alert: "+channelName );
 		slachBean.setFallback(dorIssuesHelper.countOfissuesDorImcomplete(dorIssuesMap) + slackMessagingConstants.getDorStatusTitleMsg());
 		slachBean.setTitle(dorIssuesHelper.countOfissuesDorImcomplete(dorIssuesMap) + configObj.getEmptySpace() + slackMessagingConstants.getDorStatusTitleMsg() + sprintName[0] +" "+ slackMessagingConstants.getDorStatusTitleMsg2());
 		//slachBean.setText(slackMessagingConstants.getDorPendingStoriesDetailMsg() + configObj.getEmptySpace() + dorIssuesHelper.getIncompleteDorStoryList(dorIssuesMap));
@@ -172,7 +180,7 @@ public class SlachController {
 		slachAttachments.setAttachments(slachBeanList);
 
 	//	log.info("Json Value: " + gson.toJson(slachAttachments));
-		slackHelper.postOnSlack(gson.toJson(slachAttachments), "jiraBots");
+		slackHelper.postOnSlack(gson.toJson(slachAttachments), channelName);
 
 		return "200";
 	}
