@@ -38,7 +38,7 @@ public class JiraAdopedWorkController {
 
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<ArrayIssueDetails> response = restTemplate.exchange(
-				configObj.getJiraEndPoint() + configObj.getAdoptedWorkJql() + " AND project = "+project, HttpMethod.GET, entity,
+				configObj.getJiraEndPoint() + configObj.getAdoptedWorkJql() + project, HttpMethod.GET, entity,
 				ArrayIssueDetails.class);
 		if (null != response.getBody().getIssues() && !response.getBody().getIssues().isEmpty()) {
 			log.info("New Adopted Work count : "+ response.getBody().getIssues().size());
