@@ -51,6 +51,7 @@ repositories {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+	compile("org.springframework.boot:spring-boot-devtools")
 	compile('org.springframework.boot:spring-boot-starter-integration')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
@@ -61,5 +62,8 @@ dependencies {
 	compile group: 'com.cloudinary', name: 'cloudinary', version: '1.0.14'
 	compile group: 'com.logentries', name: 'logentries-appender', version: '1.1.37'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '1.5.2.RELEASE'
-
+	compile group: 'org.webjars', name: 'd3js', version: '4.2.1'
+	compile group: 'pl.allegro.tech.boot', name: 'handlebars-spring-boot-starter', version: '0.2.15'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.2.RELEASE'
+	
 }

@@ -272,4 +272,43 @@ public class SlachController {
 		return "200";
 	}
 
+	@RequestMapping(value="/postDbcrsOnSlack/{release}" , method = { RequestMethod.POST })
+	public String sendReleaseDbcrsNotification(@PathVariable(value = "release", required = true) String release,
+			@RequestBody String jiraReleaseDbcrRequest) {
+		Gson gson = new Gson();
+		ArrayIssueDetails jiraReleaseDbcrs = new Gson().fromJson(jiraReleaseDbcrRequest, ArrayIssueDetails.class);
+
+		SlachBean slachBean = new SlachBean();
+		slachBean.setTitle(String.valueOf(jiraReleaseDbcrs.getTotal()).concat(configObj.getEmptySpace())
+				.concat(slackMessagingConstants.getReleaseDbcrTitleMsg().concat(configObj.getEmptySpace()).concat(release)));
+		//slachBean.setImage_url(slackMessagingConstants.getJiraAdoptedWorkImageUrl());
+
+		final List<IssueDetails> issuesDetails = jiraReleaseDbcrs.getIssues();
+		List<SlackFields> fields = new ArrayList<SlackFields>(issuesDetails.size());
+		StringBuilder slackValueSb = new StringBuilder("");
+		for (int i = 0; i < issuesDetails.size(); i++) {
+			
+			SlackFields slackField = new SlackFields();
+			slackField.setTitle("DBCR : " + issuesDetails.get(i).getKey());
+			slackValueSb.append("Summary : ".concat(issuesDetails.get(i).getFields().getSummary()));
+			slackValueSb.append("\n DBCR Type : " + issuesDetails.get(i).getFields().getCustomfield_12203());
+			slackValueSb.append("\n Backward Compatible? : " + issuesDetails.get(i).getFields().getCustomfield_12306());
+			slackValueSb.append("\n Workspace changes required? : " + issuesDetails.get(i).getFields().getCustomfield_12307());
+			slackValueSb.append("\n Tokenization required? : " + issuesDetails.get(i).getFields().getCustomfield_12230());
+			slackValueSb.append("\n Environments to apply? : " + issuesDetails.get(i).getFields().getCustomfield_12204());
+			slackValueSb.append("\n Impacting tables : " + issuesDetails.get(i).getFields().getCustomfield_12308());
+			slackValueSb.append("\n Impacting tables : " + issuesDetails.get(i).getFields().getCustomfield_12308());
+			slackField.setValue(slackValueSb.toString());
+			fields.add(slackField);
+		}
+		slachBean.setFields(fields);
+		slachBean.setColor("#7CD197");
+		SlachAttachments slachAttachments = new SlachAttachments();
+		List<SlachBean> slachBeanList = new ArrayList<SlachBean>(1);
+		slachBeanList.add(slachBean);
+		slachAttachments.setAttachments(slachBeanList);
+		log.info("Json Value: " + gson.toJson(slachAttachments));
+		slackHelper.postOnSlack(gson.toJson(slachAttachments), "jiraBots");
+		return "200";
+	}
 }

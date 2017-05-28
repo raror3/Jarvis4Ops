@@ -117,4 +117,18 @@ public class JiraController {
         return response;
     }
 	
+	@RequestMapping(path="/releaseDbcrs/{release}")
+	public String checkAllDbcrsForRelease(@PathVariable String release) {
+    	HttpEntity<String> entity = jiraIssueResponseHelper.setJiraCredDetails();
+
+	    RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<ArrayIssueDetails> response = restTemplate.exchange(configObj.getJiraEndPoint()+configObj.getDbcrsForReleaseJql() + release, HttpMethod.GET, entity, ArrayIssueDetails.class);
+
+		if (null != response.getBody().getIssues() && !response.getBody().getIssues().isEmpty()) {
+			log.info("DBCRs in release count : "+ response.getBody().getIssues().size());
+			//serviceInvoker.invokeAdoptedWorkService(response.getBody(), project);
+		}
+		return null;
+    }
+
 }

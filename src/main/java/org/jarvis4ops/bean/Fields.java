@@ -22,6 +22,12 @@ public class Fields {
 	private CustomFieldValue customfield_13002; //For the field "UX Design"
 	private CustomFieldValue customfield_13003; //For the field "3rd Party Dependency"
 	private CustomFieldValue customfield_13004; //For the field "NFR Requirement considered"
+	private CustomFieldValue customfield_12203; //For the field "DBCR Type"
+	private CustomFieldValue customfield_12306; //For Backward Compatibility of DBCR
+	private CustomFieldValue customfield_12307; //For Workspace changes of DBCR
+	private CustomFieldValue customfield_12230;	//For tokenization required of DBCR
+	private CustomFieldValue customfield_12204;	//For Env type of DBCR
+	private String [] customfield_12308;		//For affected tables for DBCR
 	private String [] customfield_10005; // For Sprint name
 
 	public Fields() {
@@ -29,6 +35,102 @@ public class Fields {
 	}
 	
 	
+	/**
+	 * @return the customfield_12203
+	 */
+	public CustomFieldValue getCustomfield_12203() {
+		return customfield_12203;
+	}
+
+
+	/**
+	 * @param customfield_12203 the customfield_12203 to set
+	 */
+	public void setCustomfield_12203(CustomFieldValue customfield_12203) {
+		this.customfield_12203 = customfield_12203;
+	}
+
+
+	/**
+	 * @return the customfield_12306
+	 */
+	public CustomFieldValue getCustomfield_12306() {
+		return customfield_12306;
+	}
+
+
+	/**
+	 * @param customfield_12306 the customfield_12306 to set
+	 */
+	public void setCustomfield_12306(CustomFieldValue customfield_12306) {
+		this.customfield_12306 = customfield_12306;
+	}
+
+
+	/**
+	 * @return the customfield_12307
+	 */
+	public CustomFieldValue getCustomfield_12307() {
+		return customfield_12307;
+	}
+
+
+	/**
+	 * @param customfield_12307 the customfield_12307 to set
+	 */
+	public void setCustomfield_12307(CustomFieldValue customfield_12307) {
+		this.customfield_12307 = customfield_12307;
+	}
+
+
+	/**
+	 * @return the customfield_12230
+	 */
+	public CustomFieldValue getCustomfield_12230() {
+		return customfield_12230;
+	}
+
+
+	/**
+	 * @param customfield_12230 the customfield_12230 to set
+	 */
+	public void setCustomfield_12230(CustomFieldValue customfield_12230) {
+		this.customfield_12230 = customfield_12230;
+	}
+
+
+	/**
+	 * @return the customfield_12204
+	 */
+	public CustomFieldValue getCustomfield_12204() {
+		return customfield_12204;
+	}
+
+
+	/**
+	 * @param customfield_12204 the customfield_12204 to set
+	 */
+	public void setCustomfield_12204(CustomFieldValue customfield_12204) {
+		this.customfield_12204 = customfield_12204;
+	}
+
+
+	/**
+	 * @return the customfield_12308
+	 */
+	public String[] getCustomfield_12308() {
+		return customfield_12308;
+	}
+
+
+	/**
+	 * @param customfield_12308 the customfield_12308 to set
+	 */
+	public void setCustomfield_12308(String[] customfield_12308) {
+		this.customfield_12308 = customfield_12308;
+	}
+
+
 	/**
 	 * @return the summary
 	 */

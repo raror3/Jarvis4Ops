@@ -46,7 +46,22 @@ public class SlackMessagingConstants {
 	private String cfd;
 	private List<String> incidentRockstarMemeList;
 	private String teamWork;
+	
+	private String releaseDbcrTitleMsg;
 
+
+	/**
+	 * @return the releaseDbcrTitleMsg
+	 */
+	public String getReleaseDbcrTitleMsg() {
+		return releaseDbcrTitleMsg;
+	}
+	/**
+	 * @param releaseDbcrTitleMsg the releaseDbcrTitleMsg to set
+	 */
+	public void setReleaseDbcrTitleMsg(String releaseDbcrTitleMsg) {
+		this.releaseDbcrTitleMsg = releaseDbcrTitleMsg;
+	}
 	/**
 	 * @return the value of -jiraFoundWorkTitleMsg
 	 */

@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -71,7 +72,11 @@ public class JiraControlChartHelper {
 	 */
 	public JiraVersionBean[] fetchProjectVersionsFromJira(String projectName) throws RestClientException {
 
-		HttpEntity<String> entity = jiraHelper.setJiraCredDetails();
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", "application/json");
+	    headers.set("Content-Type", "application/json");
+	    
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<JiraVersionBean[]> jiraVersionApiResponse = restTemplate.exchange(configObj.getJiraProjectApiEndPoint() + projectName.toUpperCase() + configObj.getVersions(), HttpMethod.GET, entity, JiraVersionBean[].class);
 

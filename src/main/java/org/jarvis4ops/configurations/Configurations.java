@@ -40,6 +40,7 @@ public class Configurations {
 	private String totalInTestItemsJql;
 	private String foundWorkJql;
 	private String adoptedWorkJql;
+	private String dbcrsForReleaseJql;
 
 	private String slackService;
 	private String slackApiKeyJiraBots;
@@ -67,6 +68,18 @@ public class Configurations {
 	private String bonusLyUsersEndpointUrl;
 	private List<String> bonusLyGiverUserIds;
 
+	/**
+	 * @return the dbcrsForReleaseJql
+	 */
+	public String getDbcrsForReleaseJql() {
+		return dbcrsForReleaseJql;
+	}
+	/**
+	 * @param dbcrsForReleaseJql the dbcrsForReleaseJql to set
+	 */
+	public void setDbcrsForReleaseJql(String dbcrsForReleaseJql) {
+		this.dbcrsForReleaseJql = dbcrsForReleaseJql;
+	}
 	/**
 	 * @return the slackApiKeyCommerce
 	 */
