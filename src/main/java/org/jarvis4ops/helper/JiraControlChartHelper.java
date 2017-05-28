@@ -77,6 +77,7 @@ public class JiraControlChartHelper {
 	    headers.set("Content-Type", "application/json");
 	    
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
+		entity = jiraHelper.setJiraCredDetails();
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<JiraVersionBean[]> jiraVersionApiResponse = restTemplate.exchange(configObj.getJiraProjectApiEndPoint() + projectName.toUpperCase() + configObj.getVersions(), HttpMethod.GET, entity, JiraVersionBean[].class);
 

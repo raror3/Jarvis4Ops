@@ -37,6 +37,10 @@ public class JiraControlChartDao {
 		if (null != versionBeanList && versionBeanList.size()>0) {
 			for (Iterator<JiraVersionBean> iterator = versionBeanList.iterator(); iterator.hasNext();) {
 			    JiraVersionBean versionBean = iterator.next();
+			    if (null == versionBean.getDescription() || !versionBean.getDescription().equalsIgnoreCase("Ops Sprint")) {
+			    	iterator.remove();
+			    	continue;
+			    }
 			    for (Iterator<JiraSwimlaneBean> swimlaneIterator = versionBean.getSwimlane().iterator(); swimlaneIterator.hasNext();) {
 			    	JiraSwimlaneBean swimlaneBean = swimlaneIterator.next();
 			    	if (!swimlaneId.equals(swimlaneBean.getSwimLaneId())) {

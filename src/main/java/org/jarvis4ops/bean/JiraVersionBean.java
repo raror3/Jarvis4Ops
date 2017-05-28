@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "jiraControlChart")
 public class JiraVersionBean implements Comparable<JiraVersionBean> {
-	@Id
+	@Id ObjectId databaseId;
 	private int id;
 	private String self;
 	private String description;
@@ -21,9 +23,15 @@ public class JiraVersionBean implements Comparable<JiraVersionBean> {
 	private boolean overdue;
 	private String userStartDate;
 	private String userReleaseDate;
-	private String projectId;
+	@Field("projectId") private String projectId;
 	private List<JiraSwimlaneBean> swimlane = new ArrayList<JiraSwimlaneBean>(1);
 
+	public ObjectId getDatabaseId() {
+		return databaseId;
+	}
+	public void setDatabaseId(ObjectId databaseId) {
+		this.databaseId = databaseId;
+	}
 	/**
 	 * @return the self
 	 */
@@ -183,6 +191,11 @@ public class JiraVersionBean implements Comparable<JiraVersionBean> {
 
 	@Override
 	public int compareTo(JiraVersionBean versionBean2) {
-		return getReleaseDate().compareTo(versionBean2.getReleaseDate());
+		if (null != getReleaseDate() && null != versionBean2.getReleaseDate())
+		{
+			return getReleaseDate().compareTo(versionBean2.getReleaseDate());
+		} else {
+			return -1;
+		}
 	}
 }
