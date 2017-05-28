@@ -32,6 +32,7 @@ public class SpringAppApplication {
           .authorizeRequests()
             .antMatchers("/index", "/index.html", "/home.html", "/login.html", "/").permitAll()
             .anyRequest().authenticated();
+        http.csrf().disable();
       }
     }
 
