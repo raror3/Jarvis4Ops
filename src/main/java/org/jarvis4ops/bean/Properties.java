@@ -12,6 +12,7 @@ public class Properties {
 	private List<TrafficTargets> trafficTargets;
 	private List<LivenessTests> livenessTests;
 	private int dynamicTTL;
+	private int staticTTL;
 	private boolean useComputedTargets;
 	private boolean ipv6;
 	
@@ -98,6 +99,18 @@ public class Properties {
 	 */
 	public void setIpv6(boolean ipv6) {
 		this.ipv6 = ipv6;
+	}
+	/**
+	 * @return the staticTTL
+	 */
+	public int getStaticTTL() {
+		return staticTTL;
+	}
+	/**
+	 * @param staticTTL the staticTTL to set
+	 */
+	public void setStaticTTL(int staticTTL) {
+		this.staticTTL = staticTTL;
 	}
 
 	

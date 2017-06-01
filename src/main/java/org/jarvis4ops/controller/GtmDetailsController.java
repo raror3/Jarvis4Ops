@@ -70,6 +70,15 @@ public class GtmDetailsController {
 			gtm4 = akamaiHelper.invokeApi(entity, restTemplate, configObj.getAkamaiCheckCs(), HttpMethod.GET);
 			gtm5 = akamaiHelper.invokeApi(entity, restTemplate, configObj.getAkamaiCheckStore(), HttpMethod.GET);
 
+		}else if (env.equalsIgnoreCase("stagecheck")) {
+
+			gtm = akamaiHelper.invokeApi(entity, restTemplate, configObj.getAkamaiStageCheckCommerceApi(), HttpMethod.GET);
+			gtm1 = akamaiHelper.invokeApi(entity, restTemplate, configObj.getAkamaiStageCheck(), HttpMethod.GET);
+			gtm2 = akamaiHelper.invokeApi(entity, restTemplate, configObj.getAkamaiStageCheckAsset1(), HttpMethod.GET);
+			gtm3 = akamaiHelper.invokeApi(entity, restTemplate, configObj.getAkamaiStageCheckAsset2(), HttpMethod.GET);
+			gtm4 = akamaiHelper.invokeApi(entity, restTemplate, configObj.getAkamaiStageCheckCs(), HttpMethod.GET);
+			gtm5 = akamaiHelper.invokeApi(entity, restTemplate, configObj.getAkamaiStageCheckStore(), HttpMethod.GET);
+
 		} else if (env.equalsIgnoreCase("prod")) {
 			
 			gtm = akamaiHelper.invokeApi(entity, restTemplate, configObj.getAkamaiCommerceApi(), HttpMethod.GET);

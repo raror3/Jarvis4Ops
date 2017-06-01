@@ -9,12 +9,14 @@ public class GtmProperties {
 	private String handoutMode;
 	private String scoreAggregationType;
 	private List<LivenessTests> livenessTests;
+	private int staticTTL;
 	private List<TrafficTargets> trafficTargets;
 	private String type;
 	private String name;
 	private int dynamicTTL;
 	private boolean useComputedTargets;
 	private boolean ipv6;
+	private String comments;
 	
 	public GtmProperties() {
 		super();
@@ -147,6 +149,38 @@ public class GtmProperties {
 	 */
 	public void setIpv6(boolean ipv6) {
 		this.ipv6 = ipv6;
+	}
+
+
+	/**
+	 * @return the comments
+	 */
+	public String getComments() {
+		return comments;
+	}
+
+
+	/**
+	 * @param comments the comments to set
+	 */
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
+
+	/**
+	 * @return the staticTTL
+	 */
+	public int getStaticTTL() {
+		return staticTTL;
+	}
+
+
+	/**
+	 * @param staticTTL the staticTTL to set
+	 */
+	public void setStaticTTL(int staticTTL) {
+		this.staticTTL = staticTTL;
 	}
 
 }

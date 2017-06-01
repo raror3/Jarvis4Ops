@@ -36,127 +36,18 @@ public class AkamaiConfigurations {
 	private String akamaiAsset1;
 	private String akamaiWww;
 	private String akamaiShopSearch;
-	private String StagetargetServerCsH5;
-	private String StagetargetServerCsH8;
-	private String StagetargetServerStoreH5;
-	private String StagetargetServerStoreH8;
-	private String StagetargetServerStageH5;
-	private String StagetargetServerStageH8;
-	private String StagetargetServerCommerceApiH5;
-	private String StagetargetServerCommerceApiH8;
-	private String StagetargetServerAsset2H5;
-	private String StagetargetServerAsset2H8;
-	private String StagetargetServerAsset1H5;
-	private String StagetargetServerAsset1H8;
-	
-	private String TargetServerCsH5;
-	private String TargetServerCsH8;
-	private String TargetServerStoreH5;
-	private String TargetServerStoreH8;
-	private String TargetServerH5;
-	private String TargetServerH8;
-	private String TargetServerCommerceApiH5;
-	private String TargetServerCommerceApiH8;
-	private String TargetServerAsset2H5;
-	private String TargetServerAsset2H8;
-	private String TargetServerAsset1H5;
-	private String TargetServerAsset1H8;
-	private String TargetServerShopSearchH5;
-	private String TargetServerShopSearchH8;
 	private Integer DataCenterH5;
 	private Integer DataCenterH8;
-	
-
-	
+	private Integer DataCenterDR;
 	private String akamaiStageShopSearch;
+	private String akamaiStageCheckCs;
+	private String akamaiStageCheckCommerceApi;
+	private String akamaiStageCheckStore;
+	private String akamaiStageCheckAsset2;
+	private String akamaiStageCheckAsset1;
+	private String akamaiStageCheck;
 
-	public String getStagetargetServerCsH5() {
-		return StagetargetServerCsH5;
-	}
-
-	public void setStagetargetServerCsH5(String stagetargetServerCsH5) {
-		StagetargetServerCsH5 = stagetargetServerCsH5;
-	}
-
-	public String getStagetargetServerCsH8() {
-		return StagetargetServerCsH8;
-	}
-
-	public void setStagetargetServerCsH8(String stagetargetServerCsH8) {
-		StagetargetServerCsH8 = stagetargetServerCsH8;
-	}
-
-	public String getStagetargetServerStoreH5() {
-		return StagetargetServerStoreH5;
-	}
-
-	public void setStagetargetServerStoreH5(String stagetargetServerStoreH5) {
-		StagetargetServerStoreH5 = stagetargetServerStoreH5;
-	}
-
-	public String getStagetargetServerStageH5() {
-		return StagetargetServerStageH5;
-	}
-
-	public void setStagetargetServerStageH5(String stagetargetServerStageH5) {
-		StagetargetServerStageH5 = stagetargetServerStageH5;
-	}
-
-	public String getStagetargetServerStageH8() {
-		return StagetargetServerStageH8;
-	}
-
-	public void setStagetargetServerStageH8(String stagetargetServerStageH8) {
-		StagetargetServerStageH8 = stagetargetServerStageH8;
-	}
-
-	public String getStagetargetServerCommerceApiH5() {
-		return StagetargetServerCommerceApiH5;
-	}
-
-	public void setStagetargetServerCommerceApiH5(String stagetargetServerCommerceApiH5) {
-		StagetargetServerCommerceApiH5 = stagetargetServerCommerceApiH5;
-	}
-
-	public String getStagetargetServerCommerceApiH8() {
-		return StagetargetServerCommerceApiH8;
-	}
-
-	public void setStagetargetServerCommerceApiH8(String stagetargetServerCommerceApiH8) {
-		StagetargetServerCommerceApiH8 = stagetargetServerCommerceApiH8;
-	}
-
-	public String getStagetargetServerAsset2H5() {
-		return StagetargetServerAsset2H5;
-	}
-
-	public void setStagetargetServerAsset2H5(String stagetargetServerAsset2H5) {
-		StagetargetServerAsset2H5 = stagetargetServerAsset2H5;
-	}
-
-	public String getStagetargetServerAsset2H8() {
-		return StagetargetServerAsset2H8;
-	}
-
-	public void setStagetargetServerAsset2H8(String stagetargetServerAsset2H8) {
-		StagetargetServerAsset2H8 = stagetargetServerAsset2H8;
-	}
-
-	public String getStagetargetServerAsset1H5() {
-		return StagetargetServerAsset1H5;
-	}
-
-	public void setStagetargetServerAsset1H5(String stagetargetServerAsset1H5) {
-		StagetargetServerAsset1H5 = stagetargetServerAsset1H5;
-	}
-
-	public String getStagetargetServerAsset1H8() {
-		return StagetargetServerAsset1H8;
-	}
-
-	public void setStagetargetServerAsset1H8(String stagetargetServerAsset1H8) {
-		StagetargetServerAsset1H8 = stagetargetServerAsset1H8;
-	}
+	
 
 	public String getAkamaiCs() {
 		return akamaiCs;
@@ -305,19 +196,7 @@ public class AkamaiConfigurations {
 		this.akamaiShopSearch = akamaiShopSearch;
 	}
 
-	/**
-	 * @return the stagetargetServerStoreH8
-	 */
-	public String getStagetargetServerStoreH8() {
-		return StagetargetServerStoreH8;
-	}
-
-	/**
-	 * @param stagetargetServerStoreH8 the stagetargetServerStoreH8 to set
-	 */
-	public void setStagetargetServerStoreH8(String stagetargetServerStoreH8) {
-		StagetargetServerStoreH8 = stagetargetServerStoreH8;
-	}
+	
 	/**
 	 * @return the akamaiCheckCs
 	 */
@@ -402,201 +281,6 @@ public class AkamaiConfigurations {
 		this.akamaiCheck = akamaiCheck;
 	}
 
-	/**
-	 * @return the targetServerCsH5
-	 */
-	public String getTargetServerCsH5() {
-		return TargetServerCsH5;
-	}
-
-	/**
-	 * @param targetServerCsH5 the targetServerCsH5 to set
-	 */
-	public void setTargetServerCsH5(String targetServerCsH5) {
-		TargetServerCsH5 = targetServerCsH5;
-	}
-
-	/**
-	 * @return the targetServerCsH8
-	 */
-	public String getTargetServerCsH8() {
-		return TargetServerCsH8;
-	}
-
-	/**
-	 * @param targetServerCsH8 the targetServerCsH8 to set
-	 */
-	public void setTargetServerCsH8(String targetServerCsH8) {
-		TargetServerCsH8 = targetServerCsH8;
-	}
-
-	/**
-	 * @return the targetServerStoreH5
-	 */
-	public String getTargetServerStoreH5() {
-		return TargetServerStoreH5;
-	}
-
-	/**
-	 * @param targetServerStoreH5 the targetServerStoreH5 to set
-	 */
-	public void setTargetServerStoreH5(String targetServerStoreH5) {
-		TargetServerStoreH5 = targetServerStoreH5;
-	}
-
-	/**
-	 * @return the targetServerStoreH8
-	 */
-	public String getTargetServerStoreH8() {
-		return TargetServerStoreH8;
-	}
-
-	/**
-	 * @param targetServerStoreH8 the targetServerStoreH8 to set
-	 */
-	public void setTargetServerStoreH8(String targetServerStoreH8) {
-		TargetServerStoreH8 = targetServerStoreH8;
-	}
-
-	/**
-	 * @return the targetServerH5
-	 */
-	public String getTargetServerH5() {
-		return TargetServerH5;
-	}
-
-	/**
-	 * @param targetServerH5 the targetServerH5 to set
-	 */
-	public void setTargetServerH5(String targetServerH5) {
-		TargetServerH5 = targetServerH5;
-	}
-
-	/**
-	 * @return the targetServerH8
-	 */
-	public String getTargetServerH8() {
-		return TargetServerH8;
-	}
-
-	/**
-	 * @param targetServerH8 the targetServerH8 to set
-	 */
-	public void setTargetServerH8(String targetServerH8) {
-		TargetServerH8 = targetServerH8;
-	}
-
-	/**
-	 * @return the targetServerCommerceApiH5
-	 */
-	public String getTargetServerCommerceApiH5() {
-		return TargetServerCommerceApiH5;
-	}
-
-	/**
-	 * @param targetServerCommerceApiH5 the targetServerCommerceApiH5 to set
-	 */
-	public void setTargetServerCommerceApiH5(String targetServerCommerceApiH5) {
-		TargetServerCommerceApiH5 = targetServerCommerceApiH5;
-	}
-
-	/**
-	 * @return the targetServerCommerceApiH8
-	 */
-	public String getTargetServerCommerceApiH8() {
-		return TargetServerCommerceApiH8;
-	}
-
-	/**
-	 * @param targetServerCommerceApiH8 the targetServerCommerceApiH8 to set
-	 */
-	public void setTargetServerCommerceApiH8(String targetServerCommerceApiH8) {
-		TargetServerCommerceApiH8 = targetServerCommerceApiH8;
-	}
-
-	/**
-	 * @return the targetServerAsset2H5
-	 */
-	public String getTargetServerAsset2H5() {
-		return TargetServerAsset2H5;
-	}
-
-	/**
-	 * @param targetServerAsset2H5 the targetServerAsset2H5 to set
-	 */
-	public void setTargetServerAsset2H5(String targetServerAsset2H5) {
-		TargetServerAsset2H5 = targetServerAsset2H5;
-	}
-
-	/**
-	 * @return the targetServerAsset2H8
-	 */
-	public String getTargetServerAsset2H8() {
-		return TargetServerAsset2H8;
-	}
-
-	/**
-	 * @param targetServerAsset2H8 the targetServerAsset2H8 to set
-	 */
-	public void setTargetServerAsset2H8(String targetServerAsset2H8) {
-		TargetServerAsset2H8 = targetServerAsset2H8;
-	}
-
-	/**
-	 * @return the targetServerAsset1H5
-	 */
-	public String getTargetServerAsset1H5() {
-		return TargetServerAsset1H5;
-	}
-
-	/**
-	 * @param targetServerAsset1H5 the targetServerAsset1H5 to set
-	 */
-	public void setTargetServerAsset1H5(String targetServerAsset1H5) {
-		TargetServerAsset1H5 = targetServerAsset1H5;
-	}
-
-	/**
-	 * @return the targetServerAsset1H8
-	 */
-	public String getTargetServerAsset1H8() {
-		return TargetServerAsset1H8;
-	}
-
-	/**
-	 * @param targetServerAsset1H8 the targetServerAsset1H8 to set
-	 */
-	public void setTargetServerAsset1H8(String targetServerAsset1H8) {
-		TargetServerAsset1H8 = targetServerAsset1H8;
-	}
-
-	/**
-	 * @return the targetServerShopSearchH5
-	 */
-	public String getTargetServerShopSearchH5() {
-		return TargetServerShopSearchH5;
-	}
-
-	/**
-	 * @param targetServerShopSearchH5 the targetServerShopSearchH5 to set
-	 */
-	public void setTargetServerShopSearchH5(String targetServerShopSearchH5) {
-		TargetServerShopSearchH5 = targetServerShopSearchH5;
-	}
-
-	/**
-	 * @return the targetServerShopSearchH8
-	 */
-	public String getTargetServerShopSearchH8() {
-		return TargetServerShopSearchH8;
-	}
-
-	/**
-	 * @param targetServerShopSearchH8 the targetServerShopSearchH8 to set
-	 */
-	public void setTargetServerShopSearchH8(String targetServerShopSearchH8) {
-		TargetServerShopSearchH8 = targetServerShopSearchH8;
-	}
 	
 	/**
 	 * @return the dataCenterH5
@@ -652,6 +336,104 @@ public class AkamaiConfigurations {
 	 */
 	public void setAkamaiStageShopSearch(String akamaiStageShopSearch) {
 		this.akamaiStageShopSearch = akamaiStageShopSearch;
+	}
+
+	/**
+	 * @return the dataCenterDR
+	 */
+	public Integer getDataCenterDR() {
+		return DataCenterDR;
+	}
+
+	/**
+	 * @param dataCenterDR the dataCenterDR to set
+	 */
+	public void setDataCenterDR(Integer dataCenterDR) {
+		DataCenterDR = dataCenterDR;
+	}
+
+	/**
+	 * @return the akamaiStageCheckCs
+	 */
+	public String getAkamaiStageCheckCs() {
+		return akamaiStageCheckCs;
+	}
+
+	/**
+	 * @param akamaiStageCheckCs the akamaiStageCheckCs to set
+	 */
+	public void setAkamaiStageCheckCs(String akamaiStageCheckCs) {
+		this.akamaiStageCheckCs = akamaiStageCheckCs;
+	}
+
+	/**
+	 * @return the akamaiStageCheckCommerceApi
+	 */
+	public String getAkamaiStageCheckCommerceApi() {
+		return akamaiStageCheckCommerceApi;
+	}
+
+	/**
+	 * @param akamaiStageCheckCommerceApi the akamaiStageCheckCommerceApi to set
+	 */
+	public void setAkamaiStageCheckCommerceApi(String akamaiStageCheckCommerceApi) {
+		this.akamaiStageCheckCommerceApi = akamaiStageCheckCommerceApi;
+	}
+
+	/**
+	 * @return the akamaiStageCheckStore
+	 */
+	public String getAkamaiStageCheckStore() {
+		return akamaiStageCheckStore;
+	}
+
+	/**
+	 * @param akamaiStageCheckStore the akamaiStageCheckStore to set
+	 */
+	public void setAkamaiStageCheckStore(String akamaiStageCheckStore) {
+		this.akamaiStageCheckStore = akamaiStageCheckStore;
+	}
+
+	/**
+	 * @return the akamaiStageCheckAsset2
+	 */
+	public String getAkamaiStageCheckAsset2() {
+		return akamaiStageCheckAsset2;
+	}
+
+	/**
+	 * @param akamaiStageCheckAsset2 the akamaiStageCheckAsset2 to set
+	 */
+	public void setAkamaiStageCheckAsset2(String akamaiStageCheckAsset2) {
+		this.akamaiStageCheckAsset2 = akamaiStageCheckAsset2;
+	}
+
+	/**
+	 * @return the akamaiStageCheckAsset1
+	 */
+	public String getAkamaiStageCheckAsset1() {
+		return akamaiStageCheckAsset1;
+	}
+
+	/**
+	 * @param akamaiStageCheckAsset1 the akamaiStageCheckAsset1 to set
+	 */
+	public void setAkamaiStageCheckAsset1(String akamaiStageCheckAsset1) {
+		this.akamaiStageCheckAsset1 = akamaiStageCheckAsset1;
+	}
+
+	/**
+	 * @return the akamaiStageCheck
+	 */
+	public String getAkamaiStageCheck() {
+		return akamaiStageCheck;
+	}
+
+	/**
+	 * @param akamaiStageCheck the akamaiStageCheck to set
+	 */
+	public void setAkamaiStageCheck(String akamaiStageCheck) {
+		this.akamaiStageCheck = akamaiStageCheck;
 	}
 
 
