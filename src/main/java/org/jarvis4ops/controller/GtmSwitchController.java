@@ -284,18 +284,18 @@ public class GtmSwitchController {
 			if (trafficTargets.getDatacenterId() == configObj.getDataCenterH5()) {
 				String[] Servers = trafficTargets.getServers();
 				String serverH5 = Servers[0];
-				trafficTargets1 = setTrafficTargets(3131, Integer.parseInt(list.get(0)), serverH5, enabled);
+				trafficTargets1 = setTrafficTargets(configObj.getDataCenterH5(), Integer.parseInt(list.get(0)), serverH5, enabled);
 			}
 			if (trafficTargets.getDatacenterId() == configObj.getDataCenterH8()) {
 				String[] Servers = trafficTargets.getServers();
 				String serverH8 = Servers[0];
-				trafficTargets2 = setTrafficTargets(3132, Integer.parseInt(list.get(1)), serverH8, enabled);
+				trafficTargets2 = setTrafficTargets(configObj.getDataCenterH8(), Integer.parseInt(list.get(1)), serverH8, enabled);
 			}
 			
 			if(trafficTargets.getDatacenterId() == configObj.getDataCenterDR()){
 				String[] Servers = trafficTargets.getServers();
 				String serverDR = Servers[0];
-				trafficTargets3 = setTrafficTargets(3133, Integer.parseInt(list.get(2)), serverDR, enabled);
+				trafficTargets3 = setTrafficTargets(configObj.getDataCenterDR(), Integer.parseInt(list.get(2)), serverDR, enabled);
 			}
 
 		}

@@ -2,7 +2,6 @@ package org.jarvis4ops.helper;
 
 import org.jarvis4ops.bean.GtmResources;
 import org.jarvis4ops.bean.GtmResponse;
-import org.jarvis4ops.bean.LivenessTests;
 import org.jarvis4ops.bean.Properties;
 import org.jarvis4ops.bean.TrafficTargets;
 import org.jarvis4ops.configurations.AkamaiConfigurations;
@@ -89,31 +88,6 @@ public class AkamaiHelper {
 		
 	}
 	
-	
-
-	/**
-	 * @return
-	 */
-	public LivenessTests setLivenessTest() {
-		LivenessTests livenessTests = new LivenessTests();
-		livenessTests.setDisableNonstandardPortWarning(false);
-		livenessTests.setHttpError3xx(true);
-		livenessTests.setHttpError4xx(true);
-		livenessTests.setHttpError5xx(true);
-		livenessTests.setName("Liveness Test");
-		livenessTests.setRequestString(null);
-		livenessTests.setResponseString(null);
-		livenessTests.setTestInterval(60);
-		livenessTests.setTestObject("/f5hc/gtm_liveness_check.gif");
-		livenessTests.setTestObjectPort(80);
-		livenessTests.setTestObjectProtocol("HTTP");
-		livenessTests.setTestObjectUsername(null);
-		livenessTests.setTestObjectPassword(null);
-		livenessTests.setTestTimeout(25);
-		livenessTests.setSslClientCertificate(null);
-		livenessTests.setSslClientPrivateKey(null);
-		return livenessTests;
-	}
 
 
 }
