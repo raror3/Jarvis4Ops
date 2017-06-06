@@ -188,42 +188,52 @@ public class GtmSwitchController {
 					}
 				}
 
-				} else if (env.equalsIgnoreCase("prod")) {
+		} else if (env.equalsIgnoreCase("prod")) {
 
 			String[] prop = property.split(",");
 			for (String api : prop) {
 				if (api.equalsIgnoreCase("commerceapi")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiCommerceApi());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,
+							configObj.getAkamaiCommerceApi());
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiCommerceApi(),
 							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("cs")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiCs());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,
+							configObj.getAkamaiCs());
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
-					gtm1 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiCs(), HttpMethod.PUT);
+					gtm1 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiCs(),
+							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("store")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStore());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,
+							configObj.getAkamaiStore());
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm2 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiStore(),
 							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("asset1")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiAsset1());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,
+							configObj.getAkamaiAsset1());
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm3 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiAsset1(),
 							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("asset2")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiAsset2());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,
+							configObj.getAkamaiAsset2());
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm4 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiAsset2(),
 							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("www")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiWww());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,
+							configObj.getAkamaiWww());
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
-					gtm5 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiWww(), HttpMethod.PUT);
+					gtm5 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiWww(),
+							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("shopSearch")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiShopSearch());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,
+							configObj.getAkamaiShopSearch());
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
-					gtm6 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiShopSearch(), HttpMethod.PUT);
+					gtm6 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiShopSearch(),
+							HttpMethod.PUT);
 				}
 
 			}
@@ -270,21 +280,22 @@ public class GtmSwitchController {
 		final List<TrafficTargets> trafficTargetList = apiResponse.getBody().getTrafficTargets();
 		properties.setLivenessTests(apiResponse.getBody().getLivenessTests());
 		for (final TrafficTargets trafficTargets : trafficTargetList) {
+			boolean enabled = trafficTargets.isEnabled();
 			if (trafficTargets.getDatacenterId() == configObj.getDataCenterH5()) {
 				String[] Servers = trafficTargets.getServers();
 				String serverH5 = Servers[0];
-				trafficTargets1 = setTrafficTargets(3131, Integer.parseInt(list.get(0)), serverH5);
+				trafficTargets1 = setTrafficTargets(3131, Integer.parseInt(list.get(0)), serverH5, enabled);
 			}
 			if (trafficTargets.getDatacenterId() == configObj.getDataCenterH8()) {
 				String[] Servers = trafficTargets.getServers();
 				String serverH8 = Servers[0];
-				trafficTargets2 = setTrafficTargets(3132, Integer.parseInt(list.get(1)), serverH8);
+				trafficTargets2 = setTrafficTargets(3132, Integer.parseInt(list.get(1)), serverH8, enabled);
 			}
 			
 			if(trafficTargets.getDatacenterId() == configObj.getDataCenterDR()){
 				String[] Servers = trafficTargets.getServers();
 				String serverDR = Servers[0];
-				trafficTargets3 = setTrafficTargets(3133, Integer.parseInt(list.get(2)), serverDR);
+				trafficTargets3 = setTrafficTargets(3133, Integer.parseInt(list.get(2)), serverDR, enabled);
 			}
 
 		}
@@ -311,11 +322,11 @@ public class GtmSwitchController {
 	 * @param list
 	 * @param trafficTargets
 	 */
-	private TrafficTargets setTrafficTargets(int hall, int weight, String serverValue) {
+	private TrafficTargets setTrafficTargets(int hall, int weight, String serverValue, boolean enabled) {
 		TrafficTargets trafficTargets = new TrafficTargets();
 		trafficTargets.setDatacenterId(hall);
 		trafficTargets.setWeight(weight);
-		trafficTargets.setEnabled(true);
+		trafficTargets.setEnabled(enabled);
 		String servers[] = {serverValue};
 		trafficTargets.setServers(servers);
 		return trafficTargets;
