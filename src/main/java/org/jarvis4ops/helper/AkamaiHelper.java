@@ -24,7 +24,6 @@ public class AkamaiHelper {
 	public GtmResponse setGtmResponse(ResponseEntity<Properties> response1) {
 		GtmResponse gtm = new GtmResponse();
 		gtm.setName(response1.getBody().getName());
-		gtm.setLastModified(response1.getBody().getLastModified());
 		final java.util.List<TrafficTargets> trafficList = response1.getBody().getTrafficTargets();
 		for (final TrafficTargets trafficTargets : trafficList) {
 			if (trafficTargets.getDatacenterId() == configObj.getDataCenterH5()) {
@@ -33,8 +32,12 @@ public class AkamaiHelper {
 			if (trafficTargets.getDatacenterId() == configObj.getDataCenterH8()) {
 				gtm.setBurst(trafficTargets.getWeight());
 			}
+			if (trafficTargets.getDatacenterId() == configObj.getDataCenterDR()) {
+				gtm.setDr(trafficTargets.getWeight());
+			}
 
 		}
+		gtm.setLastModified(response1.getBody().getLastModified());
 
 		return gtm;
 	}
@@ -50,6 +53,9 @@ public class AkamaiHelper {
 			}
 			if (trafficTargets.getDatacenterId() == configObj.getDataCenterH8()) {
 				gtm.setBurst(trafficTargets.getWeight());
+			}
+			if (trafficTargets.getDatacenterId() == configObj.getDataCenterDR()) {
+				gtm.setDr(trafficTargets.getWeight());
 			}
 
 		}

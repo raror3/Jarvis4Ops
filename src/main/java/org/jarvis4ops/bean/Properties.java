@@ -7,10 +7,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Properties {
 	
-	private String lastModified;
+	
 	private String name;
 	private List<TrafficTargets> trafficTargets;
 	private List<LivenessTests> livenessTests;
+	private String lastModified;
 	private int dynamicTTL;
 	private int staticTTL;
 	private boolean useComputedTargets;

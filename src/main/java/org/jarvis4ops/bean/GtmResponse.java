@@ -5,10 +5,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GtmResponse {
 	
-	private String lastModified;
+	private String name;
 	private int prod;
 	private int burst;
-	private String name;
+	private int dr;
+	private String lastModified;
 	/**
 	 * @return the lastModified
 	 */
@@ -56,6 +57,18 @@ public class GtmResponse {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+	/**
+	 * @return the dr
+	 */
+	public int getDr() {
+		return dr;
+	}
+	/**
+	 * @param dr the dr to set
+	 */
+	public void setDr(int dr) {
+		this.dr = dr;
 	}
 	
 	
