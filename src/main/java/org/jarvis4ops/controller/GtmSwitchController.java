@@ -42,7 +42,7 @@ public class GtmSwitchController {
 	private AkamaiHelper akamaiHelper;
 
 
-	@RequestMapping(path="/setGtmSwitch/{env}", method=RequestMethod.POST)
+	@RequestMapping(path="/switchGtm/{env}", method=RequestMethod.POST)
 	public String changeGtm(@PathVariable String env, @RequestParam String property, @RequestParam String ratio) {
 		
 		String Creds = configObj.getAkamaiCreds();
