@@ -83,35 +83,35 @@ public class GtmSwitchController {
 			String[] prop = property.split(",");
 			for (String api : prop) {
 				if (api.equalsIgnoreCase("commerceapi")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageCommerceApi());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageCommerceApi(), env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiStageCommerceApi(),
 							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("cs")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageCs());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageCs(),env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm1 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiStageCs(), HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("store")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageStore());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageStore(),env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm2 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiStageStore(),
 							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("Asset1")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageAsset1());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageAsset1(),env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm3 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiStageAsset1(),
 							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("Asset2")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageAsset2());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageAsset2(),env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm4 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiStageAsset2(),
 							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("www")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStage());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStage(),env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm5 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiStage(), HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("shopSearch")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageShopSearch());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageShopSearch(),env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm6 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiStageShopSearch(), HttpMethod.PUT);
 				}
@@ -123,31 +123,31 @@ public class GtmSwitchController {
 			String[] prop = property.split(",");
 			for (String api : prop) {
 				if (api.equalsIgnoreCase("commerceapi")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiCheckCommerceApi());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiCheckCommerceApi(), env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiCheckCommerceApi(),
 							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("cs")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiCheckCs());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiCheckCs(), env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm1 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiCheckCs(), HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("store")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiCheckStore());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiCheckStore(), env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm2 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiCheckStore(),
 							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("asset1")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiCheckAsset1());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiCheckAsset1(), env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm3 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiCheckAsset1(),
 							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("asset2")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiCheckAsset2());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiCheckAsset2(), env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm4 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiCheckAsset2(),
 							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("www")) {
-					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiCheck());
+					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiCheck(), env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm5 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiCheck(), HttpMethod.PUT);
 				}
@@ -158,31 +158,31 @@ public class GtmSwitchController {
 				String[] prop = property.split(",");
 				for (String api : prop) {
 					if (api.equalsIgnoreCase("commerceapi")) {
-						String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageCheckCommerceApi());
+						String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageCheckCommerceApi(), env);
 						HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 						gtm = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiStageCheckCommerceApi(),
 								HttpMethod.PUT);
 					} else if (api.equalsIgnoreCase("cs")) {
-						String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageCheckCs());
+						String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageCheckCs(), env);
 						HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 						gtm1 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiStageCheckCs(), HttpMethod.PUT);
 					} else if (api.equalsIgnoreCase("store")) {
-						String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageCheckStore());
+						String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageCheckStore(), env);
 						HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 						gtm2 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiStageCheckStore(),
 								HttpMethod.PUT);
 					} else if (api.equalsIgnoreCase("asset1")) {
-						String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageCheckAsset1());
+						String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageCheckAsset1(), env);
 						HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 						gtm3 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiStageCheckAsset1(),
 								HttpMethod.PUT);
 					} else if (api.equalsIgnoreCase("asset2")) {
-						String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageCheckAsset2());
+						String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageCheckAsset2(), env);
 						HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 						gtm4 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiStageCheckAsset2(),
 								HttpMethod.PUT);
 					} else if (api.equalsIgnoreCase("www")) {
-						String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageCheck());
+						String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,configObj.getAkamaiStageCheck(), env);
 						HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 						gtm5 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiStageCheck(), HttpMethod.PUT);
 					}
@@ -194,43 +194,43 @@ public class GtmSwitchController {
 			for (String api : prop) {
 				if (api.equalsIgnoreCase("commerceapi")) {
 					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,
-							configObj.getAkamaiCommerceApi());
+							configObj.getAkamaiCommerceApi(), env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiCommerceApi(),
 							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("cs")) {
 					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,
-							configObj.getAkamaiCs());
+							configObj.getAkamaiCs(), env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm1 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiCs(),
 							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("store")) {
 					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,
-							configObj.getAkamaiStore());
+							configObj.getAkamaiStore(), env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm2 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiStore(),
 							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("asset1")) {
 					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,
-							configObj.getAkamaiAsset1());
+							configObj.getAkamaiAsset1(), env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm3 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiAsset1(),
 							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("asset2")) {
 					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,
-							configObj.getAkamaiAsset2());
+							configObj.getAkamaiAsset2(), env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm4 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiAsset2(),
 							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("www")) {
 					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,
-							configObj.getAkamaiWww());
+							configObj.getAkamaiWww(), env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm5 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiWww(),
 							HttpMethod.PUT);
 				} else if (api.equalsIgnoreCase("shopSearch")) {
 					String requestBody = setRequestBody(properties, gson, restTemplate, list, entity1,
-							configObj.getAkamaiShopSearch());
+							configObj.getAkamaiShopSearch(), env);
 					HttpEntity<String> entity = new HttpEntity<String>(requestBody, headerMap);
 					gtm6 = akamaiHelper.invokeApiForGtmChange(entity, restTemplate, configObj.getAkamaiShopSearch(),
 							HttpMethod.PUT);
@@ -270,7 +270,7 @@ public class GtmSwitchController {
 	 * @return
 	 */
 	private String setRequestBody(GtmProperties properties, Gson gson, RestTemplate restTemplate, List<String> list,
-			HttpEntity<String> entity1, String url) {
+			HttpEntity<String> entity1, String url, String environment) {
 		TrafficTargets trafficTargets1 = null;
 		TrafficTargets trafficTargets2 = null;
 		TrafficTargets trafficTargets3 = null;
@@ -302,7 +302,7 @@ public class GtmSwitchController {
 		final List<TrafficTargets> trafficList = new ArrayList<TrafficTargets>();
 		trafficList.add(trafficTargets1);
 		trafficList.add(trafficTargets2);
-		if(apiResponse.getBody().getName().contains("check-")){
+		if (null != trafficTargets3 && (environment.equalsIgnoreCase("prod") || environment.equalsIgnoreCase("check"))) {
 			trafficList.add(trafficTargets3);
 		}
 		properties.setStaticTTL(apiResponse.getBody().getStaticTTL());
