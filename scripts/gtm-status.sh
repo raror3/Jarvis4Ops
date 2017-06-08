@@ -1,0 +1,2 @@
+#!/bin/bash
+curl -X GET -i -H "Content-Type: application/json" -H "Authorization: Basic amFydmlzYXBpYWRtaW51c2VyOmQ3MzMzMzAwLTZhOTctNGU0ZS1hYWQyLTNkY2Y2N2U3MmI0Zg==" https://jarvis4ops.herokuapp.com/gtmDetails/$1
